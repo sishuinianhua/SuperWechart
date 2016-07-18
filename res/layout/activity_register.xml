@@ -10,11 +10,15 @@
         android:layout_height="0dip"
         android:layout_weight="1" >
 
-        <ImageView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@drawable/welcom_logo" />
+            android:drawableLeft="@drawable/mobile"
+            android:text="@string/app_name"
+            android:textColor="#000"
+            android:gravity="center"
+             />
     </RelativeLayout>
 
     <LinearLayout
@@ -22,7 +26,7 @@
         android:layout_height="0dip"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_weight="1.5"
+        android:layout_weight="5"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -49,6 +53,36 @@
                 android:layout_toLeftOf="@id/iv_username"
                 android:background="@null"
                 android:hint="@string/user_name"
+                android:paddingLeft="10dip"
+                android:singleLine="true"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#fff" >
+
+            <ImageView
+                android:id="@+id/iv_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dip"
+                android:src="@drawable/icon_account" />
+
+            <EditText
+                android:id="@+id/nick"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/nick"
+                android:background="@null"
+                android:hint="@string/nickname"
                 android:paddingLeft="10dip"
                 android:singleLine="true"
                 android:textSize="18sp" />
@@ -115,6 +149,36 @@
                 android:singleLine="true"
                 android:textSize="18sp" />
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="#fff" >
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dip"
+                android:src="@drawable/default_avatar" />
+
+            <EditText
+                android:id="@+id/avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/iv_avatar"
+                android:background="@null"
+                android:hint="@string/dl_title_upload_photo"
+                android:inputType="textPassword"
+                android:paddingLeft="10dip"
+                android:singleLine="true"
+                android:textSize="18sp" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -125,13 +189,29 @@
             android:orientation="horizontal" >
 
             <Button
-                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_register_bg"
+                android:onClick="register"
+                android:paddingBottom="7dp"
+                android:paddingTop="7dp"
+                android:text="@string/login"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_weight="2"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_login_bg"
-                android:onClick="register"
+                android:onClick="login"
                 android:paddingBottom="7dp"
                 android:paddingTop="7dp"
                 android:text="@string/register"
