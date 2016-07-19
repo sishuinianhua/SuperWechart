@@ -14,31 +14,90 @@
 package cn.ucai.superwechart.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import cn.ucai.superwechart.DemoApplication;
+import cn.ucai.superwechart.I;
 import cn.ucai.superwechart.R;
+import cn.ucai.superwechart.listener.OnSetAvatarListener;
+
 import com.easemob.exceptions.EaseMobException;
 
 /**
  * 注册页
- * 
+ *
  */
 public class RegisterActivity extends BaseActivity {
 	private EditText userNameEditText;
 	private EditText passwordEditText;
 	private EditText confirmPwdEditText;
-
+	private EditText mNickEditText;
+	private RelativeLayout mrlRegisterAvatar;
+	private ImageView mivRegisterAvatar;
+	private OnSetAvatarListener mOnSetAvatarListener;
+	private String  AvatarName;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
+		initView();
+		setListener();
+
+
+	}
+
+	private void setListener() {
+		findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+
+		findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				 register ();
+			}
+		});
+		mrlRegisterAvatar.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mOnSetAvatarListener = new OnSetAvatarListener(RegisterActivity.this,
+						R.id.llRegisterPupob,getAvatarName(), I.AVATAR_TYPE_USER_PATH);
+			}
+		});
+	}
+
+	private String getAvatarName() {
+		AvatarName = String.valueOf(System.currentTimeMillis());
+		return AvatarName;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode!=RESULT_OK){
+			return;
+		}else {
+			mOnSetAvatarListener.setAvatar(requestCode,data,mivRegisterAvatar);
+		}
+	}
+
+	private void initView() {
+		mNickEditText = (EditText) findViewById(R.id.etNick);
+		mrlRegisterAvatar = (RelativeLayout) findViewById(R.id.rlRegisterAvatar);
+		mivRegisterAvatar = (ImageView) findViewById(R.id.ivAvatar);
 		userNameEditText = (EditText) findViewById(R.id.username);
 		passwordEditText = (EditText) findViewById(R.id.password);
 		confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
@@ -46,16 +105,25 @@ public class RegisterActivity extends BaseActivity {
 
 	/**
 	 * 注册
-	 * 
-	 * @param view
+	 *
+	 *
 	 */
-	public void register(View view) {
+	private void register() {
 		final String username = userNameEditText.getText().toString().trim();
 		final String pwd = passwordEditText.getText().toString().trim();
 		String confirm_pwd = confirmPwdEditText.getText().toString().trim();
+		final String nick = mNickEditText.getText().toString().trim();
 		if (TextUtils.isEmpty(username)) {
 			Toast.makeText(this, getResources().getString(R.string.User_name_cannot_be_empty), Toast.LENGTH_SHORT).show();
 			userNameEditText.requestFocus();
+			return;
+		} else if (username.matches("[\\w][\\w\\d_]+")) {
+			Toast.makeText(this, getResources().getString(R.string.illegal_user_name), Toast.LENGTH_SHORT).show();
+			userNameEditText.requestFocus();
+			return;
+		} else if (TextUtils.isEmpty(nick)) {
+			Toast.makeText(this, getResources().getString(R.string.toast_nick_not_isnull), Toast.LENGTH_SHORT).show();
+			mNickEditText.requestFocus();
 			return;
 		} else if (TextUtils.isEmpty(pwd)) {
 			Toast.makeText(this, getResources().getString(R.string.Password_cannot_be_empty), Toast.LENGTH_SHORT).show();
@@ -86,7 +154,7 @@ public class RegisterActivity extends BaseActivity {
 									pd.dismiss();
 								// 保存用户名
 								DemoApplication.getInstance().setUserName(username);
-								Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully), 0).show();
+								Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully), Toast.LENGTH_SHORT).show();
 								finish();
 							}
 						});
