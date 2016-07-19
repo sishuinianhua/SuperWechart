@@ -1,6 +1,8 @@
 package cn.ucai.superwechart.bean;
 
-public class LocationUserAvatar extends UserAvatar {
+import java.io.Serializable;
+
+public class LocationUserAvatar extends UserAvatar implements Serializable {
 	private Integer mlocationId;
 //	private String mlocationUserName;
 	private Double mlocationLatitude;
