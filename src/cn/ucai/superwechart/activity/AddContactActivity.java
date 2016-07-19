@@ -29,7 +29,7 @@ import android.widget.Toast;
 
 import cn.ucai.superwechart.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMContactManager;
-import cn.ucai.superwechart.DemoApplication;
+import cn.ucai.superwechart.SuperWeChatApplication;
 import cn.ucai.superwechart.DemoHXSDKHelper;
 import cn.ucai.superwechart.R;
 
@@ -92,7 +92,7 @@ public class AddContactActivity extends BaseActivity{
 	 * @param view
 	 */
 	public void addContact(View view){
-		if(DemoApplication.getInstance().getUserName().equals(nameText.getText().toString())){
+		if(SuperWeChatApplication.getInstance().getUserName().equals(nameText.getText().toString())){
 			String str = getString(R.string.not_add_myself);
 			startActivity(new Intent(this, AlertDialog.class).putExtra("msg", str));
 			return;

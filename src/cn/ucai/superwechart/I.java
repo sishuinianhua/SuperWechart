@@ -2,7 +2,9 @@ package cn.ucai.superwechart;
 
 public interface I {
 
-	 interface User{
+
+
+	interface User{
 		String TABLE_NAME							=		"t_superwechat_user";
 		String USER_NAME 							= 		"m_user_name";					//用户账号
 		String PASSWORD 							= 		"m_user_password";				//用户密码
@@ -59,7 +61,8 @@ public interface I {
 	}
 
 	String SERVER_ROOT								= 		"http://198.168.1.161:8080/SuperWeChatServer/Server";
-
+	String QUESTION								=       "?";
+	String EQU 										= 		"=";
 //	String AVATAR_PATH 								= 		"E:/test/";
 	String ISON8859_1 								= 		"iso8859-1";
 	String UTF_8 									= 		"utf-8";
@@ -122,7 +125,6 @@ public interface I {
 	int MSG_LOCATION_GET_FAIL						=		501;							// 获取附近的人失败
 	int MSG_UNKNOW									=		999;							//未知错误
 	int MSG_ILLEGAL_REQUEST							=		-1;							//非法请求
-
 	String KEY_REQUEST 								= 		"request";
 	/** 上传图片的类型：user_avatar或group_icon */
 	String AVATAR_TYPE 								= 		"avatarType";
