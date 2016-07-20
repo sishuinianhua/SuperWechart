@@ -41,6 +41,7 @@ import cn.ucai.superwechart.SuperWeChatApplication;
 import cn.ucai.superwechart.bean.Result;
 import cn.ucai.superwechart.listener.OnSetAvatarListener;
 import cn.ucai.superwechart.utils.OkHttpUtils2;
+import cn.ucai.superwechart.utils.Utils;
 
 /**
  * 注册页
@@ -177,6 +178,7 @@ public class RegisterActivity extends BaseActivity {
 						}else {
 							Log.e(TAG,"register ..."+result.getRetCode());
 							pd.dismiss();
+							Toast.makeText(getApplicationContext(), R.string.Registration_failed+ Utils.getResourceString(RegisterActivity.this,result.getRetCode()), Toast.LENGTH_LONG).show();
 						}
 					}
 

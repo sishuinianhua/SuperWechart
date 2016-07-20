@@ -46,6 +46,7 @@ import cn.ucai.superwechart.db.UserDao;
 import cn.ucai.superwechart.domain.User;
 import cn.ucai.superwechart.utils.CommonUtils;
 import cn.ucai.superwechart.utils.OkHttpUtils2;
+import cn.ucai.superwechart.utils.Utils;
 
 /**
  * 登陆页面
@@ -190,7 +191,7 @@ public class LoginActivity extends BaseActivity {
 							loginSuccess();
 						}else {
 							pd.dismiss();
-							Toast.makeText(getApplicationContext(), R.string.Login_failed+result.getRetCode(), Toast.LENGTH_LONG).show();
+							Toast.makeText(getApplicationContext(), R.string.Login_failed+ Utils.getResourceString(LoginActivity.this,result.getRetCode()), Toast.LENGTH_LONG).show();
 						}
 					}
 

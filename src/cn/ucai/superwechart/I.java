@@ -4,6 +4,7 @@ public interface I {
 
 
 
+
 	interface User{
 		String TABLE_NAME							=		"t_superwechat_user";
 		String USER_NAME 							= 		"m_user_name";					//用户账号
@@ -64,6 +65,7 @@ public interface I {
 	String SERVER_ROOT								= 		"http://192.168.1.161:8080/SuperWeChatServer/Server";
 	String QUESTION								=       "?";
 	String EQU 										= 		"=";
+	String MSG_PREFIX_MSG 							= 		"msg_";
 //	String AVATAR_PATH 								= 		"E:/test/";
 	String ISON8859_1 								= 		"iso8859-1";
 	String UTF_8 									= 		"utf-8";
