@@ -19,6 +19,7 @@ import java.util.Map;
 import android.content.Context;
 
 
+import cn.ucai.superwechart.bean.UserAvatar;
 import cn.ucai.superwechart.domain.RobotUser;
 import cn.ucai.superwechart.domain.User;
 
@@ -108,4 +109,8 @@ public class UserDao {
     public void saveRobotUser(List<RobotUser> robotList){
     	DemoDBManager.getInstance().saveRobotList(robotList);
     }
+
+	public void savaUserAvatar(UserAvatar ua) {
+		DemoDBManager.getInstance().saveUserAvatar(ua);
+	}
 }

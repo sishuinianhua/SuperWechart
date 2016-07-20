@@ -42,6 +42,7 @@ import cn.ucai.superwechart.SuperWeChatApplication;
 import cn.ucai.superwechart.DemoHXSDKHelper;
 import cn.ucai.superwechart.R;
 import cn.ucai.superwechart.bean.Result;
+import cn.ucai.superwechart.bean.UserAvatar;
 import cn.ucai.superwechart.db.UserDao;
 import cn.ucai.superwechart.domain.User;
 import cn.ucai.superwechart.utils.CommonUtils;
@@ -188,7 +189,11 @@ public class LoginActivity extends BaseActivity {
 					public void onSuccess(Result result) {
 						Log.e(TAG, "result="+result);
 						if (result!=null&&result.isRetMsg()){
+							UserAvatar ua = (UserAvatar) result.getRetData();
+							Log.e(TAG, "ua="+ua);
+							saveuserToDB(ua);
 							loginSuccess();
+
 						}else {
 							pd.dismiss();
 							Toast.makeText(getApplicationContext(), R.string.Login_failed+ Utils.getResourceString(LoginActivity.this,result.getRetCode()), Toast.LENGTH_LONG).show();
@@ -203,6 +208,13 @@ public class LoginActivity extends BaseActivity {
 						Toast.makeText(getApplicationContext(), R.string.Login_failed, Toast.LENGTH_LONG).show();
 					}
 				});
+	}
+
+	private void saveuserToDB(UserAvatar ua) {
+		if (ua!=null){
+			UserDao dao = new UserDao(LoginActivity.this);
+			dao.savaUserAvatar(ua);
+		}
 	}
 
 	private void loginSuccess(){
