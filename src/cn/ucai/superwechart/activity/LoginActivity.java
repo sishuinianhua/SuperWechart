@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -37,6 +38,8 @@ import cn.ucai.superwechart.I;
 import cn.ucai.superwechart.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
+import com.google.gson.Gson;
+
 import cn.ucai.superwechart.Constant;
 import cn.ucai.superwechart.SuperWeChatApplication;
 import cn.ucai.superwechart.DemoHXSDKHelper;
@@ -189,10 +192,14 @@ public class LoginActivity extends BaseActivity {
 					public void onSuccess(Result result) {
 						Log.e(TAG, "result="+result);
 						if (result!=null&&result.isRetMsg()){
-							UserAvatar ua = (UserAvatar) result.getRetData();
+							String uaJson=result.getRetData().toString();
+							Gson gson = new Gson();
+							UserAvatar ua=gson.fromJson(uaJson, UserAvatar.class);
 							Log.e(TAG, "ua="+ua);
-							saveuserToDB(ua);
-							loginSuccess();
+							if (ua!=null){
+								saveuserToDB(ua);
+								loginSuccess(ua);
+							}
 
 						}else {
 							pd.dismiss();
@@ -211,17 +218,18 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void saveuserToDB(UserAvatar ua) {
-		if (ua!=null){
+
 			UserDao dao = new UserDao(LoginActivity.this);
 			dao.savaUserAvatar(ua);
-		}
+
 	}
 
-	private void loginSuccess(){
+	private void loginSuccess(UserAvatar ua){
 		// 登陆成功，保存用户名密码
 		SuperWeChatApplication.getInstance().setUserName(currentUsername);
 		SuperWeChatApplication.getInstance().setPassword(currentPassword);
-
+		SuperWeChatApplication.getInstance().setUa(ua);
+		SuperWeChatApplication.currentUserNick = ua.getMUserNick();
 		try {
 			// ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
 			// ** manually load all local groups and

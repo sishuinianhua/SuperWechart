@@ -18,6 +18,8 @@ import android.content.Context;
 
 import com.easemob.EMCallBack;
 
+import cn.ucai.superwechart.bean.UserAvatar;
+
 public class SuperWeChatApplication extends Application {
 
 	public static Context applicationContext;
@@ -106,5 +108,15 @@ public class SuperWeChatApplication extends Application {
 	public void logout(final boolean isGCM,final EMCallBack emCallBack) {
 		// 先调用sdk logout，在清理app中自己的数据
 	    hxSDKHelper.logout(isGCM,emCallBack);
+	}
+
+	private UserAvatar ua;
+
+	public UserAvatar getUa() {
+		return ua;
+	}
+
+	public void setUa(UserAvatar ua) {
+		this.ua = ua;
 	}
 }
