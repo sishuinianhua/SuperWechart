@@ -264,7 +264,7 @@ public class OkHttpUtils2<T> {
         return this;
     }
 
-    public OkHttpUtils2<T> addFile(File file) {
+    public OkHttpUtils2<T> addFile2(File file) {
         if (mUrl == null) {
             return this;
         }
@@ -276,6 +276,15 @@ public class OkHttpUtils2<T> {
                 .build();
         return this;
     }
+
+    public OkHttpUtils2<T> addFile(File file){
+        if (mUrl==null){
+            return this;
+        }
+        mFileBody=RequestBody.create(null,file);
+        return this;
+    }
+
 
     private String guessMimeType(String path)
     {
