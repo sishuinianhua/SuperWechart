@@ -48,6 +48,7 @@ import cn.ucai.superwechart.bean.Result;
 import cn.ucai.superwechart.bean.UserAvatar;
 import cn.ucai.superwechart.db.UserDao;
 import cn.ucai.superwechart.domain.User;
+import cn.ucai.superwechart.task.DownloadContactListTask;
 import cn.ucai.superwechart.utils.CommonUtils;
 import cn.ucai.superwechart.utils.OkHttpUtils2;
 import cn.ucai.superwechart.utils.Utils;
@@ -230,6 +231,8 @@ public class LoginActivity extends BaseActivity {
 		SuperWeChatApplication.getInstance().setPassword(currentPassword);
 		SuperWeChatApplication.getInstance().setUa(ua);
 		SuperWeChatApplication.currentUserNick = ua.getMUserNick();
+
+		new DownloadContactListTask(LoginActivity.this,currentUsername).execute();
 		try {
 			// ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
 			// ** manually load all local groups and

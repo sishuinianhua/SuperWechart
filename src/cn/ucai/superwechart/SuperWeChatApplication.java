@@ -18,6 +18,8 @@ import android.content.Context;
 
 import com.easemob.EMCallBack;
 
+import java.util.ArrayList;
+
 import cn.ucai.superwechart.bean.UserAvatar;
 
 public class SuperWeChatApplication extends Application {
@@ -32,6 +34,7 @@ public class SuperWeChatApplication extends Application {
 	 */
 	public static String currentUserNick = "";
 	public static DemoHXSDKHelper hxSDKHelper = new DemoHXSDKHelper();
+	private ArrayList<UserAvatar> userContactList;
 
 	@Override
 	public void onCreate() {
@@ -118,5 +121,13 @@ public class SuperWeChatApplication extends Application {
 
 	public void setUa(UserAvatar ua) {
 		this.ua = ua;
+	}
+
+	public void setUserContactList(ArrayList<UserAvatar> userContactList) {
+		this.userContactList = userContactList;
+	}
+
+	public ArrayList<UserAvatar> getUserContactList() {
+		return userContactList;
 	}
 }
