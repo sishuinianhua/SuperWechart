@@ -45,6 +45,7 @@ import cn.ucai.superwechart.utils.FileUtils;
  *
  */
 public class OnSetAvatarListener implements View.OnClickListener {
+    private static final String TAG = OnSetAvatarListener.class.getSimpleName();
     private static final int REQUEST_TAKE_PICTURE=1;
     private static final int REQUEST_CHOOSE_PHOTO=2;
     public static final int REQUEST_CROP_PHOTO=3;
@@ -220,18 +221,18 @@ public class OnSetAvatarListener implements View.OnClickListener {
      */
     public static File saveCropAndShowAvatar(Intent data,Activity context,String avatarType,String avatarName) {
         Bundle extras = data.getExtras();
-        Bitmap avatar = extras.getParcelable("data");
-        if (avatar == null) {
-            return null;
-        }
-        File file = FileUtils.getAvatarPath(context,avatarType, avatarName + ".jpg");
-        if(!file.getParentFile().exists()){
-            Toast.makeText(context, "照片保存失败,保存的路径不存在", Toast.LENGTH_LONG).show();
-            return null;
-        }
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(file);
+            Bitmap avatar = extras.getParcelable("data");
+            if (avatar == null) {
+                return null;
+            }
+            File file = FileUtils.getAvatarPath(context,avatarType, avatarName + ".jpg");
+            if(!file.getParentFile().exists()){
+                Toast.makeText(context, "照片保存失败,保存的路径不存在", Toast.LENGTH_LONG).show();
+                return null;
+            }
+            FileOutputStream out = null;
+            try {
+                out = new FileOutputStream(file);
             avatar.compress(Bitmap.CompressFormat.JPEG,100,out);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -293,6 +294,7 @@ public class OnSetAvatarListener implements View.OnClickListener {
         if(!folder.exists()){
             folder.mkdir();
         }
+        Log.e(TAG, "flie path = " + folder.getPath());
         return folder.getAbsolutePath();
     }
 }
