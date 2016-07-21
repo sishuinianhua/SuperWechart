@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -198,7 +197,7 @@ public class LoginActivity extends BaseActivity {
 							UserAvatar ua=gson.fromJson(uaJson, UserAvatar.class);
 							Log.e(TAG, "ua="+ua);
 							if (ua!=null){
-								saveuserToDB(ua);
+								saveUserToDB(ua);
 								loginSuccess(ua);
 							}
 
@@ -218,7 +217,7 @@ public class LoginActivity extends BaseActivity {
 				});
 	}
 
-	private void saveuserToDB(UserAvatar ua) {
+	private void saveUserToDB(UserAvatar ua) {
 
 			UserDao dao = new UserDao(LoginActivity.this);
 			dao.savaUserAvatar(ua);

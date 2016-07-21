@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,6 +14,10 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 import cn.ucai.superwechart.DemoHXSDKHelper;
 import cn.ucai.superwechart.R;
+import cn.ucai.superwechart.SuperWeChatApplication;
+import cn.ucai.superwechart.bean.UserAvatar;
+import cn.ucai.superwechart.db.UserDao;
+import cn.ucai.superwechart.task.DownloadContactListTask;
 
 /**
  * 开屏页
@@ -23,7 +28,7 @@ public class SplashActivity extends BaseActivity {
 	private TextView versionText;
 	
 	private static final int sleepTime = 2000;
-
+	public static final String TAG = SplashActivity.class.getSimpleName();
 	@Override
 	protected void onCreate(Bundle arg0) {
 		setContentView(R.layout.activity_splash);
@@ -51,6 +56,15 @@ public class SplashActivity extends BaseActivity {
 					long start = System.currentTimeMillis();
 					EMGroupManager.getInstance().loadAllGroups();
 					EMChatManager.getInstance().loadAllConversations();
+
+					String userName = SuperWeChatApplication.getInstance().getUserName();
+					Log.e(TAG, "userName=" + userName);
+					UserAvatar ua=new UserDao(SplashActivity.this).getUserAvatar(userName);
+					Log.e(TAG, "ua=" + ua);
+					SuperWeChatApplication.getInstance().setUa(ua);
+					SuperWeChatApplication.currentUserNick = ua.getMUserNick();
+					new DownloadContactListTask(SplashActivity.this,userName).execute();
+
 					long costTime = System.currentTimeMillis() - start;
 					//等待sleeptime时长
 					if (sleepTime - costTime > 0) {

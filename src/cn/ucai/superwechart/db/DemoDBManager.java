@@ -361,4 +361,21 @@ public class DemoDBManager {
        }
 
     }
+
+    public UserAvatar getUserAvatar(String userName) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + UserDao.USER_TABLE_NAME
+                + " where " + UserDao.USER_COLUMN_NAME_ID + "=?", new String[]{userName});
+        UserAvatar ua = null;
+        if (cursor.moveToNext()){
+            ua = new UserAvatar();
+            ua.setMUserName(userName);
+            ua.setMUserNick(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_NAME_NICK)));
+            ua.setMAvatarId(cursor.getInt(cursor.getColumnIndex(UserDao.USER_COLUMN_NAME_AVATAR)));
+            ua.setMAvatarType(cursor.getInt(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_TYPE)));
+            ua.setMAvatarPath(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_PATH)));
+            ua.setMAvatarLastUpdateTime(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_LAST_UPDATE_TIME)));
+        }
+        return ua;
+    }
 }

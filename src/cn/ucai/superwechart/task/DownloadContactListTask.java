@@ -6,7 +6,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import cn.ucai.superwechart.I;
 import cn.ucai.superwechart.SuperWeChatApplication;
@@ -39,9 +41,10 @@ public class DownloadContactListTask {
                         String retJson=result.getRetData().toString();
                         Gson gson = new Gson();
                         UserAvatar[] uaArr=gson.fromJson(retJson, UserAvatar[].class);
-                        Log.e(TAG, "uaArr=" + uaArr);
+                        Log.e(TAG, "uaArr=" + Arrays.toString(uaArr));
                         ArrayList<UserAvatar> uaList=utils.array2List(uaArr);
                         if (uaList!=null&&uaList.size()>0){
+                            Log.e(TAG, "uaList=" + uaList.toString());
                             SuperWeChatApplication.getInstance().setUserContactList(uaList);
                             context.sendStickyBroadcast(new Intent("update_contact_list"));
                         }
