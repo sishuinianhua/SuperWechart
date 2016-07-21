@@ -66,6 +66,8 @@ public interface I {
 	String QUESTION								=       "?";
 	String EQU 										= 		"=";
 	String MSG_PREFIX_MSG 							= 		"msg_";
+	String AND 										= 			"&";
+
 //	String AVATAR_PATH 								= 		"E:/test/";
 	String ISON8859_1 								= 		"iso8859-1";
 	String UTF_8 									= 		"utf-8";

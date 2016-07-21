@@ -362,7 +362,7 @@ public class DemoDBManager {
 
     }
 
-    public UserAvatar getUserAvatar(String userName) {
+   synchronized  public UserAvatar getUserAvatar(String userName) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from " + UserDao.USER_TABLE_NAME
                 + " where " + UserDao.USER_COLUMN_NAME_ID + "=?", new String[]{userName});
