@@ -40,6 +40,7 @@ import cn.ucai.superwechart.R;
 import cn.ucai.superwechart.bean.Result;
 import cn.ucai.superwechart.bean.UserAvatar;
 import cn.ucai.superwechart.utils.OkHttpUtils2;
+import cn.ucai.superwechart.utils.UserUtils;
 
 public class AddContactActivity extends BaseActivity{
 	private EditText editText;
@@ -93,7 +94,11 @@ public class AddContactActivity extends BaseActivity{
 				startActivity(new Intent(this, AlertDialog.class).putExtra("msg", str));
 				return;
 			}
-
+			UserAvatar ua = SuperWeChatApplication.getInstance().getContactMap().get(toAddUsername);
+			if (ua!=null){
+				startActivity(new Intent(AddContactActivity.this,UserProfileActivity.class).putExtra("username",toAddUsername));
+				return;
+			}
 			OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
 			utils.setRequestUrl(I.REQUEST_FIND_USER)
 					.addParam(I.User.USER_NAME,toAddUsername)
@@ -108,7 +113,8 @@ public class AddContactActivity extends BaseActivity{
 								Log.e(TAG, "result=" + result);
 								if (ua!=null){
 									searchedUserLayout.setVisibility(View.VISIBLE);
-									nameText.setText(toAddUsername);
+									UserUtils.setContactAvatar(AddContactActivity.this,toAddUsername,avatar);
+									nameText.setText(ua.getMUserNick());
 									mtvNothing.setVisibility(View.GONE);
 								}else {
 									searchedUserLayout.setVisibility(View.GONE);
