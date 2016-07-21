@@ -7,10 +7,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import cn.ucai.superwechart.I;
+import cn.ucai.superwechart.SuperWeChatApplication;
 import cn.ucai.superwechart.applib.controller.HXSDKHelper;
 import cn.ucai.superwechart.DemoHXSDKHelper;
 
 import cn.ucai.superwechart.R;
+import cn.ucai.superwechart.bean.UserAvatar;
 import cn.ucai.superwechart.domain.User;
 import com.squareup.picasso.Picasso;
 
@@ -85,7 +87,7 @@ public class UserUtils {
     
     /**
      * 保存或更新某个用户
-     * @param user
+     * @param
      */
 	public static void saveUserInfo(User newUser) {
 		if (newUser == null || newUser.getUsername() == null) {
@@ -121,5 +123,26 @@ public class UserUtils {
         .append(I.EQU)
         .append(I.AVATAR_TYPE_USER_PATH);
         return path.toString();
+    }
+
+    public static void setContactNick(String username, TextView nameTextview) {
+        UserAvatar ua = getContactInfo(username);
+        if (ua!=null){
+            if (ua.getMUserNick()!=null){
+                nameTextview.setText(ua.getMUserNick());
+            }else {
+                nameTextview.setText(username);
+            }
+        }else {
+            nameTextview.setText(username);
+    }
+    }
+
+    private static UserAvatar getContactInfo(String username) {
+        UserAvatar ua = SuperWeChatApplication.getInstance().getContactMap().get(username);
+        if (ua==null){
+            ua = new UserAvatar(username);
+        }
+        return ua;
     }
 }

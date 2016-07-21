@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 import cn.ucai.superwechart.I;
 import cn.ucai.superwechart.SuperWeChatApplication;
@@ -47,6 +48,10 @@ public class DownloadContactListTask {
                             Log.e(TAG, "uaList=" + uaList.toString());
                             SuperWeChatApplication.getInstance().setUserContactList(uaList);
                             context.sendStickyBroadcast(new Intent("update_contact_list"));
+                            Map<String,UserAvatar> uaMap=SuperWeChatApplication.getInstance().getContactMap();
+                            for (UserAvatar ua:uaList){
+                                uaMap.put(ua.getMUserName(), ua);
+                            }
                         }
                     }
 

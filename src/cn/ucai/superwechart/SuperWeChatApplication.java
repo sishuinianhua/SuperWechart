@@ -19,6 +19,8 @@ import android.content.Context;
 import com.easemob.EMCallBack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.ucai.superwechart.bean.UserAvatar;
 
@@ -123,7 +125,7 @@ public class SuperWeChatApplication extends Application {
 		this.ua = ua;
 	}
 
-	private ArrayList<UserAvatar> userContactList;
+	private ArrayList<UserAvatar> userContactList=new ArrayList<>();
 
 	public void setUserContactList(ArrayList<UserAvatar> userContactList) {
 		this.userContactList = userContactList;
@@ -131,5 +133,16 @@ public class SuperWeChatApplication extends Application {
 
 	public ArrayList<UserAvatar> getUserContactList() {
 		return userContactList;
+	}
+
+
+	Map<String, UserAvatar> contactMap = new HashMap<>();
+
+	public Map<String, UserAvatar> getContactMap() {
+		return contactMap;
+	}
+
+	public void setContactMap(Map<String, UserAvatar> contactMap) {
+		this.contactMap = contactMap;
 	}
 }

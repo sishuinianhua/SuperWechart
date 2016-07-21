@@ -33,6 +33,7 @@ import cn.ucai.superwechart.Constant;
 import cn.ucai.superwechart.R;
 import cn.ucai.superwechart.domain.User;
 import cn.ucai.superwechart.utils.UserUtils;
+import cn.ucai.superwechart.utils.Utils;
 
 import com.easemob.util.EMLog;
 
@@ -123,6 +124,7 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 		}else{
 		    holder.nameTextview.setText(user.getNick());
 		    //设置用户头像
+			UserUtils.setContactNick(username,holder.nameTextview);
 			UserUtils.setContactAvatar(getContext(), username, holder.avatar);
 			if(holder.unreadMsgView != null)
 			    holder.unreadMsgView.setVisibility(View.INVISIBLE);
