@@ -16,8 +16,10 @@ package cn.ucai.superwechart.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -27,11 +29,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.ucai.superwechart.I;
 import cn.ucai.superwechart.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMContactManager;
+import com.google.gson.Gson;
+
 import cn.ucai.superwechart.SuperWeChatApplication;
 import cn.ucai.superwechart.DemoHXSDKHelper;
 import cn.ucai.superwechart.R;
+import cn.ucai.superwechart.bean.Result;
+import cn.ucai.superwechart.bean.UserAvatar;
+import cn.ucai.superwechart.utils.OkHttpUtils2;
 
 public class AddContactActivity extends BaseActivity{
 	private EditText editText;
@@ -42,6 +50,8 @@ public class AddContactActivity extends BaseActivity{
 	private InputMethodManager inputMethodManager;
 	private String toAddUsername;
 	private ProgressDialog progressDialog;
+	private final static String TAG = AddContactActivity.class.getSimpleName();
+	TextView mtvNothing;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +69,7 @@ public class AddContactActivity extends BaseActivity{
 		searchBtn = (Button) findViewById(R.id.search);
 		avatar = (ImageView) findViewById(R.id.avatar);
 		inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		mtvNothing = (TextView) findViewById(R.id.tvNothing);
 	}
 	
 	
@@ -77,7 +88,43 @@ public class AddContactActivity extends BaseActivity{
 				startActivity(new Intent(this, AlertDialog.class).putExtra("msg", st));
 				return;
 			}
-			
+			if(SuperWeChatApplication.getInstance().getUserName().equals(toAddUsername)){
+				String str = getString(R.string.not_add_myself);
+				startActivity(new Intent(this, AlertDialog.class).putExtra("msg", str));
+				return;
+			}
+
+			OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
+			utils.setRequestUrl(I.REQUEST_FIND_USER)
+					.addParam(I.User.USER_NAME,toAddUsername)
+					.targetClass(Result.class)
+					.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+						@Override
+						public void onSuccess(Result result) {
+							if (result!=null&&result.isRetMsg()){
+								String retJson=result.getRetData().toString();
+								Gson gson = new Gson();
+								UserAvatar ua=gson.fromJson(retJson, UserAvatar.class);
+								Log.e(TAG, "result=" + result);
+								if (ua!=null){
+									searchedUserLayout.setVisibility(View.VISIBLE);
+									nameText.setText(toAddUsername);
+									mtvNothing.setVisibility(View.GONE);
+								}else {
+									searchedUserLayout.setVisibility(View.GONE);
+									mtvNothing.setVisibility(View.VISIBLE);
+								}
+							}
+						}
+
+						@Override
+						public void onError(String error) {
+							Log.e(TAG, "error=" + error);
+							searchedUserLayout.setVisibility(View.GONE);
+							mtvNothing.setVisibility(View.VISIBLE);
+						}
+					});
+
 			// TODO 从服务器获取此contact,如果不存在提示不存在此用户
 			
 			//服务器存在此用户，显示此用户和添加按钮
@@ -126,7 +173,7 @@ public class AddContactActivity extends BaseActivity{
 						public void run() {
 							progressDialog.dismiss();
 							String s1 = getResources().getString(R.string.send_successful);
-							Toast.makeText(getApplicationContext(), s1, 1).show();
+							Toast.makeText(getApplicationContext(), s1, Toast.LENGTH_LONG).show();
 						}
 					});
 				} catch (final Exception e) {
@@ -134,7 +181,7 @@ public class AddContactActivity extends BaseActivity{
 						public void run() {
 							progressDialog.dismiss();
 							String s2 = getResources().getString(R.string.Request_add_buddy_failure);
-							Toast.makeText(getApplicationContext(), s2 + e.getMessage(), 1).show();
+							Toast.makeText(getApplicationContext(), s2 + e.getMessage(), Toast.LENGTH_LONG).show();
 						}
 					});
 				}
