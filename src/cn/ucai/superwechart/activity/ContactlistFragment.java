@@ -22,10 +22,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -147,11 +150,13 @@ public class ContactlistFragment extends Fragment {
 		}
 		
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_contact_list, container, false);
+
 	}
+
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -196,9 +201,12 @@ public class ContactlistFragment extends Fragment {
 			public void onClick(View v) {
 				query.getText().clear();
 				hideSoftKeyboard();
+
 			}
 		});
-		
+
+
+
 		// 设置adapter
 		adapter = new ContactAdapter(getActivity(), R.layout.row_contact, contactList);
 		listView.setAdapter(adapter);
@@ -497,5 +505,35 @@ public class ContactlistFragment extends Fragment {
 	    	outState.putBoolean(Constant.ACCOUNT_REMOVED, true);
 	    }
 	    
+	}
+
+
+
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		registerBroadcastReceiver();
+	}
+
+	BroadcastReceiver mUpdateContactListReceiver;
+
+	private void registerBroadcastReceiver() {
+		mUpdateContactListReceiver=new UpdateContactListReceiver();
+		IntentFilter filter=new IntentFilter("update_contact_list");
+		getActivity().registerReceiver(mUpdateContactListReceiver, filter);
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		getActivity().unregisterReceiver(mUpdateContactListReceiver);
+	}
+
+	private class UpdateContactListReceiver extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			adapter.notifyDataSetChanged();
+		}
 	}
 }

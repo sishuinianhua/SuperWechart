@@ -61,6 +61,9 @@ public class SplashActivity extends BaseActivity {
 					Log.e(TAG, "userName=" + userName);
 					UserAvatar ua=new UserDao(SplashActivity.this).getUserAvatar(userName);
 					Log.e(TAG, "ua=" + ua);
+					if (ua==null){
+						ua=new UserDao(SplashActivity.this).getUserAvatar(userName);
+					}
 					SuperWeChatApplication.getInstance().setUa(ua);
 					SuperWeChatApplication.currentUserNick = ua.getMUserNick();
 					new DownloadContactListTask(SplashActivity.this,userName).execute();
