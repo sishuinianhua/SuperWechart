@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easemob.EMValueCallBack;
+
+import cn.ucai.superwechart.SuperWeChatApplication;
 import cn.ucai.superwechart.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import cn.ucai.superwechart.DemoHXSDKHelper;
@@ -75,14 +77,10 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 			headPhotoUpdate.setVisibility(View.GONE);
 			iconRightArrow.setVisibility(View.INVISIBLE);
 		}
-		if (username == null) {
+		if (username == null||username.equals(EMChatManager.getInstance().getCurrentUser())) {
 			tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
-			UserUtils.setCurrentUserNick(tvNickName);
-			UserUtils.setCurrentUserAvatar(this, headAvatar);
-		} else if (username.equals(EMChatManager.getInstance().getCurrentUser())) {
-			tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
-			UserUtils.setCurrentUserNick(tvNickName);
-			UserUtils.setCurrentUserAvatar(this, headAvatar);
+			UserUtils.setAppCurrentUserNick(tvNickName);
+			UserUtils.setContactAvatar(this,EMChatManager.getInstance().getCurrentUser(),headAvatar);
 		} else {
 			tvUsername.setText(username);
 			UserUtils.setContactNick(username, tvNickName);

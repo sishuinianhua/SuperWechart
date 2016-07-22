@@ -29,7 +29,7 @@ public class UserUtils {
         if(user == null){
             user = new User(username);
         }
-            
+
 
         if(user != null){
             //demo没有这些数据，临时填充
@@ -144,5 +144,25 @@ public class UserUtils {
             ua = new UserAvatar(username);
         }
         return ua;
+    }
+
+    /**
+     * 设置当前用户昵称
+     */
+    public static void setAppCurrentUserNick(TextView textView) {
+        UserAvatar ua = SuperWeChatApplication.getInstance().getUa();
+        if (ua!=null&&textView!=null){
+            if (ua.getMUserNick()!=null){
+                textView.setText(ua.getMUserNick());
+            }else {
+                textView.setText(ua.getMUserName());
+            }
+        }
+    }
+
+
+    public static void setAppCurrentAvatar(Context context, ImageView imageView) {
+        String username=SuperWeChatApplication.getInstance().getUserName();
+        setContactAvatar(context,username,imageView);
     }
 }
