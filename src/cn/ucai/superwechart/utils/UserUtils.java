@@ -105,7 +105,6 @@ public class UserUtils {
         }else {
             Picasso.with(context).load(R.drawable.default_avatar).into(avatar);
         }
-
     }
 
     private static String getContactAvatarPath(String username) {

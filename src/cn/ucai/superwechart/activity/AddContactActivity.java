@@ -106,7 +106,7 @@ public class AddContactActivity extends BaseActivity{
 					.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
 						@Override
 						public void onSuccess(Result result) {
-							if (result!=null&&result.isRetMsg()){
+							if (result.isRetMsg()){
 								String retJson=result.getRetData().toString();
 								Gson gson = new Gson();
 								UserAvatar ua=gson.fromJson(retJson, UserAvatar.class);
@@ -116,10 +116,10 @@ public class AddContactActivity extends BaseActivity{
 									UserUtils.setContactAvatar(AddContactActivity.this,toAddUsername,avatar);
 									nameText.setText(ua.getMUserNick());
 									mtvNothing.setVisibility(View.GONE);
-								}else {
-									searchedUserLayout.setVisibility(View.GONE);
-									mtvNothing.setVisibility(View.VISIBLE);
 								}
+							}else {
+								searchedUserLayout.setVisibility(View.GONE);
+								mtvNothing.setVisibility(View.VISIBLE);
 							}
 						}
 
@@ -145,11 +145,11 @@ public class AddContactActivity extends BaseActivity{
 	 * @param view
 	 */
 	public void addContact(View view){
-		if(SuperWeChatApplication.getInstance().getUserName().equals(nameText.getText().toString())){
+	/*	if(SuperWeChatApplication.getInstance().getUserName().equals(nameText.getText().toString())){
 			String str = getString(R.string.not_add_myself);
 			startActivity(new Intent(this, AlertDialog.class).putExtra("msg", str));
 			return;
-		}
+		}*/
 		
 		if(((DemoHXSDKHelper) HXSDKHelper.getInstance()).getContactList().containsKey(nameText.getText().toString())){
 		    //提示已在好友列表中，无需添加
