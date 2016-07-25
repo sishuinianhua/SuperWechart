@@ -6,18 +6,25 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
+import com.google.gson.Gson;
+
 import cn.ucai.superwechart.DemoHXSDKHelper;
+import cn.ucai.superwechart.I;
 import cn.ucai.superwechart.R;
 import cn.ucai.superwechart.SuperWeChatApplication;
+import cn.ucai.superwechart.bean.Result;
 import cn.ucai.superwechart.bean.UserAvatar;
 import cn.ucai.superwechart.db.UserDao;
 import cn.ucai.superwechart.task.DownloadContactListTask;
+import cn.ucai.superwechart.utils.OkHttpUtils2;
+import cn.ucai.superwechart.utils.UserUtils;
 
 /**
  * 开屏页
@@ -61,11 +68,38 @@ public class SplashActivity extends BaseActivity {
 					Log.e(TAG, "userName=" + userName);
 					UserAvatar ua=new UserDao(SplashActivity.this).getUserAvatar(userName);
 					Log.e(TAG, "ua=" + ua);
-					if (ua==null){
-						ua=new UserDao(SplashActivity.this).getUserAvatar(userName);
+
+					if(ua==null){
+						OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
+						utils.setRequestUrl(I.REQUEST_FIND_USER)
+								.addParam(I.User.USER_NAME,userName)
+								.targetClass(Result.class)
+								.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+									@Override
+									public void onSuccess(Result result) {
+										if (result.isRetMsg()){
+											String retJson=result.getRetData().toString();
+											Gson gson = new Gson();
+											UserAvatar ua=gson.fromJson(retJson, UserAvatar.class);
+											Log.e(TAG, "result=" + result);
+											if (ua!=null){
+												Log.e(TAG, "ua1=" + ua);
+												SuperWeChatApplication.getInstance().setUa(ua);
+												SuperWeChatApplication.currentUserNick = ua.getMUserNick();
+											}
+										}
+									}
+
+									@Override
+									public void onError(String error) {
+										Log.e(TAG, "error=" + error);
+																			}
+								});
+					}else {
+						SuperWeChatApplication.getInstance().setUa(ua);
+						SuperWeChatApplication.currentUserNick = ua.getMUserNick();
 					}
-					SuperWeChatApplication.getInstance().setUa(ua);
-					SuperWeChatApplication.currentUserNick = ua.getMUserNick();
+
 					new DownloadContactListTask(SplashActivity.this,userName).execute();
 
 					long costTime = System.currentTimeMillis() - start;

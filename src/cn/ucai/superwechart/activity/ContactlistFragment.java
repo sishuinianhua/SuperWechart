@@ -509,18 +509,12 @@ public class ContactlistFragment extends Fragment {
 
 
 
+	BroadcastReceiver mUpdateContactListReceiver;
+
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		registerBroadcastReceiver();
-	}
-
-	BroadcastReceiver mUpdateContactListReceiver;
-
-	private void registerBroadcastReceiver() {
-		mUpdateContactListReceiver=new UpdateContactListReceiver();
-		IntentFilter filter=new IntentFilter("update_contact_list");
-		getActivity().registerReceiver(mUpdateContactListReceiver, filter);
 	}
 
 	@Override
@@ -529,8 +523,13 @@ public class ContactlistFragment extends Fragment {
 		getActivity().unregisterReceiver(mUpdateContactListReceiver);
 	}
 
-	private class UpdateContactListReceiver extends BroadcastReceiver{
+	private void registerBroadcastReceiver() {
+		mUpdateContactListReceiver=new UpdateContactListReceiver();
+		IntentFilter filter=new IntentFilter("update_contact_list");
+		getActivity().registerReceiver(mUpdateContactListReceiver, filter);
+	}
 
+	private class UpdateContactListReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			adapter.notifyDataSetChanged();

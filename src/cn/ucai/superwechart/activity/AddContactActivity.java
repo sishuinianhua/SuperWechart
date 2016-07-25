@@ -116,6 +116,9 @@ public class AddContactActivity extends BaseActivity{
 									UserUtils.setContactAvatar(AddContactActivity.this,toAddUsername,avatar);
 									nameText.setText(ua.getMUserNick());
 									mtvNothing.setVisibility(View.GONE);
+								}else {
+									searchedUserLayout.setVisibility(View.GONE);
+									mtvNothing.setVisibility(View.VISIBLE);
 								}
 							}else {
 								searchedUserLayout.setVisibility(View.GONE);

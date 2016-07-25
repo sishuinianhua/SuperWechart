@@ -542,7 +542,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 			}
 			localUsers.putAll(toAddUsers);
 
-			for (String toAdduserName:toAddUserNameList){
+			for (final String toAdduserName:toAddUserNameList){
 				OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
 				utils.setRequestUrl(I.REQUEST_ADD_CONTACT)
 						.addParam(I.Contact.USER_NAME,SuperWeChatApplication.getInstance().getUserName())
@@ -555,12 +555,9 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 									String retJson = result.getRetData().toString();
 									Gson gson = new Gson();
 									UserAvatar ua=gson.fromJson(retJson, UserAvatar.class);
-									if (!SuperWeChatApplication.getInstance().getContactMap().containsKey(ua.getMUserName())){
-										SuperWeChatApplication.getInstance().getContactMap().put(ua.getMUserName(), ua);
-										SuperWeChatApplication.getInstance().getUserContactList().add(ua);
-										sendStickyBroadcast(new Intent("update_contact_list"));
-
-									}
+									SuperWeChatApplication.getInstance().getContactMap().put(toAdduserName, ua);
+									SuperWeChatApplication.getInstance().getUserContactList().add(ua);
+									sendStickyBroadcast(new Intent("update_contact_list"));
 								}
 							}
 
