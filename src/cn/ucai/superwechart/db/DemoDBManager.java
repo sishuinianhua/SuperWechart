@@ -20,7 +20,7 @@ import com.easemob.util.HanziToPinyin;
 
 public class DemoDBManager {
     static private DemoDBManager dbMgr = new DemoDBManager();
-    private DbOpenHelper dbHelper;
+    private  DbOpenHelper dbHelper;
     
     void onInit(Context context){
         dbHelper = DbOpenHelper.getInstance(context);
@@ -377,5 +377,15 @@ public class DemoDBManager {
             ua.setMAvatarLastUpdateTime(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_LAST_UPDATE_TIME)));
         }
         return ua;
+    }
+
+    synchronized public void updateUserNick(UserAvatar ua) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        ContentValues values=new ContentValues();
+        values.put(UserDao.USER_COLUMN_NAME_NICK,ua.getMUserNick());
+        if (db.isOpen()){
+            db.update(UserDao.USER_TABLE_NAME, values, UserDao.USER_COLUMN_NAME_ID+" = ? ", new String[]{ua.getMUserName()});
+        }
+
     }
 }
