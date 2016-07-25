@@ -24,13 +24,20 @@ import android.widget.Toast;
 
 import com.easemob.EMValueCallBack;
 
+import cn.ucai.superwechart.I;
 import cn.ucai.superwechart.SuperWeChatApplication;
 import cn.ucai.superwechart.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import cn.ucai.superwechart.DemoHXSDKHelper;
 import cn.ucai.superwechart.R;
+import cn.ucai.superwechart.bean.Result;
+import cn.ucai.superwechart.bean.UserAvatar;
+import cn.ucai.superwechart.db.UserDao;
 import cn.ucai.superwechart.domain.User;
+import cn.ucai.superwechart.utils.OkHttpUtils2;
 import cn.ucai.superwechart.utils.UserUtils;
+
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 public class UserProfileActivity extends BaseActivity implements OnClickListener{
@@ -97,17 +104,49 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 			break;
 		case R.id.rl_nickname:
 			final EditText editText = new EditText(this);
+			editText.setText(SuperWeChatApplication.getInstance().getUa().getMUserNick());
 			new AlertDialog.Builder(this).setTitle(R.string.setting_nickname).setIcon(android.R.drawable.ic_dialog_info).setView(editText)
 					.setPositiveButton(R.string.dl_ok, new DialogInterface.OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							String nickString = editText.getText().toString();
+						public void onClick(final DialogInterface dialog, int which) {
+							final String nickString = editText.getText().toString();
 							if (TextUtils.isEmpty(nickString)) {
 								Toast.makeText(UserProfileActivity.this, getString(R.string.toast_nick_not_isnull), Toast.LENGTH_SHORT).show();
 								return;
 							}
-							updateRemoteNick(nickString);
+
+							final OkHttpUtils2<Result> utils = new OkHttpUtils2();
+							utils.setRequestUrl(I.REQUEST_UPDATE_USER_NICK)
+									.addParam(I.User.USER_NAME,SuperWeChatApplication.getInstance().getUserName())
+									.addParam(I.User.NICK,nickString)
+									.targetClass(Result.class)
+									.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+										@Override
+										public void onSuccess(Result result) {
+											if (result.isRetMsg()){
+												String retData=result.getRetData().toString();
+												Gson gson = new Gson();
+												UserAvatar ua=gson.fromJson(retData, UserAvatar.class);
+												if (ua!=null){
+													SuperWeChatApplication.getInstance().setUa(ua);
+													SuperWeChatApplication.currentUserNick = ua.getMUserNick();
+													UserDao userDao = new UserDao(UserProfileActivity.this);
+													userDao.updateUserNick(ua);
+													updateRemoteNick(nickString);
+												}
+											}else {
+												Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatenick_fail), Toast.LENGTH_SHORT).show();
+												dialog.dismiss();
+											}
+										}
+
+										@Override
+										public void onError(String error) {
+											Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatenick_fail), Toast.LENGTH_SHORT).show();
+											dialog.dismiss();
+										}
+									});
 						}
 					}).setNegativeButton(R.string.dl_cancel, null).show();
 			break;
