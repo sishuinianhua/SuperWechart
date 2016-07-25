@@ -576,7 +576,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 		@Override
 		public void onContactDeleted(final List<String> usernameList) {
 			// 被删除
-			String userName=SuperWeChatApplication.getInstance().getUserName();
+			/*String userName=SuperWeChatApplication.getInstance().getUserName();
 			for ( final String delUsername:usernameList){
 				OkHttpUtils2<Result> utils2 = new OkHttpUtils2<>();
 				utils2.setRequestUrl(I.REQUEST_DELETE_CONTACT)
@@ -602,7 +602,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 								Log.e(TAG, "error=" + error);
 							}
 						});
-			}
+			}*/
 			runOnUiThread(new Runnable() {
 				public void run() {
 					// 如果正在与此用户的聊天页面
