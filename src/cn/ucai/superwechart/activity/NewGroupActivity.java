@@ -32,9 +32,14 @@ import com.easemob.chat.EMGroupManager;
 
 import cn.ucai.superwechart.I;
 import cn.ucai.superwechart.R;
+import cn.ucai.superwechart.SuperWeChatApplication;
+import cn.ucai.superwechart.bean.Result;
 import cn.ucai.superwechart.listener.OnSetAvatarListener;
+import cn.ucai.superwechart.utils.OkHttpUtils2;
 
 import com.easemob.exceptions.EaseMobException;
+
+import java.io.File;
 
 public class NewGroupActivity extends BaseActivity {
 	private static final int CREATE_GROUP = 100;
@@ -48,6 +53,7 @@ public class NewGroupActivity extends BaseActivity {
 	private ImageView avatar;
 	OnSetAvatarListener mOnSetAvatarListener;
 	private String avatarName;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,27 +100,23 @@ public class NewGroupActivity extends BaseActivity {
 			startActivityForResult(new Intent(this, GroupPickContactsActivity.class).putExtra("groupName", name), CREATE_GROUP);
 		}
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		String st1 = getResources().getString(R.string.Is_to_create_a_group_chat);
-		final String st2 = getResources().getString(R.string.Failed_to_create_groups);
+
+
 		if (resultCode!=RESULT_OK){
 			return;
 		}
 		mOnSetAvatarListener.setAvatar(requestCode,data,avatar);
-		if (requestCode==OnSetAvatarListener.REQUEST_CROP_PHOTO){
-			//createAppGroup();
-		}
-
 		if (requestCode == CREATE_GROUP) {
-			//新建群组
-			progressDialog = new ProgressDialog(this);
-			progressDialog.setMessage(st1);
-			progressDialog.setCanceledOnTouchOutside(false);
-			progressDialog.show();
+			createEMGroup(data);
+		}
+	}
 
+	private void createEMGroup(final Intent data) {
+			setDialog();
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -130,29 +132,102 @@ public class NewGroupActivity extends BaseActivity {
 							group =  EMGroupManager.getInstance().createPublicGroup(groupName, desc, members, true,200);
 						}else{
 							//创建不公开群
-							 group = EMGroupManager.getInstance().createPrivateGroup(groupName, desc, members, memberCheckbox.isChecked(), 200);
+							group = EMGroupManager.getInstance().createPrivateGroup(groupName, desc, members, memberCheckbox.isChecked(), 200);
 						}
 						Log.e(TAG, "group=" + group.getGroupId());
-						runOnUiThread(new Runnable() {
-							public void run() {
-								progressDialog.dismiss();
-								setResult(RESULT_OK);
-								finish();
-							}
-						});
+						createAppGroup(group.getGroupId(),groupName,desc,members);
 					} catch (final EaseMobException e) {
 						runOnUiThread(new Runnable() {
 							public void run() {
 								progressDialog.dismiss();
-								Toast.makeText(NewGroupActivity.this, st2 + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+								Toast.makeText(NewGroupActivity.this,  getResources().getString(R.string.Failed_to_create_groups) + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 							}
 						});
 					}
-					
+
 				}
 			}).start();
 		}
+
+	private void createAppGroup(final String hxId, String groupName, String desc, final String[] members) {
+		boolean isPublic = checkBox.isChecked();
+		boolean invites = !isPublic;
+		String owner = SuperWeChatApplication.getInstance().getUserName();
+		OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
+		String dir=OnSetAvatarListener.getAvatarPath(NewGroupActivity.this,I.AVATAR_TYPE_GROUP_PATH);
+		String name=avatarName+I.AVATAR_SUFFIX_JPG;
+		File file=new File(dir,name);
+		utils.setRequestUrl(I.REQUEST_CREATE_GROUP)
+				.addParam(I.Group.HX_ID,hxId)
+				.addParam(I.Group.NAME,groupName)
+				.addParam(I.Group.OWNER,owner)
+				.addParam(I.Group.DESCRIPTION,desc)
+				.addParam(I.Group.IS_PUBLIC,String.valueOf(isPublic))
+				.addParam(I.Group.ALLOW_INVITES,String.valueOf(invites))
+				.addFile(file)
+				.targetClass(Result.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+					@Override
+					public void onSuccess(Result result) {
+						if (result.isRetMsg()){
+							addGroupMembers(hxId,members);
+							progressDialog.dismiss();
+							setResult(RESULT_OK);
+							finish();
+						}else {
+							progressDialog.dismiss();
+							Toast.makeText(NewGroupActivity.this, getResources().getString(R.string.Failed_to_create_groups) , Toast.LENGTH_LONG).show();
+						}
+					}
+
+					@Override
+					public void onError(String error) {
+						progressDialog.dismiss();
+						Toast.makeText(NewGroupActivity.this,  getResources().getString(R.string.Failed_to_create_groups) + error, Toast.LENGTH_LONG).show();
+					}
+				});
 	}
+
+	private void addGroupMembers(String hxId, String[] members) {
+		String membersArr1 = "";
+		for (String m:members){
+			membersArr1 += m+",";
+		}
+		String membersArr=membersArr1.substring(0, membersArr1.length() - 1);
+		OkHttpUtils2<Result> utils = new OkHttpUtils2<Result>();
+		utils.setRequestUrl(I.REQUEST_ADD_GROUP_MEMBERS)
+				.addParam(I.Member.GROUP_HX_ID,hxId)
+				.addParam(I.Member.USER_NAME,membersArr)
+				.targetClass(Result.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+					@Override
+					public void onSuccess(Result result) {
+						if (result.isRetMsg()){
+							progressDialog.dismiss();
+							setResult(RESULT_OK);
+							finish();
+						}else {
+							progressDialog.dismiss();
+							Toast.makeText(NewGroupActivity.this,  getResources().getString(R.string.Failed_to_create_groups) , Toast.LENGTH_LONG).show();
+						}
+					}
+
+					@Override
+					public void onError(String error) {
+						progressDialog.dismiss();
+						Toast.makeText(NewGroupActivity.this,  getResources().getString(R.string.Failed_to_create_groups) + error, Toast.LENGTH_LONG).show();
+					}
+				});
+	}
+
+	private void setDialog() {
+		String st1 = getResources().getString(R.string.Is_to_create_a_group_chat);
+		progressDialog = new ProgressDialog(this);
+		progressDialog.setMessage(st1);
+		progressDialog.setCanceledOnTouchOutside(false);
+		progressDialog.show();
+	}
+
 
 	public void back(View view) {
 		finish();
