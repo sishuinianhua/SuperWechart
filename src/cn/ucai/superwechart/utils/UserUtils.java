@@ -124,6 +124,34 @@ public class UserUtils {
         .append(I.AVATAR_TYPE_USER_PATH);
         return path.toString();
     }
+    /*设置群组头像*/
+    public static void setGroupAvatar(Context context, String hxId, ImageView avatar) {
+        String path = "";
+        if (hxId!=null){
+            path = getGroupAvatarPath(hxId);
+            Log.e(TAG, "path=" + path);
+            Picasso.with(context).load(path).placeholder(R.drawable.group_icon).into(avatar);
+        }else {
+            Picasso.with(context).load(R.drawable.group_icon).into(avatar);
+        }
+    }
+
+    public static String getGroupAvatarPath(String hxId) {
+        StringBuilder path=new StringBuilder(I.SERVER_ROOT);
+        path.append(I.QUESTION)
+        .append(I.KEY_REQUEST)
+        .append(I.EQU)
+        .append(I.REQUEST_DOWNLOAD_AVATAR)
+        .append(I.AND)
+        .append(I.NAME_OR_HXID)
+        .append(I.EQU)
+        .append(hxId)
+        .append(I.AND)
+        .append(I.AVATAR_TYPE)
+        .append(I.EQU)
+        .append(I.AVATAR_TYPE_GROUP_PATH);
+        return path.toString();
+    }
 
     public static void setContactNick(String username, TextView nameTextview) {
         UserAvatar ua = getContactInfo(username);
