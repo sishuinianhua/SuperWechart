@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.ucai.superwechart.bean.GroupAvatar;
 import cn.ucai.superwechart.bean.UserAvatar;
 
 public class SuperWeChatApplication extends Application {
@@ -144,5 +145,15 @@ public class SuperWeChatApplication extends Application {
 
 	public void setContactMap(Map<String, UserAvatar> contactMap) {
 		this.contactMap = contactMap;
+	}
+
+	ArrayList<GroupAvatar> gaList = new ArrayList<>();
+
+	public ArrayList<GroupAvatar> getGaList() {
+		return gaList;
+	}
+
+	public void setGaList(ArrayList<GroupAvatar> gaList) {
+		this.gaList = gaList;
 	}
 }

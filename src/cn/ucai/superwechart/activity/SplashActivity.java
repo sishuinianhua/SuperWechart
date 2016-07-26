@@ -23,6 +23,7 @@ import cn.ucai.superwechart.bean.Result;
 import cn.ucai.superwechart.bean.UserAvatar;
 import cn.ucai.superwechart.db.UserDao;
 import cn.ucai.superwechart.task.DownloadContactListTask;
+import cn.ucai.superwechart.task.DownloadGroupListTask;
 import cn.ucai.superwechart.utils.OkHttpUtils2;
 import cn.ucai.superwechart.utils.UserUtils;
 
@@ -98,6 +99,7 @@ public class SplashActivity extends BaseActivity {
 					}
 
 					new DownloadContactListTask(SplashActivity.this,userName).execute();
+					new DownloadGroupListTask(SplashActivity.this,userName).execute();
 
 					long costTime = System.currentTimeMillis() - start;
 					//等待sleeptime时长
