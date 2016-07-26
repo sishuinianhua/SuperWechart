@@ -63,12 +63,10 @@ public class SplashActivity extends BaseActivity {
 					long start = System.currentTimeMillis();
 					EMGroupManager.getInstance().loadAllGroups();
 					EMChatManager.getInstance().loadAllConversations();
-
 					String userName = SuperWeChatApplication.getInstance().getUserName();
 					Log.e(TAG, "userName=" + userName);
 					UserAvatar ua=new UserDao(SplashActivity.this).getUserAvatar(userName);
 					Log.e(TAG, "ua=" + ua);
-
 					if(ua==null){
 						OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
 						utils.setRequestUrl(I.REQUEST_FIND_USER)
@@ -89,7 +87,6 @@ public class SplashActivity extends BaseActivity {
 											}
 										}
 									}
-
 									@Override
 									public void onError(String error) {
 										Log.e(TAG, "error=" + error);

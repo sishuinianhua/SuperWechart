@@ -97,7 +97,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		if (username == null || username.equals(EMChatManager.getInstance().getCurrentUser())) {
 			tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
 			UserUtils.setAppCurrentUserNick(tvNickName);
-			UserUtils.setContactAvatar(this, EMChatManager.getInstance().getCurrentUser(), headAvatar);
+			UserUtils.setCurrentUserAvatar(this, headAvatar);
 		} else {
 			tvUsername.setText(username);
 			UserUtils.setContactNick(username, tvNickName);
@@ -282,12 +282,12 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 
 			mOnSetAvatarListener.setAvatar(requestCode,data,headAvatar);
 		 if (requestCode==OnSetAvatarListener.REQUEST_CROP_PHOTO){
-			uploadUserAvatar();
+			uploadUserAvatar(data);
 		}
 
 		}
 
-	private void uploadUserAvatar() {
+	private void uploadUserAvatar(final Intent picdata) {
 		File file = new File(OnSetAvatarListener.getAvatarPath(UserProfileActivity.this,I.AVATAR_TYPE_USER_PATH), avatarName + I.AVATAR_SUFFIX_JPG);
 		OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
 		utils.setRequestUrl(I.REQUEST_UPLOAD_AVATAR)
@@ -301,7 +301,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 						if (result.isRetMsg()){
 							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
 									Toast.LENGTH_SHORT).show();
-
+							setPicToView(picdata);
 						}
 					}
 

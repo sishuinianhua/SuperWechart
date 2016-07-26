@@ -13,6 +13,7 @@
  */
 package cn.ucai.superwechart.activity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -38,6 +40,9 @@ import cn.ucai.superwechart.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 import com.google.gson.Gson;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import cn.ucai.superwechart.Constant;
 import cn.ucai.superwechart.SuperWeChatApplication;
@@ -50,6 +55,7 @@ import cn.ucai.superwechart.domain.User;
 import cn.ucai.superwechart.task.DownloadContactListTask;
 import cn.ucai.superwechart.utils.CommonUtils;
 import cn.ucai.superwechart.utils.OkHttpUtils2;
+import cn.ucai.superwechart.utils.UserUtils;
 import cn.ucai.superwechart.utils.Utils;
 
 /**
@@ -197,6 +203,7 @@ public class LoginActivity extends BaseActivity {
 							UserAvatar ua=gson.fromJson(uaJson, UserAvatar.class);
 							Log.e(TAG, "ua="+ua);
 							if (ua!=null){
+								downloadUserAvatar();
 								saveUserToDB(ua);
 								loginSuccess(ua);
 							}
@@ -215,6 +222,35 @@ public class LoginActivity extends BaseActivity {
 						Toast.makeText(getApplicationContext(), R.string.Login_failed, Toast.LENGTH_LONG).show();
 					}
 				});
+	}
+
+	private void downloadUserAvatar() {
+		OkHttpUtils2<Message> utils = new OkHttpUtils2();
+		utils.url(UserUtils.getContactAvatarPath(currentUsername))
+				.targetClass(Message.class)
+				.doInBackground(new Callback() {
+					@Override
+					public void onFailure(Request request, IOException e) {
+						Log.e(TAG, "IOException=" + e);
+					}
+
+					@Override
+					public void onResponse(Response response) throws IOException {
+						byte[] data=response.body().bytes();
+						String avatarUrl = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getUserProfileManager().uploadUserAvatar(data);
+						Log.e(TAG, "avatarUrl=" + avatarUrl);
+					}
+				}).execute(new OkHttpUtils2.OnCompleteListener<Message>() {
+			@Override
+			public void onSuccess(Message result) {
+				Log.e(TAG, "result=" + result);
+			}
+
+			@Override
+			public void onError(String result) {
+				Log.e(TAG, "result=" + result);
+			}
+		});
 	}
 
 	private void saveUserToDB(UserAvatar ua) {

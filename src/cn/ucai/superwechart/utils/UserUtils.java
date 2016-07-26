@@ -108,7 +108,7 @@ public class UserUtils {
         }
     }
 
-    private static String getContactAvatarPath(String username) {
+    public static String getContactAvatarPath(String username) {
         StringBuilder path=new StringBuilder(I.SERVER_ROOT);
         path.append(I.QUESTION)
         .append(I.KEY_REQUEST)

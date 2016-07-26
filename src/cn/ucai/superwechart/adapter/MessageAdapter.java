@@ -572,7 +572,7 @@ public class MessageAdapter extends BaseAdapter{
 	private void setUserAvatar(final EMMessage message, ImageView imageView){
 	    if(message.direct == Direct.SEND){
 	        //显示自己头像
-	        UserUtils.setAppCurrentAvatar(context, imageView);
+	        UserUtils.setCurrentUserAvatar(context, imageView);
 	    }else{
 	        UserUtils.setContactAvatar(context, message.getFrom(), imageView);
 	    }
