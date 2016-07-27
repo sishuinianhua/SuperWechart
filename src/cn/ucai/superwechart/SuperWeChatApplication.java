@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.ucai.superwechart.bean.GroupAvatar;
+import cn.ucai.superwechart.bean.MemberUserAvatar;
 import cn.ucai.superwechart.bean.UserAvatar;
 
 public class SuperWeChatApplication extends Application {
@@ -155,5 +156,15 @@ public class SuperWeChatApplication extends Application {
 
 	public void setGaList(ArrayList<GroupAvatar> gaList) {
 		this.gaList = gaList;
+	}
+
+	private Map<String, HashMap<String, MemberUserAvatar>> memberMap = new HashMap<>();
+
+	public Map<String, HashMap<String, MemberUserAvatar>> getMemberMap() {
+		return memberMap;
+	}
+
+	public void setMemberMap(Map<String, HashMap<String, MemberUserAvatar>> memberMap) {
+		this.memberMap = memberMap;
 	}
 }
