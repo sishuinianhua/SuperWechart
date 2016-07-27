@@ -48,21 +48,21 @@ import com.squareup.picasso.Picasso;
 
 public class UserProfileActivity extends BaseActivity implements OnClickListener {
 
-	private static final int REQUESTCODE_PICK = 1;
-	private static final int REQUESTCODE_CUTTING = 2;
-	private static final String TAG = UserProfileActivity.class.getSimpleName();
-	private ImageView headAvatar;
-	private ImageView headPhotoUpdate;
-	private ImageView iconRightArrow;
-	private TextView tvNickName;
-	private TextView tvUsername;
-	private ProgressDialog dialog;
-	private RelativeLayout rlNickName;
-	private OnSetAvatarListener mOnSetAvatarListener;
-	private String avatarName;
+		private static final int REQUESTCODE_PICK = 1;
+		private static final int REQUESTCODE_CUTTING = 2;
+		private static final String TAG = UserProfileActivity.class.getSimpleName();
+		private ImageView headAvatar;
+		private ImageView headPhotoUpdate;
+		private ImageView iconRightArrow;
+		private TextView tvNickName;
+		private TextView tvUsername;
+		private ProgressDialog dialog;
+		private RelativeLayout rlNickName;
+		private OnSetAvatarListener mOnSetAvatarListener;
+		private String avatarName;
 
 
-	@Override
+		@Override
 
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
