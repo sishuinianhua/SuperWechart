@@ -24,6 +24,7 @@ import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,6 +47,9 @@ import com.easemob.chat.EMGroupManager;
 
 import cn.ucai.superwechart.I;
 import cn.ucai.superwechart.R;
+import cn.ucai.superwechart.SuperWeChatApplication;
+import cn.ucai.superwechart.bean.GroupAvatar;
+import cn.ucai.superwechart.bean.MemberUserAvatar;
 import cn.ucai.superwechart.bean.Result;
 import cn.ucai.superwechart.task.DownloadMemberMapTask;
 import cn.ucai.superwechart.utils.OkHttpUtils2;
@@ -54,6 +58,9 @@ import cn.ucai.superwechart.widget.ExpandGridView;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.NetUtils;
+import com.google.gson.Gson;
+
+import org.jivesoftware.smackx.packet.MUCAdmin;
 
 public class GroupDetailsActivity extends BaseActivity implements OnClickListener {
 	private static final String TAG = "GroupDetailsActivity";
@@ -378,6 +385,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 				}
 			}
 		}).start();
+		removeGroupMember(groupId,SuperWeChatApplication.getInstance().getUserName(),true);
 	}
 
 	/**
@@ -755,6 +763,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 							}
 						}).start();
+						removeGroupMember(groupId,username,false);
 					}
 				});
 
@@ -782,6 +791,46 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		public int getCount() {
 			return super.getCount() + 2;
 		}
+	}
+
+	private void removeGroupMember(final String hxId, final String username, final boolean isExit) {
+		GroupAvatar ga = SuperWeChatApplication.getInstance().getGaMap().get(hxId);
+		if (ga!=null){
+			OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
+			utils.setRequestUrl(I.REQUEST_DELETE_GROUP_MEMBER)
+					.addParam(I.Member.GROUP_ID,ga.getMGroupId()+"")
+					.addParam(I.Member.USER_NAME,username)
+					.targetClass(Result.class)
+					.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+						@Override
+						public void onSuccess(Result result) {
+							if (result.isRetMsg()){
+								String retData = result.getRetData().toString();
+								Gson gson = new Gson();
+								MemberUserAvatar mua = gson.fromJson(retData, MemberUserAvatar.class);
+								Log.e(TAG, "mua=" + mua);
+								if (isExit){
+									GroupAvatar ga=SuperWeChatApplication.getInstance().getGaMap().get(hxId);
+									SuperWeChatApplication.getInstance().getGaList().remove(ga);
+									SuperWeChatApplication.getInstance().getGaMap().remove(hxId);
+								}else {
+									SuperWeChatApplication.getInstance().getMuaMap().remove(username);
+								}
+
+							}else {
+								Log.e(TAG, "delFail=" + "delFail");
+							}
+						}
+
+						@Override
+						public void onError(String error) {
+							Log.e(TAG, "error=" + error);
+						}
+					});
+		}else {
+
+		}
+
 	}
 
 	protected void updateGroup() {

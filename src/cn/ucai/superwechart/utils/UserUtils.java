@@ -208,7 +208,7 @@ public class UserUtils {
 
     private static MemberUserAvatar getAppMemberInfo(String hxId, String userName) {
         MemberUserAvatar mua = null;
-        Map<String,MemberUserAvatar> muaMap=SuperWeChatApplication.getInstance().getMemberMap().get(hxId);
+        Map<String,MemberUserAvatar> muaMap=SuperWeChatApplication.getInstance().getMuaMap().get(hxId);
         if (muaMap==null||muaMap.size()<=0){
             return null;
         }

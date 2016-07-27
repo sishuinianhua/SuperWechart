@@ -158,13 +158,23 @@ public class SuperWeChatApplication extends Application {
 		this.gaList = gaList;
 	}
 
-	private Map<String, HashMap<String, MemberUserAvatar>> memberMap = new HashMap<>();
+	private Map<String, HashMap<String, MemberUserAvatar>> muaMap = new HashMap<>();
 
-	public Map<String, HashMap<String, MemberUserAvatar>> getMemberMap() {
-		return memberMap;
+	public Map<String, HashMap<String, MemberUserAvatar>> getMuaMap() {
+		return muaMap;
 	}
 
-	public void setMemberMap(Map<String, HashMap<String, MemberUserAvatar>> memberMap) {
-		this.memberMap = memberMap;
+	public void setMuaMap(Map<String, HashMap<String, MemberUserAvatar>> muaMap) {
+		this.muaMap = muaMap;
+	}
+
+	private Map<String, GroupAvatar>gaMap=new HashMap<>();
+
+	public Map<String, GroupAvatar> getGaMap() {
+		return gaMap;
+	}
+
+	public void setGaMap(Map<String, GroupAvatar> gaMap) {
+		this.gaMap = gaMap;
 	}
 }

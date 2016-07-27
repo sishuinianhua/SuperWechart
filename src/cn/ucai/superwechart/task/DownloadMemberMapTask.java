@@ -48,14 +48,14 @@ public class DownloadMemberMapTask {
                         ArrayList<MemberUserAvatar> muaList=utils.array2List(muaArr);
                         if (muaList!=null&&muaList.size()>0){
                             Log.e(TAG, "muaList=" + muaList.toString());
-                           Map<String,HashMap<String,MemberUserAvatar>>memberMap= SuperWeChatApplication.getInstance().getMemberMap();
-                            if (!memberMap.containsKey(hxId)){
-                                memberMap.put(hxId, new HashMap<String, MemberUserAvatar>());
+                           Map<String,HashMap<String,MemberUserAvatar>>hxmuaMap= SuperWeChatApplication.getInstance().getMuaMap();
+                            if (!hxmuaMap.containsKey(hxId)){
+                                hxmuaMap.put(hxId, new HashMap<String, MemberUserAvatar>());
                             }
-                            HashMap<String,MemberUserAvatar>membersMap=memberMap.get(hxId);
+                            HashMap<String,MemberUserAvatar>muaMap=hxmuaMap.get(hxId);
 
                             for (MemberUserAvatar mua:muaList){
-                                membersMap.put(mua.getMUserName(), mua);
+                                muaMap.put(mua.getMUserName(), mua);
                             }
                             context.sendStickyBroadcast(new Intent("update_member_list"));
                         }

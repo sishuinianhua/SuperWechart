@@ -45,6 +45,9 @@ public class DownloadGroupListTask {
                         if (gaList!=null&&gaList.size()>0){
                             Log.e(TAG, "gaList=" + gaList.toString());
                             SuperWeChatApplication.getInstance().setGaList(gaList);
+                            for (GroupAvatar ga:gaList){
+                                SuperWeChatApplication.getInstance().getGaMap().put(ga.getMGroupHxid(), ga);
+                            }
                             context.sendStickyBroadcast(new Intent("update_group_list"));
                            /* Map<String,UserAvatar> uaMap=SuperWeChatApplication.getInstance().getContactMap();
                             for (GroupAvatar ga:gaList){
