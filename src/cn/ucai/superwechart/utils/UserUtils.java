@@ -12,9 +12,12 @@ import cn.ucai.superwechart.applib.controller.HXSDKHelper;
 import cn.ucai.superwechart.DemoHXSDKHelper;
 
 import cn.ucai.superwechart.R;
+import cn.ucai.superwechart.bean.MemberUserAvatar;
 import cn.ucai.superwechart.bean.UserAvatar;
 import cn.ucai.superwechart.domain.User;
 import com.squareup.picasso.Picasso;
+
+import java.util.Map;
 
 public class UserUtils {
     private static final String TAG = UserUtils.class.getSimpleName();
@@ -192,5 +195,24 @@ public class UserUtils {
     public static void setAppCurrentAvatar(Context context, ImageView imageView) {
         String username=SuperWeChatApplication.getInstance().getUserName();
         setContactAvatar(context,username,imageView);
+    }
+
+    public static void setAppMemberNick(String hxId, String userName, TextView tv_usernick) {
+        MemberUserAvatar mua=getAppMemberInfo(hxId,userName);
+        if (mua!=null&&userName!=null){
+            tv_usernick.setText(mua.getMUserNick());
+        }else {
+            tv_usernick.setText(userName);
+        }
+    }
+
+    private static MemberUserAvatar getAppMemberInfo(String hxId, String userName) {
+        MemberUserAvatar mua = null;
+        Map<String,MemberUserAvatar> muaMap=SuperWeChatApplication.getInstance().getMemberMap().get(hxId);
+        if (muaMap==null||muaMap.size()<=0){
+            return null;
+        }
+         mua=muaMap.get(userName);
+        return mua;
     }
 }

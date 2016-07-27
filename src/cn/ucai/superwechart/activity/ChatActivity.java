@@ -22,7 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -95,11 +98,11 @@ import cn.ucai.superwechart.adapter.ExpressionPagerAdapter;
 import cn.ucai.superwechart.adapter.MessageAdapter;
 import cn.ucai.superwechart.adapter.VoicePlayClickListener;
 import cn.ucai.superwechart.domain.RobotUser;
+import cn.ucai.superwechart.task.DownloadMemberMapTask;
 import cn.ucai.superwechart.utils.CommonUtils;
 import cn.ucai.superwechart.utils.ImageUtils;
 import cn.ucai.superwechart.utils.SmileUtils;
 import cn.ucai.superwechart.utils.UserUtils;
-import cn.ucai.superwechart.utils.Utils;
 import cn.ucai.superwechart.widget.ExpandGridView;
 import cn.ucai.superwechart.widget.PasteEditText;
 import com.easemob.exceptions.EaseMobException;
@@ -212,6 +215,15 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		activityInstance = this;
 		initView();
 		setUpView();
+		registerReceiver();
+	}
+
+	MemberDownlodReceiver memberDownlodReceiver;
+	private void registerReceiver() {
+		IntentFilter filter=new IntentFilter();
+		filter.addAction("update_contact_list");
+		memberDownlodReceiver =new MemberDownlodReceiver();
+		registerReceiver(memberDownlodReceiver, filter);
 	}
 
 	/**
@@ -517,6 +529,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }else{
             ((TextView) findViewById(R.id.name)).setText(toChatUsername);
         }
+
+		new DownloadMemberMapTask(getApplicationContext(),toChatUsername).execute();
         
         // 监听当前会话的群聊解散被T事件
         groupListener = new GroupListener();
@@ -1471,6 +1485,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		if(groupListener != null){
 		    EMGroupManager.getInstance().removeGroupChangeListener(groupListener);
 		}
+		if (memberDownlodReceiver !=null){
+			unregisterReceiver(memberDownlodReceiver);
+		}
 	}
 
 	@Override
@@ -1755,4 +1772,11 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		return listView;
 	}
 
+
+	private class MemberDownlodReceiver extends BroadcastReceiver{
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			adapter.notifyDataSetChanged();
+		}
+	}
 }

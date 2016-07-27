@@ -47,7 +47,7 @@ public class DownloadMemberMapTask {
                         Log.e(TAG, "muaArr=" + Arrays.toString(muaArr));
                         ArrayList<MemberUserAvatar> muaList=utils.array2List(muaArr);
                         if (muaList!=null&&muaList.size()>0){
-                            Log.e(TAG, "uaList=" + muaList.toString());
+                            Log.e(TAG, "muaList=" + muaList.toString());
                            Map<String,HashMap<String,MemberUserAvatar>>memberMap= SuperWeChatApplication.getInstance().getMemberMap();
                             if (!memberMap.containsKey(hxId)){
                                 memberMap.put(hxId, new HashMap<String, MemberUserAvatar>());
