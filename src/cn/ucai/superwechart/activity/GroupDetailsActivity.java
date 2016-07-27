@@ -17,8 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -45,6 +47,7 @@ import com.easemob.chat.EMGroupManager;
 import cn.ucai.superwechart.I;
 import cn.ucai.superwechart.R;
 import cn.ucai.superwechart.bean.Result;
+import cn.ucai.superwechart.task.DownloadMemberMapTask;
 import cn.ucai.superwechart.utils.OkHttpUtils2;
 import cn.ucai.superwechart.utils.UserUtils;
 import cn.ucai.superwechart.widget.ExpandGridView;
@@ -182,8 +185,18 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		clearAllHistory.setOnClickListener(this);
 		blacklistLayout.setOnClickListener(this);
 		changeGroupNameLayout.setOnClickListener(this);
+		registerReceiver();
 
 	}
+
+	UpdateGroupMemberReceiver updateGroupMemberReceiver;
+	private void registerReceiver() {
+		IntentFilter filter=new IntentFilter();
+		filter.addAction("update_member_list");
+		updateGroupMemberReceiver=new UpdateGroupMemberReceiver();
+		registerReceiver(updateGroupMemberReceiver, filter);
+	}
+
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -437,7 +450,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		}).start();
 		addGroupMembers(groupId,newmembers);
 	}
-	private void addGroupMembers(String hxId, String[] members) {
+	private void addGroupMembers(final String hxId, String[] members) {
 		String membersArr1 = "";
 		for (String m:members){
 			membersArr1 += m+",";
@@ -452,6 +465,8 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 					@Override
 					public void onSuccess(Result result) {
 						if (result.isRetMsg()){
+							new DownloadMemberMapTask(getApplicationContext(), hxId).execute();
+
 							progressDialog.dismiss();
 							setResult(RESULT_OK);
 							finish();
@@ -831,6 +846,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	protected void onDestroy() {
 		super.onDestroy();
 		instance = null;
+		unregisterReceiver(updateGroupMemberReceiver);
 	}
 	
 	private static class ViewHolder{
@@ -839,4 +855,10 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	    ImageView badgeDeleteView;
 	}
 
+	private class UpdateGroupMemberReceiver extends BroadcastReceiver{
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			refreshMembers();
+		}
+	}
 }
