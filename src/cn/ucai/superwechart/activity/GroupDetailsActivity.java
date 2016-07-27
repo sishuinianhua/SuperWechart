@@ -41,7 +41,11 @@ import android.widget.Toast;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
+
+import cn.ucai.superwechart.I;
 import cn.ucai.superwechart.R;
+import cn.ucai.superwechart.bean.Result;
+import cn.ucai.superwechart.utils.OkHttpUtils2;
 import cn.ucai.superwechart.utils.UserUtils;
 import cn.ucai.superwechart.widget.ExpandGridView;
 import com.easemob.exceptions.EaseMobException;
@@ -431,8 +435,39 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 				}
 			}
 		}).start();
+		addGroupMembers(groupId,newmembers);
 	}
+	private void addGroupMembers(String hxId, String[] members) {
+		String membersArr1 = "";
+		for (String m:members){
+			membersArr1 += m+",";
+		}
+		String membersArr=membersArr1.substring(0, membersArr1.length() - 1);
+		OkHttpUtils2<Result> utils = new OkHttpUtils2<Result>();
+		utils.setRequestUrl(I.REQUEST_ADD_GROUP_MEMBERS)
+				.addParam(I.Member.GROUP_HX_ID,hxId)
+				.addParam(I.Member.USER_NAME,membersArr)
+				.targetClass(Result.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+					@Override
+					public void onSuccess(Result result) {
+						if (result.isRetMsg()){
+							progressDialog.dismiss();
+							setResult(RESULT_OK);
+							finish();
+						}else {
+							progressDialog.dismiss();
+							Toast.makeText(getApplicationContext(),  getResources().getString(R.string.Add_group_members_fail) , Toast.LENGTH_LONG).show();
+						}
+					}
 
+					@Override
+					public void onError(String error) {
+						progressDialog.dismiss();
+						Toast.makeText(getApplicationContext(), getResources().getString(R.string.Add_group_members_fail) + error, Toast.LENGTH_LONG).show();
+					}
+				});
+	}
 	@Override
 	public void onClick(View v) {
 		String st6 = getResources().getString(R.string.Is_unblock);
