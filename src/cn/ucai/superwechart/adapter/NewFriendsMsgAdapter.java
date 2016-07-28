@@ -41,6 +41,7 @@ import cn.ucai.superwechart.bean.Result;
 import cn.ucai.superwechart.bean.UserAvatar;
 import cn.ucai.superwechart.db.InviteMessgeDao;
 import cn.ucai.superwechart.domain.InviteMessage;
+import cn.ucai.superwechart.task.DownloadMemberMapTask;
 import cn.ucai.superwechart.utils.OkHttpUtils2;
 import cn.ucai.superwechart.utils.UserUtils;
 
@@ -186,10 +187,13 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 			public void run() {
 				// 调用sdk的同意方法
 				try {
-					if(msg.getGroupId() == null) //同意好友请求
+					if(msg.getGroupId() == null) {//同意好友请求
 						EMChatManager.getInstance().acceptInvitation(msg.getFrom());
-					else //同意加群申请
+					}
+					else{ //同意加群申请
 					    EMGroupManager.getInstance().acceptApplication(msg.getFrom(), msg.getGroupId());
+						addMemberToGroup(msg.getFrom(),msg.getGroupId());
+					}
 					((Activity) context).runOnUiThread(new Runnable() {
 
 						@Override
@@ -219,6 +223,28 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 				}
 			}
 		}).start();
+	}
+
+	private void addMemberToGroup(String username, final String hxId) {
+		OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
+		utils.setRequestUrl(I.REQUEST_ADD_GROUP_MEMBER)
+				.addParam(I.Member.USER_NAME,username)
+				.addParam(I.Member.GROUP_HX_ID,hxId)
+				.targetClass(Result.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+					@Override
+					public void onSuccess(Result result) {
+						if (result.isRetMsg()){
+							new DownloadMemberMapTask(context,hxId).execute();
+							Log.e(TAG, "addMemberToGroup:result=" + result.toString());
+						}
+					}
+
+					@Override
+					public void onError(String error) {
+						Log.e(TAG, "addMemberToGroup:error=" + error);
+					}
+				});
 	}
 
 	private static class ViewHolder {
