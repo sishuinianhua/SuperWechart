@@ -132,6 +132,23 @@ public class GroupAvatar implements Serializable{
 	public void setMGroupAllowInvites(Boolean mgroupAllowInvites) {
 		this.mgroupAllowInvites = mgroupAllowInvites;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof GroupAvatar)) return false;
+
+		GroupAvatar that = (GroupAvatar) o;
+
+		return mgroupHxid.equals(that.mgroupHxid);
+
+	}
+
+	@Override
+	public int hashCode() {
+		return mgroupHxid.hashCode();
+	}
+
 	@Override
 	public String toString() {
 		return "GroupAvatar [mavatarId=" + mavatarId + ", mavatarUserName=" + mavatarUserName + ", mavatarPath="
