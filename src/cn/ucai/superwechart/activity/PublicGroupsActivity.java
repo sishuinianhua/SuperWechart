@@ -40,6 +40,7 @@ import com.easemob.chat.EMCursorResult;
 import com.easemob.chat.EMGroupInfo;
 import com.easemob.chat.EMGroupManager;
 import cn.ucai.superwechart.R;
+import cn.ucai.superwechart.SuperWeChatApplication;
 import cn.ucai.superwechart.utils.UserUtils;
 
 import com.easemob.exceptions.EaseMobException;
@@ -133,7 +134,11 @@ public class PublicGroupsActivity extends BaseActivity {
 
                         public void run() {
                             searchBtn.setVisibility(View.VISIBLE);
-                            groupsList.addAll(returnGroups);
+                            for (EMGroupInfo emgi:returnGroups){
+                                if (!SuperWeChatApplication.getInstance().getGaMap().containsKey(emgi.getGroupId())){
+                                    groupsList.add(emgi);
+                                }
+                            }
                             if(returnGroups.size() != 0){
                                 //获取cursor
                                 cursor = result.getCursor();
@@ -165,7 +170,7 @@ public class PublicGroupsActivity extends BaseActivity {
                             isLoading = false;
                             pb.setVisibility(View.INVISIBLE);
                             footLoadingLayout.setVisibility(View.GONE);
-                            Toast.makeText(PublicGroupsActivity.this, "加载数据失败，请检查网络或稍后重试", 0).show();
+                            Toast.makeText(PublicGroupsActivity.this, "加载数据失败，请检查网络或稍后重试", Toast.LENGTH_LONG).show();
                         }
                     });
                 }

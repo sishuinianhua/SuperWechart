@@ -33,11 +33,13 @@ import com.easemob.chat.EMGroupManager;
 import cn.ucai.superwechart.I;
 import cn.ucai.superwechart.R;
 import cn.ucai.superwechart.SuperWeChatApplication;
+import cn.ucai.superwechart.bean.GroupAvatar;
 import cn.ucai.superwechart.bean.Result;
 import cn.ucai.superwechart.listener.OnSetAvatarListener;
 import cn.ucai.superwechart.utils.OkHttpUtils2;
 
 import com.easemob.exceptions.EaseMobException;
+import com.google.gson.Gson;
 
 import java.io.File;
 
@@ -170,10 +172,11 @@ public class NewGroupActivity extends BaseActivity {
 					@Override
 					public void onSuccess(Result result) {
 						if (result.isRetMsg()){
-							addGroupMembers(hxId,members);
-							progressDialog.dismiss();
-							setResult(RESULT_OK);
-							finish();
+							String retData=result.getRetData().toString();
+							Gson gson = new Gson();
+							GroupAvatar ga=gson.fromJson(retData, GroupAvatar.class);
+							addGroupMembers(hxId,members,ga);
+							createGroupSuccess(ga);
 						}else {
 							progressDialog.dismiss();
 							Toast.makeText(NewGroupActivity.this, getResources().getString(R.string.Failed_to_create_groups) , Toast.LENGTH_LONG).show();
@@ -188,7 +191,15 @@ public class NewGroupActivity extends BaseActivity {
 				});
 	}
 
-	private void addGroupMembers(String hxId, String[] members) {
+	private void createGroupSuccess(GroupAvatar ga) {
+		SuperWeChatApplication.getInstance().getGaMap().put(ga.getMGroupHxid(), ga);
+		SuperWeChatApplication.getInstance().getGaList().add(ga);
+		progressDialog.dismiss();
+		setResult(RESULT_OK);
+		finish();
+	}
+
+	private void addGroupMembers(String hxId, String[] members, final GroupAvatar ga) {
 		String membersArr1 = "";
 		for (String m:members){
 			membersArr1 += m+",";
@@ -203,9 +214,7 @@ public class NewGroupActivity extends BaseActivity {
 					@Override
 					public void onSuccess(Result result) {
 						if (result.isRetMsg()){
-							progressDialog.dismiss();
-							setResult(RESULT_OK);
-							finish();
+							createGroupSuccess(ga);
 						}else {
 							progressDialog.dismiss();
 							Toast.makeText(NewGroupActivity.this,  getResources().getString(R.string.Failed_to_create_groups) , Toast.LENGTH_LONG).show();

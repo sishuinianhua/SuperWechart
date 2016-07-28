@@ -142,6 +142,7 @@ public class GroupSimpleDetailActivity extends BaseActivity {
 				}
 			}
 		}).start();
+
 	}
 	
      private void showGroupDetail() {
