@@ -210,6 +210,7 @@ public class LoginActivity extends BaseActivity {
 							}
 
 						}else {
+							Log.e(TAG, "用户名或者密码不正确");
 							pd.dismiss();
 							Toast.makeText(getApplicationContext(), R.string.Login_failed+ Utils.getResourceString(LoginActivity.this,result.getRetCode()), Toast.LENGTH_LONG).show();
 						}
