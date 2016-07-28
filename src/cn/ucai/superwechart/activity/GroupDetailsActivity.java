@@ -21,6 +21,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.UriPermission;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -279,6 +280,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 							}
 						}
 					}).start();
+					changeGroupName(groupId,returnData);
 				}
 				break;
 			case REQUEST_CODE_ADD_TO_BALCKLIST:
@@ -311,6 +313,33 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 				break;
 			}
 		}
+	}
+
+	private void changeGroupName(final String hxId, final String returnData) {
+		Integer groupId = SuperWeChatApplication.getInstance().getGaMap().get(hxId).getMGroupId();
+		OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
+		utils.setRequestUrl(I.REQUEST_UPDATE_GROUP_NAME)
+				.addParam(I.Group.GROUP_ID,groupId+"")
+				.addParam(I.Group.NAME,returnData)
+				.targetClass(Result.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+					@Override
+					public void onSuccess(Result result) {
+						if (result.isRetMsg()){
+							String retData = result.getRetData().toString();
+							Gson gson = new Gson();
+							GroupAvatar ga=gson.fromJson(retData, GroupAvatar.class);
+							SuperWeChatApplication.getInstance().getGaMap().put(hxId, ga);
+							SuperWeChatApplication.getInstance().getGaList().add(ga);
+							Log.e(TAG, "changeGroupName:ga=" + ga);
+						}
+					}
+
+					@Override
+					public void onError(String error) {
+						Log.e(TAG, "changeGroupName:error=" + error);
+					}
+				});
 	}
 
 	private void refreshMembers(){
