@@ -15,9 +15,9 @@ import com.easemob.chat.EMGroupManager;
 import com.google.gson.Gson;
 
 import cn.ucai.fulicenter.DemoHXSDKHelper;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.db.UserDao;
@@ -62,7 +62,7 @@ public class SplashActivity extends BaseActivity {
 					long start = System.currentTimeMillis();
 					EMGroupManager.getInstance().loadAllGroups();
 					EMChatManager.getInstance().loadAllConversations();
-					String userName = SuperWeChatApplication.getInstance().getUserName();
+					String userName = FuliCenterApplication.getInstance().getUserName();
 					Log.e(TAG, "userName=" + userName);
 					UserAvatar ua=new UserDao(SplashActivity.this).getUserAvatar(userName);
 					Log.e(TAG, "ua=" + ua);
@@ -81,8 +81,8 @@ public class SplashActivity extends BaseActivity {
 											Log.e(TAG, "result=" + result);
 											if (ua!=null){
 												Log.e(TAG, "ua1=" + ua);
-												SuperWeChatApplication.getInstance().setUa(ua);
-												SuperWeChatApplication.currentUserNick = ua.getMUserNick();
+												FuliCenterApplication.getInstance().setUa(ua);
+												FuliCenterApplication.currentUserNick = ua.getMUserNick();
 											}
 										}
 									}
@@ -92,8 +92,8 @@ public class SplashActivity extends BaseActivity {
 																			}
 								});
 					}else {
-						SuperWeChatApplication.getInstance().setUa(ua);
-						SuperWeChatApplication.currentUserNick = ua.getMUserNick();
+						FuliCenterApplication.getInstance().setUa(ua);
+						FuliCenterApplication.currentUserNick = ua.getMUserNick();
 					}
 
 					new DownloadContactListTask(SplashActivity.this,userName).execute();

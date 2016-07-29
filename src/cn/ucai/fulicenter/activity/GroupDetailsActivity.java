@@ -45,9 +45,9 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
 import cn.ucai.fulicenter.bean.GroupAvatar;
 import cn.ucai.fulicenter.bean.MemberUserAvatar;
 import cn.ucai.fulicenter.bean.Result;
@@ -313,7 +313,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	}
 
 	private void changeGroupName(final String hxId, final String returnData) {
-		Integer groupId = SuperWeChatApplication.getInstance().getGaMap().get(hxId).getMGroupId();
+		Integer groupId = FuliCenterApplication.getInstance().getGaMap().get(hxId).getMGroupId();
 		OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
 		utils.setRequestUrl(I.REQUEST_UPDATE_GROUP_NAME)
 				.addParam(I.Group.GROUP_ID,groupId+"")
@@ -326,8 +326,8 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 							String retData = result.getRetData().toString();
 							Gson gson = new Gson();
 							GroupAvatar ga=gson.fromJson(retData, GroupAvatar.class);
-							SuperWeChatApplication.getInstance().getGaMap().put(hxId, ga);
-							SuperWeChatApplication.getInstance().getGaList().add(ga);
+							FuliCenterApplication.getInstance().getGaMap().put(hxId, ga);
+							FuliCenterApplication.getInstance().getGaList().add(ga);
 							Log.e(TAG, "changeGroupName:ga=" + ga);
 						}
 					}
@@ -411,7 +411,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 				}
 			}
 		}).start();
-		removeGroupMember(groupId,SuperWeChatApplication.getInstance().getUserName(),true);
+		removeGroupMember(groupId, FuliCenterApplication.getInstance().getUserName(),true);
 	}
 
 	/**
@@ -448,7 +448,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	}
 
 	private void deleteGroupFromApp() {
-		Integer hxId=SuperWeChatApplication.getInstance().getGaMap().get(groupId).getMGroupId();
+		Integer hxId= FuliCenterApplication.getInstance().getGaMap().get(groupId).getMGroupId();
 		OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
 		utils.setRequestUrl(I.REQUEST_DELETE_GROUP)
 				.addParam(I.Group.GROUP_ID,hxId+"")
@@ -840,7 +840,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	}
 
 	private void removeGroupMember(final String hxId, final String username, final boolean isExit) {
-		GroupAvatar ga = SuperWeChatApplication.getInstance().getGaMap().get(hxId);
+		GroupAvatar ga = FuliCenterApplication.getInstance().getGaMap().get(hxId);
 		if (ga!=null){
 			OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
 			utils.setRequestUrl(I.REQUEST_DELETE_GROUP_MEMBER)
@@ -856,11 +856,11 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 								MemberUserAvatar mua = gson.fromJson(retData, MemberUserAvatar.class);
 								Log.e(TAG, "mua=" + mua);
 								if (isExit){
-									GroupAvatar ga=SuperWeChatApplication.getInstance().getGaMap().get(hxId);
-									SuperWeChatApplication.getInstance().getGaList().remove(ga);
-									SuperWeChatApplication.getInstance().getGaMap().remove(hxId);
+									GroupAvatar ga= FuliCenterApplication.getInstance().getGaMap().get(hxId);
+									FuliCenterApplication.getInstance().getGaList().remove(ga);
+									FuliCenterApplication.getInstance().getGaMap().remove(hxId);
 								}else {
-									SuperWeChatApplication.getInstance().getMuaMap().remove(username);
+									FuliCenterApplication.getInstance().getMuaMap().remove(username);
 								}
 
 							}else {

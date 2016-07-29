@@ -11,8 +11,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.SuperWeChatApplication;
 import cn.ucai.fulicenter.bean.MemberUserAvatar;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
@@ -45,7 +45,7 @@ public class DownloadMemberMapTask {
                         ArrayList<MemberUserAvatar> muaList=utils.array2List(muaArr);
                         if (muaList!=null&&muaList.size()>0){
                             Log.e(TAG, "muaList=" + muaList.toString());
-                           Map<String,HashMap<String,MemberUserAvatar>>hxmuaMap= SuperWeChatApplication.getInstance().getMuaMap();
+                           Map<String,HashMap<String,MemberUserAvatar>>hxmuaMap= FuliCenterApplication.getInstance().getMuaMap();
                             if (!hxmuaMap.containsKey(hxId)){
                                 hxmuaMap.put(hxId, new HashMap<String, MemberUserAvatar>());
                             }

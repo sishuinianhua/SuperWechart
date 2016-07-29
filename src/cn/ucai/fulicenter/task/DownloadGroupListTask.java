@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.bean.GroupAvatar;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
@@ -40,12 +40,12 @@ public class DownloadGroupListTask {
                         ArrayList<GroupAvatar> gaList=utils.array2List(gaArr);
                         if (gaList!=null&&gaList.size()>0){
                             Log.e(TAG, "gaList=" + gaList.toString());
-                            SuperWeChatApplication.getInstance().setGaList(gaList);
+                            FuliCenterApplication.getInstance().setGaList(gaList);
                             for (GroupAvatar ga:gaList){
-                                SuperWeChatApplication.getInstance().getGaMap().put(ga.getMGroupHxid(), ga);
+                                FuliCenterApplication.getInstance().getGaMap().put(ga.getMGroupHxid(), ga);
                             }
                             context.sendStickyBroadcast(new Intent("update_group_list"));
-                           /* Map<String,UserAvatar> uaMap=SuperWeChatApplication.getInstance().getContactMap();
+                           /* Map<String,UserAvatar> uaMap=FuliCenterApplication.getInstance().getContactMap();
                             for (GroupAvatar ga:gaList){
                                 uaMap.put(ga.getMUserName(), ga);
                             }*/

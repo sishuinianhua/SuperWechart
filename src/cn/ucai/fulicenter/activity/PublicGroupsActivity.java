@@ -39,8 +39,9 @@ import android.widget.Toast;
 import com.easemob.chat.EMCursorResult;
 import com.easemob.chat.EMGroupInfo;
 import com.easemob.chat.EMGroupManager;
+
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
 import cn.ucai.fulicenter.utils.UserUtils;
 
 import com.easemob.exceptions.EaseMobException;
@@ -135,7 +136,7 @@ public class PublicGroupsActivity extends BaseActivity {
                         public void run() {
                             searchBtn.setVisibility(View.VISIBLE);
                             for (EMGroupInfo emgi:returnGroups){
-                                if (!SuperWeChatApplication.getInstance().getGaMap().containsKey(emgi.getGroupId())){
+                                if (!FuliCenterApplication.getInstance().getGaMap().containsKey(emgi.getGroupId())){
                                     groupsList.add(emgi);
                                 }
                             }

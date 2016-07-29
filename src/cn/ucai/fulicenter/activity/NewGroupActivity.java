@@ -32,7 +32,7 @@ import com.easemob.chat.EMGroupManager;
 
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.bean.GroupAvatar;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.listener.OnSetAvatarListener;
@@ -154,7 +154,7 @@ public class NewGroupActivity extends BaseActivity {
 	private void createAppGroup(final String hxId, String groupName, String desc, final String[] members) {
 		boolean isPublic = checkBox.isChecked();
 		boolean invites = !isPublic;
-		String owner = SuperWeChatApplication.getInstance().getUserName();
+		String owner = FuliCenterApplication.getInstance().getUserName();
 		OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
 		String dir=OnSetAvatarListener.getAvatarPath(NewGroupActivity.this,I.AVATAR_TYPE_GROUP_PATH);
 		String name=avatarName+I.AVATAR_SUFFIX_JPG;
@@ -192,8 +192,8 @@ public class NewGroupActivity extends BaseActivity {
 	}
 
 	private void createGroupSuccess(GroupAvatar ga) {
-		SuperWeChatApplication.getInstance().getGaMap().put(ga.getMGroupHxid(), ga);
-		SuperWeChatApplication.getInstance().getGaList().add(ga);
+		FuliCenterApplication.getInstance().getGaMap().put(ga.getMGroupHxid(), ga);
+		FuliCenterApplication.getInstance().getGaList().add(ga);
 		progressDialog.dismiss();
 		setResult(RESULT_OK);
 		finish();
