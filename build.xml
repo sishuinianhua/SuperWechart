@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="ChatDemoUI" default="help">
 
-    <!-- The local.properties file is created and updated by the 'android' tool.
+    <!-- The local.Properties file is created and updated by the 'android' tool.
          It contains the path to the SDK. It should *NOT* be checked into
          Version Control Systems. -->
     <property file="local.properties" />
     <property name="out.final.file" value="chatdemo-ui.apk"/>
 
-    <!-- The ant.properties file can be created by you. It is only edited by the
-         'android' tool to add properties to it.
-         This is the place to change some Ant specific build properties.
-         Here are some properties you may want to change/update:
+    <!-- The ant.Properties file can be created by you. It is only edited by the
+         'android' tool to add Properties to it.
+         This is the place to change some Ant specific build Properties.
+         Here are some Properties you may want to change/update:
 
          source.dir
              The name of the source directory. Default is 'src'.
          out.dir
              The name of the output directory. Default is 'bin'.
 
-         For other overridable properties, look at the beginning of the rules
+         For other overridable Properties, look at the beginning of the rules
          files in the SDK, at tools/ant/build.xml
 
          Properties related to the SDK location or the project target should
@@ -31,18 +31,18 @@
 
     <!-- if sdk.dir was not set from one of the property file, then
          get it from the ANDROID_HOME env var.
-         This must be done before we load project.properties since
+         This must be done before we load project.Properties since
          the proguard config can use sdk.dir -->
     <property environment="env" />
     <condition property="sdk.dir" value="${env.ANDROID_HOME}">
         <isset property="env.ANDROID_HOME" />
     </condition>
 
-    <!-- The project.properties file is created and updated by the 'android'
+    <!-- The project.Properties file is created and updated by the 'android'
          tool, as well as ADT.
 
-         This contains project specific properties such as project target, and library
-         dependencies. Lower level build properties are stored in ant.properties
+         This contains project specific Properties such as project target, and library
+         dependencies. Lower level build Properties are stored in ant.Properties
          (or in .classpath for Eclipse projects).
 
          This file is an integral part of the build system for your

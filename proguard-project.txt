@@ -15,7 +15,7 @@
 # include optimization flags in your own project configuration file;
 # instead you will need to point to the
 # "proguard-android-optimize.txt" file instead of this one from your
-# project.properties file.
+# project.Properties file.
 
 -keepattributes *Annotation*
 -keep public class com.google.vending.licensing.ILicensingService
