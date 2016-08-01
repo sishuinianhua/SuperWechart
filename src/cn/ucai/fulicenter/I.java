@@ -257,7 +257,7 @@ public interface I {
         ACTION_DOWNLOAD, ACTION_PULL_DOWN, ACTION_SCROLL
     } 
 	//String SERVER_ROOT								= 		"http://10.0.2.2:8080/SuperWeChatServer/Server";
-	String SERVER_ROOT								= 		"http://192.168.1.47:8080/FuLiCenterServer/Server";
+	String SERVER_ROOT								= 		"http://192.168.7.7:8080/FuLiCenterServer/Server";
 	String QUESTION								=       "?";
 	String EQU 										= 		"=";
 	String MSG_PREFIX_MSG 							= 		"msg_";

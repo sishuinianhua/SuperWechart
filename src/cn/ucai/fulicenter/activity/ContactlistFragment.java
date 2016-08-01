@@ -226,16 +226,7 @@ public class ContactlistFragment extends Fragment {
 					User user = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList().get(Constant.NEW_FRIENDS_USERNAME);
 					user.setUnreadMsgCount(0);
 					startActivity(new Intent(getActivity(), NewFriendsMsgActivity.class));
-				} else if (Constant.GROUP_USERNAME.equals(username)) {
-					// 进入群聊列表页面
-					/*startActivity(new Intent(getActivity(), GroupsActivity.class));*/
-				} else if(Constant.CHAT_ROOM.equals(username)){
-					//进入聊天室列表页面
-				    startActivity(new Intent(getActivity(), PublicChatRoomsActivity.class));
-				}else if(Constant.CHAT_ROBOT.equals(username)){
-					//进入Robot列表页面
-					startActivity(new Intent(getActivity(), RobotsActivity.class));
-				}else {
+				} else {
 					// demo中直接进入聊天页面，实际一般是进入用户详情页
 					startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", adapter.getItem(position).getUsername()));
 				}
@@ -485,9 +476,6 @@ public class ContactlistFragment extends Fragment {
 		while (iterator.hasNext()) {
 			Entry<String, User> entry = iterator.next();
 			if (!entry.getKey().equals(Constant.NEW_FRIENDS_USERNAME)
-			        && !entry.getKey().equals(Constant.GROUP_USERNAME)
-			        && !entry.getKey().equals(Constant.CHAT_ROOM)
-					&& !entry.getKey().equals(Constant.CHAT_ROBOT)
 					&& !blackList.contains(entry.getKey()))
 				contactList.add(entry.getValue());
 		}
@@ -506,8 +494,8 @@ public class ContactlistFragment extends Fragment {
 		// 加入"群聊"和"聊天室"
         if(users.get(Constant.CHAT_ROOM) != null)
             contactList.add(0, users.get(Constant.CHAT_ROOM));*/
-        if(users.get(Constant.GROUP_USERNAME) != null)
-            contactList.add(0, users.get(Constant.GROUP_USERNAME));
+       /* if(users.get(Constant.GROUP_USERNAME) != null)
+            contactList.add(0, users.get(Constant.GROUP_USERNAME));*/
         
 		// 把"申请与通知"添加到首位
 		if(users.get(Constant.NEW_FRIENDS_USERNAME) != null)

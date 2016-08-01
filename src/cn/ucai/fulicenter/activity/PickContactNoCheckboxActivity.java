@@ -84,7 +84,7 @@ public class PickContactNoCheckboxActivity extends BaseActivity {
 		Iterator<Entry<String, User>> iterator = users.entrySet().iterator();
 		while (iterator.hasNext()) {
 			Entry<String, User> entry = iterator.next();
-			if (!entry.getKey().equals(Constant.NEW_FRIENDS_USERNAME) && !entry.getKey().equals(Constant.GROUP_USERNAME) && !entry.getKey().equals(Constant.CHAT_ROOM) && !entry.getKey().equals(Constant.CHAT_ROBOT))
+			if (!entry.getKey().equals(Constant.NEW_FRIENDS_USERNAME))
 				contactList.add(entry.getValue());
 		}
 		// 排序

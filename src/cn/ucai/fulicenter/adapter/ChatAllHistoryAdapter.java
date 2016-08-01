@@ -100,19 +100,18 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 		if (conversation.getType() == EMConversationType.GroupChat) {
 			// 群聊消息，显示群聊头像
 			//holder.avatar.setImageResource(R.drawable.group_icon);
-			UserUtils.setGroupAvatar(getContext(),username,holder.avatar);
+			/*UserUtils.setGroupAvatar(getContext(),username,holder.avatar);
 			EMGroup group = EMGroupManager.getInstance().getGroup(username);
-			holder.name.setText(group != null ? group.getGroupName() : username);
+			holder.name.setText(group != null ? group.getGroupName() : username);*/
 		} else if(conversation.getType() == EMConversationType.ChatRoom){
 		    holder.avatar.setImageResource(R.drawable.group_icon);
             EMChatRoom room = EMChatManager.getInstance().getChatRoom(username);
             holder.name.setText(room != null && !TextUtils.isEmpty(room.getName()) ? room.getName() : username);
 		}else {
 		    UserUtils.setContactAvatar(getContext(), username, holder.avatar);
-			if (username.equals(Constant.GROUP_USERNAME)) {
-				holder.name.setText("群聊");
 
-			} else if (username.equals(Constant.NEW_FRIENDS_USERNAME)) {
+
+			 if (username.equals(Constant.NEW_FRIENDS_USERNAME)) {
 				holder.name.setText("申请与通知");
 			}
 			Map<String,RobotUser> robotMap=((DemoHXSDKHelper)HXSDKHelper.getInstance()).getRobotList();
@@ -188,10 +187,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 			digest = getStrng(context, R.string.video);
 			break;
 		case TXT: // 文本消息
-			
-			if(((DemoHXSDKHelper)HXSDKHelper.getInstance()).isRobotMenuMessage(message)){
-				digest = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getRobotMenuMessageDigest(message);
-			}else if(message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VOICE_CALL,false)){
+			 if(message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VOICE_CALL,false)){
 				TextMessageBody txtBody = (TextMessageBody) message.getBody();
 				digest = getStrng(context, R.string.voice_call) + txtBody.getMessage();
 			}else{

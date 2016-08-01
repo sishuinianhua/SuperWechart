@@ -339,11 +339,9 @@ public class DemoHXSDKHelper extends HXSDKHelper {
                     } else { // 群聊信息
                         // message.getTo()为群聊id
                         intent.putExtra("groupId", message.getTo());
-                        if(chatType == ChatType.GroupChat){
-                            intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
-                        }else{
+
                             intent.putExtra("chatType", ChatActivity.CHATTYPE_CHATROOM);
-                        }
+
                         
                     }
                 }
@@ -439,30 +437,9 @@ public class DemoHXSDKHelper extends HXSDKHelper {
 	}
 	
 	
-	public boolean isRobotMenuMessage(EMMessage message) {
 
-		try {
-			JSONObject jsonObj = message.getJSONObjectAttribute(Constant.MESSAGE_ATTR_ROBOT_MSGTYPE);
-			if (jsonObj.has("choice")) {
-				return true;
-			}
-		} catch (Exception e) {
-		}
-		return false;
-	}
 	
-	public String getRobotMenuMessageDigest(EMMessage message) {
-		String title = "";
-		try {
-			JSONObject jsonObj = message.getJSONObjectAttribute(Constant.MESSAGE_ATTR_ROBOT_MSGTYPE);
-			if (jsonObj.has("choice")) {
-				JSONObject jsonChoice = jsonObj.getJSONObject("choice");
-				title = jsonChoice.getString("title");
-			}
-		} catch (Exception e) {
-		}
-		return title;
-	}
+
 	
 	
 	
@@ -535,7 +512,7 @@ public class DemoHXSDKHelper extends HXSDKHelper {
     /**
      * update User cach And db
      *
-     * @param contactList
+     * @param
      */
     public void updateContactList(List<User> contactInfoList) {
          for (User u : contactInfoList) {

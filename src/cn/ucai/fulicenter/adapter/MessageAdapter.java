@@ -251,8 +251,6 @@ public class MessageAdapter extends BaseAdapter{
 			    return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VOICE_CALL : MESSAGE_TYPE_SENT_VOICE_CALL;
 			else if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VIDEO_CALL, false))
 			    return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VIDEO_CALL : MESSAGE_TYPE_SENT_VIDEO_CALL;
-			else if(((DemoHXSDKHelper) HXSDKHelper.getInstance()).isRobotMenuMessage(message))
-				return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_ROBOT_MENU : MESSAGE_TYPE_SENT_ROBOT_MENU;
 			else
 				return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT : MESSAGE_TYPE_SENT_TXT;
 		}
@@ -305,9 +303,7 @@ public class MessageAdapter extends BaseAdapter{
 				return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_video_call,
 						null) : inflater.inflate(R.layout.row_sent_video_call, null);
 			// 含有菜单的消息	
-			else if (((DemoHXSDKHelper)HXSDKHelper.getInstance()).isRobotMenuMessage(message))
-				return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_menu, null)
-						: inflater.inflate(R.layout.row_sent_message, null);
+
 			else
 				return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_message,
 						null) : inflater.inflate(R.layout.row_sent_message, null);
@@ -475,9 +471,6 @@ public class MessageAdapter extends BaseAdapter{
 			        || message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VIDEO_CALL, false))
 			    // 音视频通话
 			    handleCallMessage(message, holder, position);
-			else if(((DemoHXSDKHelper)HXSDKHelper.getInstance()).isRobotMenuMessage(message))
-				//含有列表的消息
-				handleRobotMenuMessage(message, holder, position);
 			else
 			    handleTextMessage(message, holder, position);
 			break;
@@ -665,38 +658,6 @@ public class MessageAdapter extends BaseAdapter{
 		}
 		
 		
-	}
-	private void handleRobotMenuMessage(EMMessage message, ViewHolder holder, final int postion){
-		try {
-			JSONObject jsonObj = message.getJSONObjectAttribute(Constant.MESSAGE_ATTR_ROBOT_MSGTYPE);
-			if(jsonObj.has("choice")){
-				JSONObject jsonChoice = jsonObj.getJSONObject("choice");
-				String title = jsonChoice.getString("title");
-				holder.tvTitle.setText(title);
-				setRobotMenuMessageLayout(holder.tvList, jsonChoice.getJSONArray("list"));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (message.direct == EMMessage.Direct.SEND) {
-			switch (message.status) {
-			case SUCCESS: // 发送成功
-				holder.pb.setVisibility(View.GONE);
-				holder.staus_iv.setVisibility(View.GONE);
-				break;
-			case FAIL: // 发送失败
-				holder.pb.setVisibility(View.GONE);
-				holder.staus_iv.setVisibility(View.VISIBLE);
-				break;
-			case INPROGRESS: // 发送中
-				holder.pb.setVisibility(View.VISIBLE);
-				holder.staus_iv.setVisibility(View.GONE);
-				break;
-			default:
-				// 发送消息
-				sendMsgInBackground(message, holder);
-			}
-		}
 	}
 
 	/**

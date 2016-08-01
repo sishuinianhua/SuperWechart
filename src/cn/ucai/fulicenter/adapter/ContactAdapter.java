@@ -108,18 +108,6 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 			}else{
 			    holder.unreadMsgView.setVisibility(View.INVISIBLE);
 			}
-		}else if(username.equals(Constant.GROUP_USERNAME)){
-			//群聊item
-		    holder.nameTextview.setText(user.getNick());
-		    holder.avatar.setImageResource(R.drawable.groups_icon);
-		}else if(username.equals(Constant.CHAT_ROOM)){
-            //群聊item
-            holder.nameTextview.setText(user.getNick());
-            holder.avatar.setImageResource(R.drawable.groups_icon);
-		}else if(username.equals(Constant.CHAT_ROBOT)){
-			//Robot item
-			holder.nameTextview.setText(user.getNick());
-			holder.avatar.setImageResource(R.drawable.groups_icon);
 		}else{
 		    holder.nameTextview.setText(user.getNick());
 		    //设置用户头像
@@ -210,10 +198,10 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 					String username = user.getUsername();
 					
 					if(username.contains(prefixString)){
-						if (!username.equals(Constant.GROUP_USERNAME)&&
+						/*if (!username.equals(Constant.GROUP_USERNAME)&&
 								!username.equals(Constant.NEW_FRIENDS_USERNAME)){
 							newValues.add(user);
-						}
+						}*/
 					}
 					else{
 						 final String[] words = username.split(" ");

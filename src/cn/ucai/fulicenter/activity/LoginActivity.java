@@ -50,6 +50,7 @@ import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.UserAvatar;
+import cn.ucai.fulicenter.bean.UserBean;
 import cn.ucai.fulicenter.db.UserDao;
 import cn.ucai.fulicenter.domain.User;
 import cn.ucai.fulicenter.task.DownloadContactListTask;
@@ -188,17 +189,17 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void loginAppServer() {
-		OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
+		OkHttpUtils2<UserBean> utils = new OkHttpUtils2<>();
 		utils.setRequestUrl(I.REQUEST_LOGIN)
 				.addParam(I.User.USER_NAME,currentUsername)
 				.addParam(I.User.PASSWORD,currentPassword)
-				.targetClass(Result.class)
-				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+				.targetClass(UserBean.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<UserBean>() {
 					@Override
-					public void onSuccess(Result result) {
+					public void onSuccess(UserBean result) {
 						Log.e(TAG, "result="+result);
-						if (result!=null&&result.isRetMsg()){
-							String uaJson=result.getRetData().toString();
+						if (result!=null&&"ok".equals(result.getResult())){
+						/*	String uaJson = result.getNick();
 							Gson gson = new Gson();
 							UserAvatar ua=gson.fromJson(uaJson, UserAvatar.class);
 							Log.e(TAG, "ua="+ua);
@@ -206,12 +207,12 @@ public class LoginActivity extends BaseActivity {
 								downloadUserAvatar();
 								saveUserToDB(ua);
 								loginSuccess(ua);
-							}
-
+							}*/
+							Log.e(TAG, "result01="+result);
 						}else {
 							Log.e(TAG, "用户名或者密码不正确");
 							pd.dismiss();
-							Toast.makeText(getApplicationContext(), R.string.Login_failed+ Utils.getResourceString(LoginActivity.this,result.getRetCode()), Toast.LENGTH_LONG).show();
+							Toast.makeText(getApplicationContext(), R.string.Login_failed, Toast.LENGTH_LONG).show();
 						}
 					}
 
@@ -316,14 +317,7 @@ public class LoginActivity extends BaseActivity {
 		newFriends.setNick(strChat);
 
 		userlist.put(Constant.NEW_FRIENDS_USERNAME, newFriends);
-		// 添加"群聊"
-		User groupUser = new User();
-		String strGroup = getResources().getString(R.string.group_chat);
-		groupUser.setUsername(Constant.GROUP_USERNAME);
-		groupUser.setNick(strGroup);
-		groupUser.setHeader("");
-		userlist.put(Constant.GROUP_USERNAME, groupUser);
-		
+
 		/*// 添加"Robot"
 		User robotUser = new User();
 		String strRobot = getResources().getString(R.string.robot_chat);
