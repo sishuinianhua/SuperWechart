@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<ImageView
+    android:id="@+id/ivContactAvatar"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:src="@drawable/default_face"/>
+    <TextView
+        android:id="@+id/tvContactUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="账号：sdadsd"
+        android:layout_toRightOf="@+id/ivContactAvatar"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        />
+    <TextView
+        android:id="@+id/tvContactNik"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="昵称：wangwu"
+        android:layout_toRightOf="@+id/ivContactAvatar"
+        android:layout_below="@+id/tvContactUserName"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        />
+
+
+</RelativeLayout>
