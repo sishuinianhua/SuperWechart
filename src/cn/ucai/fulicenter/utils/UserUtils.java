@@ -197,22 +197,5 @@ public class UserUtils {
         setContactAvatar(context,username,imageView);
     }
 
-    public static void setAppMemberNick(String hxId, String userName, TextView tv_usernick) {
-        MemberUserAvatar mua=getAppMemberInfo(hxId,userName);
-        if (mua!=null&&userName!=null){
-            tv_usernick.setText(mua.getMUserNick());
-        }else {
-            tv_usernick.setText(userName);
-        }
-    }
 
-    private static MemberUserAvatar getAppMemberInfo(String hxId, String userName) {
-        MemberUserAvatar mua = null;
-        Map<String,MemberUserAvatar> muaMap= FuliCenterApplication.getInstance().getMuaMap().get(hxId);
-        if (muaMap==null||muaMap.size()<=0){
-            return null;
-        }
-         mua=muaMap.get(userName);
-        return mua;
-    }
 }

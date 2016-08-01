@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.ucai.fulicenter.bean.GroupAvatar;
-import cn.ucai.fulicenter.bean.MemberUserAvatar;
 import cn.ucai.fulicenter.bean.UserAvatar;
 
 public class FuliCenterApplication extends Application {
@@ -146,35 +144,5 @@ public class FuliCenterApplication extends Application {
 
 	public void setContactMap(Map<String, UserAvatar> contactMap) {
 		this.contactMap = contactMap;
-	}
-
-	ArrayList<GroupAvatar> gaList = new ArrayList<>();
-
-	public ArrayList<GroupAvatar> getGaList() {
-		return gaList;
-	}
-
-	public void setGaList(ArrayList<GroupAvatar> gaList) {
-		this.gaList = gaList;
-	}
-
-	private Map<String, HashMap<String, MemberUserAvatar>> muaMap = new HashMap<>();
-
-	public Map<String, HashMap<String, MemberUserAvatar>> getMuaMap() {
-		return muaMap;
-	}
-
-	public void setMuaMap(Map<String, HashMap<String, MemberUserAvatar>> muaMap) {
-		this.muaMap = muaMap;
-	}
-
-	private Map<String, GroupAvatar>gaMap=new HashMap<>();
-
-	public Map<String, GroupAvatar> getGaMap() {
-		return gaMap;
-	}
-
-	public void setGaMap(Map<String, GroupAvatar> gaMap) {
-		this.gaMap = gaMap;
 	}
 }

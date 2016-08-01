@@ -33,7 +33,6 @@ import com.easemob.chat.EMGroupManager;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.FuliCenterApplication;
-import cn.ucai.fulicenter.bean.GroupAvatar;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.listener.OnSetAvatarListener;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
@@ -137,7 +136,6 @@ public class NewGroupActivity extends BaseActivity {
 							group = EMGroupManager.getInstance().createPrivateGroup(groupName, desc, members, memberCheckbox.isChecked(), 200);
 						}
 						Log.e(TAG, "group=" + group.getGroupId());
-						createAppGroup(group.getGroupId(),groupName,desc,members);
 					} catch (final EaseMobException e) {
 						runOnUiThread(new Runnable() {
 							public void run() {
@@ -151,83 +149,8 @@ public class NewGroupActivity extends BaseActivity {
 			}).start();
 		}
 
-	private void createAppGroup(final String hxId, String groupName, String desc, final String[] members) {
-		boolean isPublic = checkBox.isChecked();
-		boolean invites = !isPublic;
-		String owner = FuliCenterApplication.getInstance().getUserName();
-		OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
-		String dir=OnSetAvatarListener.getAvatarPath(NewGroupActivity.this,I.AVATAR_TYPE_GROUP_PATH);
-		String name=avatarName+I.AVATAR_SUFFIX_JPG;
-		File file=new File(dir,name);
-		utils.setRequestUrl(I.REQUEST_CREATE_GROUP)
-				.addParam(I.Group.HX_ID,hxId)
-				.addParam(I.Group.NAME,groupName)
-				.addParam(I.Group.OWNER,owner)
-				.addParam(I.Group.DESCRIPTION,desc)
-				.addParam(I.Group.IS_PUBLIC,String.valueOf(isPublic))
-				.addParam(I.Group.ALLOW_INVITES,String.valueOf(invites))
-				.addFile(file)
-				.targetClass(Result.class)
-				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
-					@Override
-					public void onSuccess(Result result) {
-						if (result.isRetMsg()){
-							String retData=result.getRetData().toString();
-							Gson gson = new Gson();
-							GroupAvatar ga=gson.fromJson(retData, GroupAvatar.class);
-							addGroupMembers(hxId,members,ga);
-							createGroupSuccess(ga);
-						}else {
-							progressDialog.dismiss();
-							Toast.makeText(NewGroupActivity.this, getResources().getString(R.string.Failed_to_create_groups) , Toast.LENGTH_LONG).show();
-						}
-					}
 
-					@Override
-					public void onError(String error) {
-						progressDialog.dismiss();
-						Toast.makeText(NewGroupActivity.this,  getResources().getString(R.string.Failed_to_create_groups) + error, Toast.LENGTH_LONG).show();
-					}
-				});
-	}
 
-	private void createGroupSuccess(GroupAvatar ga) {
-		FuliCenterApplication.getInstance().getGaMap().put(ga.getMGroupHxid(), ga);
-		FuliCenterApplication.getInstance().getGaList().add(ga);
-		progressDialog.dismiss();
-		setResult(RESULT_OK);
-		finish();
-	}
-
-	private void addGroupMembers(String hxId, String[] members, final GroupAvatar ga) {
-		String membersArr1 = "";
-		for (String m:members){
-			membersArr1 += m+",";
-		}
-		String membersArr=membersArr1.substring(0, membersArr1.length() - 1);
-		OkHttpUtils2<Result> utils = new OkHttpUtils2<Result>();
-		utils.setRequestUrl(I.REQUEST_ADD_GROUP_MEMBERS)
-				.addParam(I.Member.GROUP_HX_ID,hxId)
-				.addParam(I.Member.USER_NAME,membersArr)
-				.targetClass(Result.class)
-				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
-					@Override
-					public void onSuccess(Result result) {
-						if (result.isRetMsg()){
-							createGroupSuccess(ga);
-						}else {
-							progressDialog.dismiss();
-							Toast.makeText(NewGroupActivity.this,  getResources().getString(R.string.Failed_to_create_groups) , Toast.LENGTH_LONG).show();
-						}
-					}
-
-					@Override
-					public void onError(String error) {
-						progressDialog.dismiss();
-						Toast.makeText(NewGroupActivity.this,  getResources().getString(R.string.Failed_to_create_groups) + error, Toast.LENGTH_LONG).show();
-					}
-				});
-	}
 
 	private void setDialog() {
 		String st1 = getResources().getString(R.string.Is_to_create_a_group_chat);
