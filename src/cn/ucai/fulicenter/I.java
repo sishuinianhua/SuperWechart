@@ -1,9 +1,15 @@
 package cn.ucai.fulicenter;
 
+/**
+ * 个人资料上传头像bug：服务端没有收到上传的头像。
+ * ChatActivity聊天页面没有显示登陆用户的头像
+ * @author chen
+ *
+ */
 public interface I {
 
-    public static final String FILE_NAME="file_name";
-
+//    String SERVER_ROOT="http://10.0.2.2:8080/FuLiCenterServer/Server";
+    //String SERVER_ROOT="http://139.196.185.33:8080/SuperQQ3Server/Server";
     public static final int REQUEST_CODE_LOGIN = 1;
     public static final int ACTIVITY_REGISTER_REQUEST_CODE = 2;
 
@@ -224,11 +230,34 @@ public interface I {
 		String IS_SEARCHED 							= 		"m_location_is_searched";		//是否可以被搜索到
 		String UPDATE_TIME 							= 		"m_location_last_update_time";	//最后更新时间
 	}
+  /**User*/
+   /* public static class User{
+        public static final String ID="id";
+        public static final String UID="uid";
+        public static final String USER_NAME="userName";
+        
+        public static final String NICK="nick";
+        public static final String AVATAR="avatar";
+        public static final String HEADER="header";
+        public static final String PASSWORD="password";
+        public static final String UN_READ_MSG_COUNT="unreadMsgCount";
+        public static final String GROUPS="groups";
+        
+    }
+    
+    public static class Contact extends User{
+        public static final String TABLE_NAME="tb_contact";
+        public static final String NAME="name";
+        public static final String MYUID="myuid";
+        public static final String CUID="cuid";
+        public static final String IS_GET_MY_LOCATION="isGetMyLocation";
+        public static final String IS_SHOW_MY_LOCATION="isShowMyLocation";
+    }*/
 	public enum ActionType {
         ACTION_DOWNLOAD, ACTION_PULL_DOWN, ACTION_SCROLL
     } 
 	//String SERVER_ROOT								= 		"http://10.0.2.2:8080/SuperWeChatServer/Server";
-	String SERVER_ROOT								= 		"http://192.168.1.47:8080/SuperWeChatServer/Server";
+	String SERVER_ROOT								= 		"http://192.168.1.47:8080/FuLiCenterServer/Server";
 	String QUESTION								=       "?";
 	String EQU 										= 		"=";
 	String MSG_PREFIX_MSG 							= 		"msg_";
