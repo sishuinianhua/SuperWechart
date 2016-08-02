@@ -12,6 +12,7 @@
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
+        android:background="@color/list_background"
         >
         <TextView
             android:id="@+id/tvAppLableNewgoods"

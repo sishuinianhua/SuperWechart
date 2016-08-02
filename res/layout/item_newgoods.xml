@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <ImageView
+        android:id="@+id/ivNewGoodsAvatar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/default_image"/>
+    <TextView
+        android:id="@+id/tvNewGoodsInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="商品简介"
+        />
+    <TextView
+        android:id="@+id/tvNewGoodsPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="$100"/>
+</LinearLayout>
