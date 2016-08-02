@@ -53,13 +53,13 @@ public class NewGoodsAdapter extends RecyclerView.Adapter{
             case TYPE_ITEM:
                 ItemNewGoodsViewHolder ngHolder = (ItemNewGoodsViewHolder) holder;
                 NewGoodBean ngBean = mList.get(position);
-                ngHolder.tvInfo.setText(ngBean.getGoodsBrief());
+                ngHolder.tvGoodsName.setText(ngBean.getGoodsName());
                 ngHolder.tvPrice.setText(ngBean.getCurrencyPrice());
 
                 ImageLoader.build()
                         .url("http://192.168.7.7:8080/FuLiCenterServer/Server?request=download_new_good&file_name="+ngBean.getGoodsThumb())
-                        .width(165)
-                        .height(156)
+                        .width(350)
+                        .height(350)
                         .defaultPicture(R.drawable.default_image)
                         .imageView(ngHolder.ivAvatar)
                         .listener(parent)
@@ -112,11 +112,11 @@ public class NewGoodsAdapter extends RecyclerView.Adapter{
 
     class ItemNewGoodsViewHolder extends RecyclerView.ViewHolder{
         ImageView ivAvatar;
-        TextView tvInfo, tvPrice;
+        TextView tvGoodsName, tvPrice;
         public ItemNewGoodsViewHolder(View itemView) {
             super(itemView);
             ivAvatar = (ImageView) itemView.findViewById(R.id.ivNewGoodsAvatar);
-            tvInfo = (TextView) itemView.findViewById(R.id.tvNewGoodsInfo);
+            tvGoodsName = (TextView) itemView.findViewById(R.id.tvGoodsName);
             tvPrice = (TextView) itemView.findViewById(R.id.tvNewGoodsPrice);
         }
     }

@@ -198,7 +198,7 @@ public class LoginActivity extends BaseActivity {
 					@Override
 					public void onSuccess(UserBean result) {
 						Log.e(TAG, "result="+result);
-						if (result!=null&&result.isResult()){
+						if (result!=null/*&&result.getResult()*/){
 						/*	String uaJson = result.getNick();
 							Gson gson = new Gson();
 							UserAvatar ua=gson.fromJson(uaJson, UserAvatar.class);

@@ -1,200 +1,157 @@
 package cn.ucai.fulicenter.bean;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import java.io.Serializable;
-import java.util.Arrays;
+import java.util.ArrayList;
 
+import org.codehaus.jackson.annotate.JsonProperty;
 /**
- * Created by wdyzyr on 2016/7/29.
+ * 分类商品的实体类
+ * @author yao
+ *
  */
 public class GoodDetailsBean implements Serializable {
 
-    /**
-     * id : 280
-     * goodsId : 7677
-     * catId : 291
-     * goodsName : 双层分格饭盒 绿色
-     * goodsEnglishName : Monbento
-     * goodsBrief : PP食品级材质，轻巧、易清洗、蠕变性小，不易变形，可置于微波炉加热，可方巾洗碗机清洗。双层色彩可以随意组合，轻巧方便。
-     * shopPrice : ￥253
-     * currencyPrice : ￥293
-     * promotePrice : ￥0
-     * rankPrice : ￥293
-     * goodsThumb : 201509/thumb_img/7677_thumb_G_1442391216339.png
-     * goodsImg : 201509/thumb_img/7677_thumb_G_1442391216339.png
-     * addTime : 1442419200000
-     * shareUrl : http:/m.fulishe.com/item/7677
-     * promote : false
-     */
-
     private int id;
+    /** 商品id*/
     private int goodsId;
+    /** 所属类别的id*/
     private int catId;
+    /** 商品的中文名称*/
     private String goodsName;
+    /** 商品的英文名称*/
     private String goodsEnglishName;
+    /** 商品简介*/
     private String goodsBrief;
+    /** 商品原始价格*/
     private String shopPrice;
+    /** 商品的RMB价格 */
     private String currencyPrice;
+    /** 商品折扣价格 */
     private String promotePrice;
+    /** 人民币折扣价格*/
     private String rankPrice;
-    private String goodsThumb;
-    private String goodsImg;
-    private long addTime;
-    private String shareUrl;
+    /**是否折扣*/
     @JsonProperty("isPromote")
     private boolean isPromote;
-    private Properties[] properties;
-
+    /** 商品缩略图地址*/
+    private String goodsThumb;
+    /** 商品图片地址*/
+    private String goodsImg;
+    /** 商品上架日期，单位：毫秒*/
+    private long addTime;
+    /** 分享的链接地址*/
+    private String shareUrl;
+    /** 属性*/
+    private PropertyBean[] properties;
+    
+    public  PropertyBean[] getProperties() {
+        return properties;
+    }
+    public void setProperties( PropertyBean[] properties) {
+        this.properties = properties;
+    }
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
     public int getGoodsId() {
         return goodsId;
     }
-
-    public void setGoodsId(int goodsId) {
-        this.goodsId = goodsId;
+    public void setGoodsId(int goodId) {
+        this.goodsId = goodId;
     }
-
     public int getCatId() {
         return catId;
     }
-
     public void setCatId(int catId) {
         this.catId = catId;
     }
-
     public String getGoodsName() {
         return goodsName;
     }
-
     public void setGoodsName(String goodsName) {
         this.goodsName = goodsName;
     }
-
     public String getGoodsEnglishName() {
         return goodsEnglishName;
     }
-
     public void setGoodsEnglishName(String goodsEnglishName) {
         this.goodsEnglishName = goodsEnglishName;
     }
-
     public String getGoodsBrief() {
         return goodsBrief;
     }
-
     public void setGoodsBrief(String goodsBrief) {
         this.goodsBrief = goodsBrief;
     }
-
     public String getShopPrice() {
         return shopPrice;
     }
-
     public void setShopPrice(String shopPrice) {
         this.shopPrice = shopPrice;
     }
-
     public String getCurrencyPrice() {
         return currencyPrice;
     }
-
     public void setCurrencyPrice(String currencyPrice) {
         this.currencyPrice = currencyPrice;
     }
-
     public String getPromotePrice() {
         return promotePrice;
     }
-
     public void setPromotePrice(String promotePrice) {
         this.promotePrice = promotePrice;
     }
-
     public String getRankPrice() {
         return rankPrice;
     }
-
     public void setRankPrice(String rankPrice) {
         this.rankPrice = rankPrice;
     }
-
-    public String getGoodsThumb() {
-        return goodsThumb;
-    }
-
-    public void setGoodsThumb(String goodsThumb) {
-        this.goodsThumb = goodsThumb;
-    }
-
-    public String getGoodsImg() {
-        return goodsImg;
-    }
-
-    public void setGoodsImg(String goodsImg) {
-        this.goodsImg = goodsImg;
-    }
-
-    public long getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(long addTime) {
-        this.addTime = addTime;
-    }
-
-    public String getShareUrl() {
-        return shareUrl;
-    }
-
-    public void setShareUrl(String shareUrl) {
-        this.shareUrl = shareUrl;
-    }
-
-    @JsonIgnore
     public boolean isPromote() {
         return isPromote;
     }
-
-    public void setPromote(boolean promote) {
-        this.isPromote = promote;
+    public String getGoodsThumb() {
+        return goodsThumb;
     }
-
-    public Properties[] getProperties() {
-        return properties;
+    public void setGoodsThumb(String goodsThumb) {
+        this.goodsThumb = goodsThumb;
     }
-
-    public void setProperties(Properties[] properties) {
-        this.properties = properties;
+    public String getGoodsImg() {
+        return goodsImg;
     }
-
+    public void setGoodsImg(String goodsImg) {
+        this.goodsImg = goodsImg;
+    }
+    
+    public long getAddTime() {
+        return addTime;
+    }
+    public void setAddTime(long addTime) {
+        this.addTime = addTime;
+    }
+    
+    public String getShareUrl() {
+        return shareUrl;
+    }
+    public void setShareUrl(String shareUrl) {
+        this.shareUrl = shareUrl;
+    }
+    public void setPromote(boolean isPromote) {
+        this.isPromote = isPromote;
+    }
     @Override
     public String toString() {
-        return "GoodDetailsBean{" +
-                "addTime=" + addTime +
-                ", id=" + id +
-                ", goodsId=" + goodsId +
-                ", catId=" + catId +
-                ", goodsName='" + goodsName + '\'' +
-                ", goodsEnglishName='" + goodsEnglishName + '\'' +
-                ", goodsBrief='" + goodsBrief + '\'' +
-                ", shopPrice='" + shopPrice + '\'' +
-                ", currencyPrice='" + currencyPrice + '\'' +
-                ", promotePrice='" + promotePrice + '\'' +
-                ", rankPrice='" + rankPrice + '\'' +
-                ", goodsThumb='" + goodsThumb + '\'' +
-                ", goodsImg='" + goodsImg + '\'' +
-                ", shareUrl='" + shareUrl + '\'' +
-                ", isPromote=" + isPromote +
-                ", properties=" + Arrays.toString(properties) +
-                '}';
+        return "CategoryGoodBean [id=" + id + ", goodsId=" + goodsId + ", catId="
+                + catId + ", goodsName=" + goodsName + ", goodsEnglishName="
+                + goodsEnglishName + ", goodsBrief=" + goodsBrief
+                + ", shopPrice=" + shopPrice + ", currencyPrice="
+                + currencyPrice + ", promotePrice=" + promotePrice
+                + ", rankPrice=" + rankPrice + ", isPromote=" + isPromote
+                + ", goodsThumb=" + goodsThumb + ", goodsImg=" + goodsImg
+                + ", addTime=" + addTime + ", shareUrl=" + shareUrl + "]";
     }
+
 }

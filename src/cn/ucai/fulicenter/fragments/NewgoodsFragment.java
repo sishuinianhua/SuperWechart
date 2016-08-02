@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -39,7 +41,7 @@ public class NewgoodsFragment extends Fragment {
     NewGoodsAdapter mAdapter;
     ArrayList<NewGoodBean> mList;
     GridLayoutManager mLayoutManager;
-    int mPageId=1;
+    int mPageId=0;
 
     public NewgoodsFragment() {
     }
@@ -64,22 +66,23 @@ public class NewgoodsFragment extends Fragment {
         //http://localhost:8080/FuLiCenterServer/Server?request=find_new_boutique_goods&cat_id=0&page_id=1&page_size=6
         OkHttpUtils2<NewGoodBean[]> utils = new OkHttpUtils2<>();
         utils.setRequestUrl(I.REQUEST_FIND_NEW_BOUTIQUE_GOODS)
-                .addParam(I.Cart.ID,0+"")
+                .addParam(I.NewAndBoutiqueGood.CAT_ID,I.CAT_ID+"")
                 .addParam(I.PAGE_ID,mPageId+"")
-                .addParam(I.PAGE_SIZE,PAGE_SIZE+"")
+                .addParam(I.PAGE_SIZE,I.PAGE_SIZE_DEFAULT+"")
                 .targetClass(NewGoodBean[].class)
                 .execute(new OkHttpUtils2.OnCompleteListener<NewGoodBean[]>() {
                     @Override
-                    public void onSuccess(NewGoodBean[] NewGoodBean) {
-                        mAdapter.setMore(NewGoodBean.length>0);
+                    public void onSuccess(NewGoodBean[] result) {
+                        Log.e(TAG, "resultArr01=" +result);
+                        mAdapter.setMore(result.length>0);
                         if (!mAdapter.isMore()){
                             if (action==ACTION_PULLUP){
                                 mAdapter.setFooterText("到底啦...");
                             }
                             return;
                         }
-                        Log.e(TAG, "resultArr=" + Arrays.toString(NewGoodBean));
-                        ArrayList<NewGoodBean> NewGoodBeanList = OkHttpUtils2.array2List(NewGoodBean);
+                        Log.e(TAG, "resultArr02=" + result);
+                        ArrayList<NewGoodBean> NewGoodBeanList = OkHttpUtils2.array2List(result);
                         switch (action){
                             case ACTION_DOWNLOAD:
                                 mAdapter.initNewGoods(NewGoodBeanList);
@@ -111,6 +114,7 @@ public class NewgoodsFragment extends Fragment {
         mAdapter=new NewGoodsAdapter(getContext(),mList);
         mrv.setAdapter(mAdapter);
          mLayoutManager = new GridLayoutManager(getContext(), 2);
+        mLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
         mrv.setLayoutManager(mLayoutManager);
 
         mSRL = (SwipeRefreshLayout) layout.findViewById(R.id.srlNewGoods);
@@ -129,7 +133,7 @@ public class NewgoodsFragment extends Fragment {
                 mSRL.setEnabled(true);
                 mSRL.setRefreshing(true);
                 mtvsrlHint.setVisibility(View.VISIBLE);
-                mPageId = 1;
+                mPageId = 0;
                 downloadNewGoodsList(ACTION_PULLDOWN,mPageId);
             }
         });
@@ -148,7 +152,7 @@ public class NewgoodsFragment extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState==RecyclerView.SCROLL_STATE_IDLE&&lastPosition>=mAdapter.getItemCount()-1&&mAdapter.isMore()){
-                    mPageId++;
+                    mPageId+=10;
                     downloadNewGoodsList(ACTION_PULLUP,mPageId);
                 }
             }

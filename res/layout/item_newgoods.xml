@@ -11,10 +11,10 @@
         android:layout_height="wrap_content"
         android:src="@drawable/default_image"/>
     <TextView
-        android:id="@+id/tvNewGoodsInfo"
+        android:id="@+id/tvGoodsName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="商品简介"
+        android:text="商品名称"
         />
     <TextView
         android:id="@+id/tvNewGoodsPrice"

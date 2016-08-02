@@ -1,152 +1,90 @@
 package cn.ucai.fulicenter.bean;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import java.io.Serializable;
-
+/** ��ʾע���û�
+ *  �����ݿ���user���һ����¼*/
 public class UserBean implements Serializable{
-
-    /**
-     * result : true
-     * msg : 403
-     * mavatarId : 2
-     * mavatarUserId : 2
-     * mavatarUserName : aa
-     * mavatarPath : user_avatar
-     * mavatarType : 0
-     * muserId : 3
-     * muserName : aa
-     * muserPassword : a
-     * muserNick : 测试用户
-     * muserUnreadMsgCount : 0
-     */
-    @JsonProperty("isResult")
-    private boolean isResult;
-    private int msg;
-    private int mavatarId;
-    private int mavatarUserId;
-    private String mavatarUserName;
-    private String mavatarPath;
-    private int mavatarType;
-    private int muserId;
-    private String muserName;
-    private String muserPassword;
-    private String muserNick;
-    private int muserUnreadMsgCount;
-
-    @JsonIgnore
-    public boolean isResult() {
-        return isResult;
-    }
-
-    public void setResult(boolean result) {
-        this.isResult = result;
-    }
-
-    public int getMsg() {
-        return msg;
-    }
-
-    public void setMsg(int msg) {
-        this.msg = msg;
-    }
-
-    public int getMavatarId() {
-        return mavatarId;
-    }
-
-    public void setMavatarId(int mavatarId) {
-        this.mavatarId = mavatarId;
-    }
-
-    public int getMavatarUserId() {
-        return mavatarUserId;
-    }
-
-    public void setMavatarUserId(int mavatarUserId) {
-        this.mavatarUserId = mavatarUserId;
-    }
-
-    public String getMavatarUserName() {
-        return mavatarUserName;
-    }
-
-    public void setMavatarUserName(String mavatarUserName) {
-        this.mavatarUserName = mavatarUserName;
-    }
-
-    public String getMavatarPath() {
-        return mavatarPath;
-    }
-
-    public void setMavatarPath(String mavatarPath) {
-        this.mavatarPath = mavatarPath;
-    }
-
-    public int getMavatarType() {
-        return mavatarType;
-    }
-
-    public void setMavatarType(int mavatarType) {
-        this.mavatarType = mavatarType;
-    }
-
-    public int getMuserId() {
-        return muserId;
-    }
-
-    public void setMuserId(int muserId) {
-        this.muserId = muserId;
-    }
-
-    public String getMuserName() {
-        return muserName;
-    }
-
-    public void setMuserName(String muserName) {
-        this.muserName = muserName;
-    }
-
-    public String getMuserPassword() {
-        return muserPassword;
-    }
-
-    public void setMuserPassword(String muserPassword) {
-        this.muserPassword = muserPassword;
-    }
-
-    public String getMuserNick() {
-        return muserNick;
-    }
-
-    public void setMuserNick(String muserNick) {
-        this.muserNick = muserNick;
-    }
-
-    public int getMuserUnreadMsgCount() {
-        return muserUnreadMsgCount;
-    }
-
-    public void setMuserUnreadMsgCount(int muserUnreadMsgCount) {
-        this.muserUnreadMsgCount = muserUnreadMsgCount;
-    }
-
-    @Override
-    public String toString() {
-        return "UserBean{" +
-                "isResult=" + isResult +
-                ", msg=" + msg +
-                ", mavatarId=" + mavatarId +
-                ", mavatarUserId=" + mavatarUserId +
-                ", mavatarUserName='" + mavatarUserName + '\'' +
-                ", mavatarPath='" + mavatarPath + '\'' +
-                ", mavatarType=" + mavatarType +
-                ", muserId=" + muserId +
-                ", muserName='" + muserName + '\'' +
-                ", muserPassword='" + muserPassword + '\'' +
-                ", muserNick='" + muserNick + '\'' +
-                ", muserUnreadMsgCount=" + muserUnreadMsgCount +
-                '}';
-    }
+	private int id;//user�������
+	private String userName;//�����˺�
+	private String nick;//�ǳ�
+	private String password;//����
+	private String avatar;//ͷ���ڷ����Ӳ�̵ĵ�ַ
+	private int unreadMsgCount;//δ����Ϣ��
+	/**�ֻ�����ϵ�˶�λ������*/
+	private String header;
+	
+	private String result;//���ؿͻ��������Ƿ�ɹ����ɹ���ok
+	public String getHeader() {
+		return header;
+	}
+	public void setHeader(String header) {
+		this.header = header;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getNick() {
+		return nick;
+	}
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+	public String getResult() {
+		return result;
+	}
+	public void setResult(String result) {
+		this.result = result;
+	}
+	
+	public int getUnreadMsgCount() {
+		return unreadMsgCount;
+	}
+	public void setUnreadMsgCount(int unreadMsgCount) {
+		this.unreadMsgCount = unreadMsgCount;
+	}
+	public UserBean() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public UserBean(String userName) {
+		super();
+		this.userName = userName;
+	}
+	
+	public UserBean(String userName, String nick, String password) {
+		super();
+		this.userName = userName;
+		this.nick = nick;
+		this.password = password;
+	}
+	
+	@Override
+	public String toString() {
+		return "UserBean [id=" + id + ", userName=" + userName + ", nick="
+				+ nick + ", password=" + password + ", avatar=" + avatar
+				+ ", unreadMsgCount=" + unreadMsgCount + ", header=" + header
+				+ ", result=" + result + "]";
+	}
+	
 }
