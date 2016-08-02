@@ -69,7 +69,7 @@ public class FuLiCenterMainActivity extends BaseActivity implements View.OnClick
         mtvCategory.setOnClickListener(this);
         mflCart.setOnClickListener(this);
         mtvContact.setOnClickListener(this);
-
+        changeItemState(mtvArr[0],mSelectedArr[0],Color.rgb(0xff, 0x66, 0xff));
         mvp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -115,6 +115,7 @@ public class FuLiCenterMainActivity extends BaseActivity implements View.OnClick
             changeItemState(mtvArr[i],mNormalArr[i],Color.BLACK);
         }
         changeItemState(mtvArr[position],mSelectedArr[position],Color.rgb(0xff, 0x66, 0xff));
+
         mvp.setCurrentItem(position);
     }
 

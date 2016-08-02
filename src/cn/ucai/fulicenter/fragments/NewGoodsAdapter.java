@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
@@ -27,6 +29,16 @@ public class NewGoodsAdapter extends RecyclerView.Adapter{
     public NewGoodsAdapter(Context context, ArrayList<NewGoodBean> list) {
         mContext = context;
         mList = list;
+        sortByAddtime();
+    }
+
+    private void sortByAddtime() {
+        Collections.sort(mList, new Comparator<NewGoodBean>() {
+            @Override
+            public int compare(NewGoodBean lhs, NewGoodBean rhs) {
+                return (int) (rhs.getAddTime()-lhs.getAddTime());
+            }
+        });
     }
 
     @Override
@@ -102,11 +114,13 @@ public class NewGoodsAdapter extends RecyclerView.Adapter{
     public void initNewGoods(ArrayList<NewGoodBean> newGoodBeanList) {
         mList.clear();
         mList.addAll(newGoodBeanList);
+        sortByAddtime();
         notifyDataSetChanged();
     }
 
     public void addNewGoods(ArrayList<NewGoodBean> newGoodBeanList) {
         mList.addAll(newGoodBeanList);
+        sortByAddtime();
         notifyDataSetChanged();
     }
 
@@ -120,4 +134,6 @@ public class NewGoodsAdapter extends RecyclerView.Adapter{
             tvPrice = (TextView) itemView.findViewById(R.id.tvNewGoodsPrice);
         }
     }
+
+
 }

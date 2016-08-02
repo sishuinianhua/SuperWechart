@@ -73,30 +73,19 @@ public class NewgoodsFragment extends Fragment {
                 .execute(new OkHttpUtils2.OnCompleteListener<NewGoodBean[]>() {
                     @Override
                     public void onSuccess(NewGoodBean[] result) {
-                        Log.e(TAG, "resultArr01=" +result);
-                        mAdapter.setMore(result.length>0);
-                        if (!mAdapter.isMore()){
-                            if (action==ACTION_PULLUP){
-                                mAdapter.setFooterText("到底啦...");
-                            }
-                            return;
-                        }
+                        mAdapter.setMore(result!=null&&result.length>0);
                         Log.e(TAG, "resultArr02=" + result);
-                        ArrayList<NewGoodBean> NewGoodBeanList = OkHttpUtils2.array2List(result);
+                        ArrayList<NewGoodBean> newGoodBeanList = OkHttpUtils2.array2List(result);
                         switch (action){
                             case ACTION_DOWNLOAD:
-                                mAdapter.initNewGoods(NewGoodBeanList);
-                                mAdapter.setFooterText("上拉刷新，加载更多...");
+                                mAdapter.initNewGoods(newGoodBeanList);
                                 break;
                             case ACTION_PULLDOWN:
-                                mAdapter.initNewGoods(NewGoodBeanList);
-                                mAdapter.setFooterText("上拉刷新，加载更多...");
-                                mSRL.setRefreshing(false);
-                                mtvsrlHint.setVisibility(View.GONE);
+                                mAdapter.initNewGoods(newGoodBeanList);
                                 ImageLoader.release();
                                 break;
                             case ACTION_PULLUP:
-                                mAdapter.addNewGoods(NewGoodBeanList);
+                                mAdapter.addNewGoods(newGoodBeanList);
                                 break;
                         }
                     }
@@ -135,6 +124,9 @@ public class NewgoodsFragment extends Fragment {
                 mtvsrlHint.setVisibility(View.VISIBLE);
                 mPageId = 0;
                 downloadNewGoodsList(ACTION_PULLDOWN,mPageId);
+                mSRL.setRefreshing(false);
+               mtvsrlHint.setVisibility(View.GONE);
+
             }
         });
     }
@@ -151,9 +143,13 @@ public class NewgoodsFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                mAdapter.setFooterText("上拉刷新，加载更多...");
                 if (newState==RecyclerView.SCROLL_STATE_IDLE&&lastPosition>=mAdapter.getItemCount()-1&&mAdapter.isMore()){
-                    mPageId+=10;
+                    mPageId+=I.PAGE_SIZE_DEFAULT;
                     downloadNewGoodsList(ACTION_PULLUP,mPageId);
+                    if (!mAdapter.isMore()){
+                        mAdapter.setFooterText("到底啦...");
+                    }
                 }
             }
         });
