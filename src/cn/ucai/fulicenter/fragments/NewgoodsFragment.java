@@ -58,7 +58,7 @@ public class NewgoodsFragment extends Fragment {
     }
 
     private void initData() {
-
+        mPageId = 0;
         downloadNewGoodsList(ACTION_DOWNLOAD,mPageId);
     }
 

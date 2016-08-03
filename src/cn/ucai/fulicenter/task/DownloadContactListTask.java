@@ -37,6 +37,7 @@ public class DownloadContactListTask {
                 .execute(new OkHttpUtils2.OnCompleteListener<Result>() {
                     @Override
                     public void onSuccess(Result result) {
+                        if (result!=null){
                         String retJson=result.getRetData().toString();
                         Gson gson = new Gson();
                         UserAvatar[] uaArr=gson.fromJson(retJson, UserAvatar[].class);
@@ -51,6 +52,7 @@ public class DownloadContactListTask {
                                 uaMap.put(ua.getMUserName(), ua);
                             }
                         }
+                     }
                     }
 
                     @Override
