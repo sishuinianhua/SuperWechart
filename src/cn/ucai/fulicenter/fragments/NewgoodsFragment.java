@@ -73,7 +73,7 @@ public class NewgoodsFragment extends Fragment {
                 .execute(new OkHttpUtils2.OnCompleteListener<NewGoodBean[]>() {
                     @Override
                     public void onSuccess(NewGoodBean[] result) {
-                        mAdapter.setMore(result!=null&&result.length>0);
+                        mAdapter.setMore(result!=null&&result.length>I.PAGE_SIZE_DEFAULT);
                         Log.e(TAG, "resultArr02=" + result);
                         ArrayList<NewGoodBean> newGoodBeanList = OkHttpUtils2.array2List(result);
                         switch (action){
@@ -82,7 +82,6 @@ public class NewgoodsFragment extends Fragment {
                                 break;
                             case ACTION_PULLDOWN:
                                 mAdapter.initNewGoods(newGoodBeanList);
-
                                 break;
                             case ACTION_PULLUP:
                                 mAdapter.addNewGoods(newGoodBeanList);
@@ -147,7 +146,9 @@ public class NewgoodsFragment extends Fragment {
                 if (newState==RecyclerView.SCROLL_STATE_IDLE&&lastPosition>=mAdapter.getItemCount()-1&&mAdapter.isMore()){
                     mPageId+=I.PAGE_SIZE_DEFAULT;
                     downloadNewGoodsList(ACTION_PULLUP,mPageId);
-                    if (!mAdapter.isMore()){
+                    if (mAdapter.isMore()){
+                        mAdapter.setFooterText("上拉刷新，加载更多...");
+                    }else {
                         mAdapter.setFooterText("到底啦...");
                     }
                 }
