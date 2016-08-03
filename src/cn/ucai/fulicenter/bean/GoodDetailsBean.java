@@ -2,6 +2,7 @@ package cn.ucai.fulicenter.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 /**
@@ -142,16 +143,26 @@ public class GoodDetailsBean implements Serializable {
     public void setPromote(boolean isPromote) {
         this.isPromote = isPromote;
     }
+
     @Override
     public String toString() {
-        return "CategoryGoodBean [id=" + id + ", goodsId=" + goodsId + ", catId="
-                + catId + ", goodsName=" + goodsName + ", goodsEnglishName="
-                + goodsEnglishName + ", goodsBrief=" + goodsBrief
-                + ", shopPrice=" + shopPrice + ", currencyPrice="
-                + currencyPrice + ", promotePrice=" + promotePrice
-                + ", rankPrice=" + rankPrice + ", isPromote=" + isPromote
-                + ", goodsThumb=" + goodsThumb + ", goodsImg=" + goodsImg
-                + ", addTime=" + addTime + ", shareUrl=" + shareUrl + "]";
+        return "GoodDetailsBean{" +
+                "addTime=" + addTime +
+                ", id=" + id +
+                ", goodsId=" + goodsId +
+                ", catId=" + catId +
+                ", goodsName='" + goodsName + '\'' +
+                ", goodsEnglishName='" + goodsEnglishName + '\'' +
+                ", goodsBrief='" + goodsBrief + '\'' +
+                ", shopPrice='" + shopPrice + '\'' +
+                ", currencyPrice='" + currencyPrice + '\'' +
+                ", promotePrice='" + promotePrice + '\'' +
+                ", rankPrice='" + rankPrice + '\'' +
+                ", isPromote=" + isPromote +
+                ", goodsThumb='" + goodsThumb + '\'' +
+                ", goodsImg='" + goodsImg + '\'' +
+                ", shareUrl='" + shareUrl + '\'' +
+                ", properties=" + Arrays.toString(properties) +
+                '}';
     }
-
 }
