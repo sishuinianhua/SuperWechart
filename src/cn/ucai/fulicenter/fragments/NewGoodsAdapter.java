@@ -1,17 +1,20 @@
 package cn.ucai.fulicenter.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.NewGoodBean;
@@ -65,18 +68,18 @@ public class NewGoodsAdapter extends RecyclerView.Adapter{
                 break;
             case TYPE_ITEM:
                 ItemNewGoodsViewHolder ngHolder = (ItemNewGoodsViewHolder) holder;
-                NewGoodBean ngBean = mList.get(position);
+                final NewGoodBean ngBean = mList.get(position);
                 ngHolder.tvGoodsName.setText(ngBean.getGoodsName());
                 ngHolder.tvPrice.setText(ngBean.getCurrencyPrice());
                 UserUtils.setAvatar(mContext,ngBean.getGoodsThumb(),ngHolder.ivAvatar);
-               /* ImageLoader.build()
-                        .url("http://192.168.7.7:8080/FuLiCenterServer/Server?request=download_new_good&file_name="+ngBean.getGoodsThumb())
-                        .width(350)
-                        .height(350)
-                        .defaultPicture(R.drawable.default_image)
-                        .imageView(ngHolder.ivAvatar)
-                        .listener(parent)
-                        .showImage(mContext);*/
+                ngHolder.layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mContext.startActivity(new Intent(mContext,NewGoodsDetailsActivity.class)
+                                .putExtra(D.GoodDetails.KEY_GOODS_ID,ngBean.getGoodsId()));
+
+                    }
+                });
                 break;
         }
     }
@@ -126,6 +129,7 @@ public class NewGoodsAdapter extends RecyclerView.Adapter{
     }
 
     class ItemNewGoodsViewHolder extends RecyclerView.ViewHolder{
+        LinearLayout layout;
         ImageView ivAvatar;
         TextView tvGoodsName, tvPrice;
         public ItemNewGoodsViewHolder(View itemView) {
@@ -133,6 +137,7 @@ public class NewGoodsAdapter extends RecyclerView.Adapter{
             ivAvatar = (ImageView) itemView.findViewById(R.id.ivNewGoodsAvatar);
             tvGoodsName = (TextView) itemView.findViewById(R.id.tvGoodsName);
             tvPrice = (TextView) itemView.findViewById(R.id.tvNewGoodsPrice);
+            layout = (LinearLayout) itemView.findViewById(R.id.llItemNewgoods);
         }
     }
 
