@@ -197,5 +197,9 @@ public class UserUtils {
         setContactAvatar(context,username,imageView);
     }
 
+    public static void setAvatar(Context context, String avatarPath, ImageView avatar) {
+        String url = "http://192.168.7.7:8080/FuLiCenterServer/Server?request=download_new_good&file_name="+avatarPath;
+        Picasso.with(context).load(url).placeholder(R.drawable.nopic).into(avatar);
 
+    }
 }

@@ -82,7 +82,7 @@ public class NewgoodsFragment extends Fragment {
                                 break;
                             case ACTION_PULLDOWN:
                                 mAdapter.initNewGoods(newGoodBeanList);
-                                ImageLoader.release();
+
                                 break;
                             case ACTION_PULLUP:
                                 mAdapter.addNewGoods(newGoodBeanList);

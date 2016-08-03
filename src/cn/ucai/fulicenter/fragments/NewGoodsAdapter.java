@@ -16,6 +16,7 @@ import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.NewGoodBean;
 import cn.ucai.fulicenter.utils.ImageLoader;
+import cn.ucai.fulicenter.utils.UserUtils;
 
 public class NewGoodsAdapter extends RecyclerView.Adapter{
     private static final int TYPE_FOOTER =0;
@@ -67,15 +68,15 @@ public class NewGoodsAdapter extends RecyclerView.Adapter{
                 NewGoodBean ngBean = mList.get(position);
                 ngHolder.tvGoodsName.setText(ngBean.getGoodsName());
                 ngHolder.tvPrice.setText(ngBean.getCurrencyPrice());
-
-                ImageLoader.build()
+                UserUtils.setAvatar(mContext,ngBean.getGoodsThumb(),ngHolder.ivAvatar);
+               /* ImageLoader.build()
                         .url("http://192.168.7.7:8080/FuLiCenterServer/Server?request=download_new_good&file_name="+ngBean.getGoodsThumb())
                         .width(350)
                         .height(350)
                         .defaultPicture(R.drawable.default_image)
                         .imageView(ngHolder.ivAvatar)
                         .listener(parent)
-                        .showImage(mContext);
+                        .showImage(mContext);*/
                 break;
         }
     }
