@@ -202,4 +202,13 @@ public class UserUtils {
         Picasso.with(context).load(url).placeholder(R.drawable.nopic).into(avatar);
 
     }
+    public static void setCategoryGroupAvatar(Context context, String avatarPath, ImageView avatar) {
+        String url = I.DOWNLOAD_DOWNLOAD_CATEGORY_GROUP_IMAGE_URL+avatarPath;
+        Picasso.with(context).load(url).placeholder(R.drawable.nopic).into(avatar);
+
+    }
+    public static void setCategoryChildAvatar(Context context, String avatarPath, ImageView avatar) {
+        String url = I.DOWNLOAD_DOWNLOAD_CATEGORY_CHILD_IMAGE_URL+avatarPath;
+        Picasso.with(context).load(url).placeholder(R.drawable.nopic).into(avatar);
+    }
 }

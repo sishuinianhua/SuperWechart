@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/ivChildAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:src="@drawable/group_icon"
+        />
+    <TextView
+        android:layout_weight="1"
+        android:id="@+id/tvChildName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="衣服类"
+        android:textSize="20sp"
+        android:textColor="@color/ebpay_red"
+
+        />
+    <ImageView
+        android:id="@+id/ivChildOnOff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/expand_on"
+        />
+</LinearLayout>

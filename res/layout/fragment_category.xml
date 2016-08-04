@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
 >
 
-    <!-- TODO: Update blank fragment layout -->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/category256_2"/>
+   <ExpandableListView
+       android:id="@+id/elvCategory"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+   </ExpandableListView>
 
 </FrameLayout>
