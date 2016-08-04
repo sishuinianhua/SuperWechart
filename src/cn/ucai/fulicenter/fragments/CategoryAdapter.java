@@ -90,11 +90,10 @@ public class CategoryAdapter extends BaseExpandableListAdapter{
         ChildHolder holder = null;
         CategoryChildBean childBean = mChildList.get(groupPosition).get(childPosition);
         if (convertView==null){
-            convertView = View.inflate(mContext, R.layout.category_groupholder, null);
+            convertView = View.inflate(mContext, R.layout.category_childholder, null);
             holder = new ChildHolder();
             holder.ivAvatar = (ImageView) convertView.findViewById(R.id.ivChildAvatar);
             holder.tvName = (TextView) convertView.findViewById(R.id.tvChildName);
-            holder.ivOnOff = (ImageView) convertView.findViewById(R.id.ivChildOnOff);
             convertView.setTag(holder);
         }else {
             holder= (ChildHolder) convertView.getTag();
@@ -107,6 +106,12 @@ public class CategoryAdapter extends BaseExpandableListAdapter{
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
+    }
+
+    public void initDate(ArrayList<CategoryParentBean> groupList, ArrayList<ArrayList<CategoryChildBean>> childList) {
+        mGroupList = groupList;
+        mChildList = childList;
+        notifyDataSetChanged();
     }
 
     class GroupHolder{

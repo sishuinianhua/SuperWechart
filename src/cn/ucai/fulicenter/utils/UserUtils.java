@@ -209,6 +209,7 @@ public class UserUtils {
     }
     public static void setCategoryChildAvatar(Context context, String avatarPath, ImageView avatar) {
         String url = I.DOWNLOAD_DOWNLOAD_CATEGORY_CHILD_IMAGE_URL+avatarPath;
+        Log.e(TAG, "url=" + url + ",avatar=" + avatar);
         Picasso.with(context).load(url).placeholder(R.drawable.nopic).into(avatar);
     }
 }
