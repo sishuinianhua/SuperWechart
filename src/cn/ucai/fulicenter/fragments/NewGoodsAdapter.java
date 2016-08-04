@@ -76,7 +76,9 @@ public class NewGoodsAdapter extends RecyclerView.Adapter{
                     @Override
                     public void onClick(View v) {
                         mContext.startActivity(new Intent(mContext,NewGoodsDetailsActivity.class)
-                                .putExtra(D.GoodDetails.KEY_GOODS_ID,ngBean.getGoodsId()));
+                                .putExtra(D.NewGood.KEY_GOODS_ID,ngBean.getGoodsId())
+                        );
+
 
                     }
                 });

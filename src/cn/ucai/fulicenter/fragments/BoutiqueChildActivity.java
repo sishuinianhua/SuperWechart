@@ -1,84 +1,82 @@
 package cn.ucai.fulicenter.fragments;
 
-
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.bean.NewGoodBean;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
+import cn.ucai.fulicenter.view.DisplyUtils;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class BoutiqueFragment extends Fragment {
+public class BoutiqueChildActivity extends Activity {
     private static final int ACTION_DOWNLOAD = 0;
     private static final int ACTION_PULLUP = 1;
     private static final int ACTION_PULLDOWN = 2;
-    private static final String TAG = BoutiqueFragment.class.getSimpleName();
+    private static final String TAG = BoutiqueChildActivity.class.getSimpleName();
     RecyclerView mrv;
     SwipeRefreshLayout mSRL;
     TextView mtvsrlHint;
-    BoutiqueAdapter mAdapter;
-    ArrayList<BoutiqueBean> mList;
-    LinearLayoutManager mLayoutManager;
+    NewGoodsAdapter mAdapter;
+    ArrayList<NewGoodBean> mList;
+    GridLayoutManager mLayoutManager;
     int mPageId=0;
-    int mAction;
-
-    public BoutiqueFragment() {
-    }
-
-
+    BoutiqueChildActivity mContext = this;
+    int mCatId=0;
+    String mTitle;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_boutique, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_boutique_child);
         initData();
-        initView(layout);
+        initView();
         setListener();
-        return layout;
     }
-
     private void initData() {
+        mCatId = getIntent().getIntExtra(D.Boutique.KEY_GOODS_ID, 0);
+         mTitle = getIntent().getStringExtra(D.Boutique.KEY_TITLE);
         mPageId = 0;
-        mAction = ACTION_DOWNLOAD;
-        downloadNewGoodsList();
+        downloadNewGoodsList(ACTION_DOWNLOAD);
     }
 
-    private void downloadNewGoodsList() {
-        OkHttpUtils2<BoutiqueBean[]> utils = new OkHttpUtils2<>();
-        utils.setRequestUrl(I.REQUEST_FIND_BOUTIQUES)
-                /*.addParam(I.NewAndBoutiqueGood.CAT_ID,I.CAT_ID+"")
+    private void downloadNewGoodsList(final int action) {
+        OkHttpUtils2<NewGoodBean[]> utils = new OkHttpUtils2<>();
+        utils.setRequestUrl(I.REQUEST_FIND_NEW_BOUTIQUE_GOODS)
+                .addParam(I.NewAndBoutiqueGood.CAT_ID,mCatId+"")
                 .addParam(I.PAGE_ID,mPageId+"")
-                .addParam(I.PAGE_SIZE,I.PAGE_SIZE_DEFAULT+"")*/
-                .targetClass(BoutiqueBean[].class)
-                .execute(new OkHttpUtils2.OnCompleteListener<BoutiqueBean[]>() {
+                .addParam(I.PAGE_SIZE,I.PAGE_SIZE_DEFAULT+"")
+                .targetClass(NewGoodBean[].class)
+                .execute(new OkHttpUtils2.OnCompleteListener<NewGoodBean[]>() {
                     @Override
-                    public void onSuccess(BoutiqueBean[] result) {
-                        mAdapter.setMore(result.length>=I.PAGE_SIZE_DEFAULT);
+                    public void onSuccess(NewGoodBean[] result) {
+                        mAdapter.setMore(result.length==I.PAGE_SIZE_DEFAULT);
+                        if (mAdapter.isMore()){
+                            mAdapter.setFooterText("上拉刷新，加载更多...");
+                        }else {
+                            mAdapter.setFooterText("到底啦...");
+                        }
                         Log.e(TAG, "resultArr02=" + result);
-                        ArrayList<BoutiqueBean> list = OkHttpUtils2.array2List(result);
-                        switch (mAction){
+                        ArrayList<NewGoodBean> newGoodBeanList = OkHttpUtils2.array2List(result);
+                        switch (action){
                             case ACTION_DOWNLOAD:
+                                mAdapter.initNewGoods(newGoodBeanList);
+                                break;
                             case ACTION_PULLDOWN:
-                                mAdapter.initNewGoods(list);
+                                mAdapter.initNewGoods(newGoodBeanList);
                                 break;
                             case ACTION_PULLUP:
-                                mAdapter.addNewGoods(list);
+                                mAdapter.addNewGoods(newGoodBeanList);
                                 break;
                         }
                     }
@@ -90,16 +88,18 @@ public class BoutiqueFragment extends Fragment {
                 });
     }
 
-    private void initView(View layout) {
-        mrv = (RecyclerView) layout.findViewById(R.id.rvBoutique);
+    private void initView() {
+        DisplyUtils.initTitle(mContext,mTitle);
+        mrv = (RecyclerView) findViewById(R.id.rvBoutique);
         mList=new ArrayList<>();
-        mAdapter=new BoutiqueAdapter(getContext(),mList);
+        mAdapter=new NewGoodsAdapter(mContext,mList);
         mrv.setAdapter(mAdapter);
-        mLayoutManager = new LinearLayoutManager(getContext());
+        mLayoutManager = new GridLayoutManager(mContext, 2);
+        mLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
         mrv.setLayoutManager(mLayoutManager);
 
-        mSRL = (SwipeRefreshLayout) layout.findViewById(R.id.srlBoutique);
-        mtvsrlHint = (TextView) layout.findViewById(R.id.tvBoutiqueSrlHint);
+        mSRL = (SwipeRefreshLayout) findViewById(R.id.srlBoutique);
+        mtvsrlHint = (TextView) findViewById(R.id.tvBoutiqueSrlHint);
     }
 
     private void setListener() {
@@ -115,8 +115,7 @@ public class BoutiqueFragment extends Fragment {
                 mSRL.setRefreshing(true);
                 mtvsrlHint.setVisibility(View.VISIBLE);
                 mPageId = 0;
-                mAction = ACTION_PULLDOWN;
-                downloadNewGoodsList();
+                downloadNewGoodsList(ACTION_PULLDOWN);
                 mSRL.setRefreshing(false);
                 mtvsrlHint.setVisibility(View.GONE);
 
@@ -136,18 +135,12 @@ public class BoutiqueFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                mAdapter.setFooterText("上拉刷新，加载更多...");
                 if (newState==RecyclerView.SCROLL_STATE_IDLE&&lastPosition>=mAdapter.getItemCount()-1&&mAdapter.isMore()){
                     mPageId+=I.PAGE_SIZE_DEFAULT;
-                    mAction = ACTION_PULLUP;
-                    downloadNewGoodsList();
-                    if (mAdapter.isMore()){
-                         mAdapter.setFooterText("上拉刷新，加载更多...");
-                    }else {
-                        mAdapter.setFooterText("到底啦...");
-                    }
+                    downloadNewGoodsList(ACTION_PULLUP);
                 }
             }
         });
     }
-
 }

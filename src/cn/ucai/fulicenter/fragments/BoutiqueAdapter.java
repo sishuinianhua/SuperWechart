@@ -65,14 +65,15 @@ public class BoutiqueAdapter extends RecyclerView.Adapter{
                 holder1.tvName.setText(bean.getName());
                 holder1.tvDescripion.setText(bean.getDescription());
                 UserUtils.setAvatar(mContext,bean.getImageurl(),holder1.ivAvatar);
-             /*   holder1.layout.setOnClickListener(new View.OnClickListener() {
+                holder1.layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mContext.startActivity(new Intent(mContext, BoutiqueDetailsActivity.class)
-                                .putExtra(D.GoodDetails.KEY_GOODS_ID, bean.getId()));
-
+                        mContext.startActivity(new Intent(mContext, BoutiqueChildActivity.class)
+                                .putExtra(D.Boutique.KEY_GOODS_ID, bean.getId())
+                                .putExtra(D.Boutique.KEY_TITLE, bean.getTitle())
+                        );
                     }
-                });*/
+                });
                 break;
         }
     }
