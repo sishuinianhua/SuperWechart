@@ -18,9 +18,13 @@ import java.util.ArrayList;
 import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.NewGoodBean;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
+import cn.ucai.fulicenter.view.CatChildFilterButton;
 import cn.ucai.fulicenter.view.DisplyUtils;
+
+import static cn.ucai.fulicenter.R.id.btnCatChildFilter;
 
 public class CategoryActivity extends Activity {
     private static final int ACTION_DOWNLOAD = 0;
@@ -41,6 +45,9 @@ public class CategoryActivity extends Activity {
     boolean timeSortFlag=true;
     boolean priceSortFlag=true;
     int sortBy = 1;
+    CatChildFilterButton mCatChildFilterButton;
+    String groupName;
+    ArrayList<CategoryChildBean> childList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +59,8 @@ public class CategoryActivity extends Activity {
     }
     private void initData() {
         mCatId = getIntent().getIntExtra(I.NewAndBoutiqueGood.CAT_ID, 0);
-       // mTitle = getIntent().getStringExtra(D.Boutique.KEY_TITLE);
+        groupName = getIntent().getStringExtra(I.CategoryGroup.NAME);
+        childList = (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra("childList");
         mPageId = 0;
         downloadNewGoodsList(ACTION_DOWNLOAD);
     }
@@ -119,6 +127,9 @@ public class CategoryActivity extends Activity {
 
         mbtTimeSort = (TextView) findViewById(R.id.tvCategoryTimeSort);
         mbtPriceSort= (TextView) findViewById(R.id.tvCategoryPriceSort);
+
+        mCatChildFilterButton = (CatChildFilterButton) findViewById(btnCatChildFilter);
+        mCatChildFilterButton.setText(groupName);
     }
 
     private void setListener() {
@@ -127,21 +138,8 @@ public class CategoryActivity extends Activity {
         SortListener sortListener = new SortListener();
         mbtTimeSort.setOnClickListener(sortListener);
         mbtPriceSort.setOnClickListener(sortListener);
-       /* Drawable right = null;
-        switch (sortBy){
-            case 1:
-            case 3:
-                right = ContextCompat.getDrawable(mContext, R.drawable.arrow_order_down);
-                right.setBounds(0,0,right.getMinimumWidth(),right.getMinimumHeight());
-                mbtTimeSort.setCompoundDrawables(null,null,right,null);
-                break;
-            case 2:
-            case 4:
-                right = ContextCompat.getDrawable(mContext, R.drawable.arrow_order_up);
-                right.setBounds(0,0,right.getMinimumWidth(),right.getMinimumHeight());
-                mbtTimeSort.setCompoundDrawables(null,null,right,null);
-                break;
-        }*/
+
+        mCatChildFilterButton.setOnCatFilterClickListener(groupName,childList);
 
     }
 
