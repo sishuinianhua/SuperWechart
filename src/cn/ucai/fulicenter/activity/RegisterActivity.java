@@ -39,7 +39,9 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.listener.OnSetAvatarListener;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
+import cn.ucai.fulicenter.utils.UserUtils;
 import cn.ucai.fulicenter.utils.Utils;
+import cn.ucai.fulicenter.view.DisplyUtils;
 
 /**
  * 注册页
@@ -52,7 +54,6 @@ public class RegisterActivity extends BaseActivity {
 	private EditText userNickEditText;
 	private EditText passwordEditText;
 	private EditText confirmPwdEditText;
-	private Button mButton;
 	private ImageView mAvatar;
 	private EditText mEtAvataeName;
 	private PopupWindow mPopupWindow;
@@ -79,20 +80,13 @@ public class RegisterActivity extends BaseActivity {
 		userNameEditText = (EditText) findViewById(R.id.username);
 		passwordEditText = (EditText) findViewById(R.id.password);
 		confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
-		mButton = (Button) findViewById(R.id.btn_login);
 		mReUpAvatar= (RelativeLayout) findViewById(R.id.rlRegisterAvatar);
 
 		mAvatar= (ImageView) findViewById(R.id.ivAvatar);
-
+		DisplyUtils.initTitle(this,"用户注册");
 	}
 
 	private void setListener() {
-		mButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
 		mReUpAvatar.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

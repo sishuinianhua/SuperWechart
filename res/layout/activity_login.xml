@@ -5,24 +5,10 @@
     android:background="#eff2f6"
     android:orientation="vertical" >
 
+    <include layout="@layout/commom_back_btn_white" />
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:text="@string/app_name"
-            android:gravity="center"
-            android:textColor="#000"
-            android:drawableLeft="@drawable/mobile"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_height="0dip"
         android:layout_weight="1" >
 
@@ -30,8 +16,6 @@
             android:id="@+id/rl_username"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:layout_marginLeft="28dp"
-            android:layout_marginRight="28dp"
             android:background="#fff" >
 
             <ImageView
@@ -61,8 +45,6 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_below="@id/rl_username"
-            android:layout_marginLeft="28dp"
-            android:layout_marginRight="28dp"
             android:layout_marginTop="10dp"
             android:background="#fff" >
 
@@ -95,30 +77,14 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="30dp"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
             <Button
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="10dip"
-                android:layout_weight="1"
-                android:background="@drawable/button_register_bg"
-                android:gravity="center"
-                android:onClick="register"
-                android:paddingBottom="7dp"
-                android:paddingTop="7dp"
-                android:text="@string/register"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="10dip"
-                android:layout_weight="1"
-                android:background="@drawable/button_login_bg"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:background="@drawable/tb_btn_login_orange_normal"
                 android:gravity="center"
                 android:onClick="login"
                 android:paddingBottom="7dp"
@@ -126,14 +92,26 @@
                 android:text="@string/login"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:background="@drawable/tb_regiser_bg"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:onClick="register"
+                android:paddingBottom="7dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="7dp"
+                android:text="@string/register"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp" />
+
+
         </LinearLayout>
     </RelativeLayout>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="设置服务器的IP地址"
-        android:background="#eff2f6"
-        android:textColor="#000"
-        />
 
 </LinearLayout>

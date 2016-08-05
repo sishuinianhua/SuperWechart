@@ -23,4 +23,8 @@ public class DisplyUtils {
         initBack(activity);
         ((TextView)activity.findViewById(R.id.tvTitle)).setText(title);
     }
+    public static void initTitle(final Activity activity){
+        initBack(activity);
+        ((TextView)activity.findViewById(R.id.tvTitle)).setText("");
+    }
 }
