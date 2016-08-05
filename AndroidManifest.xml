@@ -267,9 +267,14 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="3ecea51f560650b1ed8a4b99808f52e8" />
 
-        <activity android:name=".fragments.NewGoodsDetailsActivity"
-            android:theme="@style/horizontal_slide"/>
-        <activity android:name=".fragments.BoutiqueChildActivity"
+        <activity
+            android:name=".fragments.NewGoodsDetailsActivity"
+            android:theme="@style/horizontal_slide" />
+        <activity
+            android:name=".fragments.BoutiqueChildActivity"
+            android:theme="@style/horizontal_slide">
+        </activity>
+        <activity android:name=".fragments.CategoryActivity"
             android:theme="@style/horizontal_slide">
         </activity>
     </application>

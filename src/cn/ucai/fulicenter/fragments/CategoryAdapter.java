@@ -1,14 +1,17 @@
 package cn.ucai.fulicenter.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.CategoryParentBean;
@@ -88,18 +91,25 @@ public class CategoryAdapter extends BaseExpandableListAdapter{
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ChildHolder holder = null;
-        CategoryChildBean childBean = mChildList.get(groupPosition).get(childPosition);
+        final CategoryChildBean childBean = mChildList.get(groupPosition).get(childPosition);
         if (convertView==null){
             convertView = View.inflate(mContext, R.layout.category_childholder, null);
             holder = new ChildHolder();
             holder.ivAvatar = (ImageView) convertView.findViewById(R.id.ivChildAvatar);
             holder.tvName = (TextView) convertView.findViewById(R.id.tvChildName);
+            holder.rlLayout = (RelativeLayout) convertView.findViewById(R.id.layoytCategoryChild);
             convertView.setTag(holder);
         }else {
             holder= (ChildHolder) convertView.getTag();
         }
         UserUtils.setCategoryChildAvatar(mContext,childBean.getImageUrl(),holder.ivAvatar);
         holder.tvName.setText(childBean.getName());
+        holder.rlLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(new Intent(mContext,CategoryActivity.class).putExtra(I.NewAndBoutiqueGood.CAT_ID,childBean.getId()));
+            }
+        });
         return convertView;
     }
 
@@ -119,7 +129,8 @@ public class CategoryAdapter extends BaseExpandableListAdapter{
         TextView tvName;
     }
     class ChildHolder{
-        ImageView ivAvatar,ivOnOff;
+        ImageView ivAvatar;
         TextView tvName;
+        RelativeLayout rlLayout;
     }
 }

@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <include layout="@layout/commom_back_btn" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_orange">
+        <TextView
+            android:id="@+id/tvCategoryTimeSort"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上架时间"
+            android:textSize="16sp"
+            android:textColor="@color/bluebg"
+           android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:drawableRight="@drawable/arrow_order_down"
+            />
+        <TextView
+            android:id="@+id/tvCategoryPriceSort"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="实时价格"
+            android:textSize="16sp"
+            android:textColor="@color/bluebg"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:drawableRight="@drawable/arrow_order_down"
+            />
+    </LinearLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srlCategory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvCategorySrlHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="下拉刷新中..."
+                android:textSize="15sp"
+                android:visibility="gone"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvCategory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

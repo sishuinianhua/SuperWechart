@@ -3,6 +3,7 @@ package cn.ucai.fulicenter.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,34 +16,55 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import cn.ucai.fulicenter.D;
-import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.NewGoodBean;
-import cn.ucai.fulicenter.utils.ImageLoader;
 import cn.ucai.fulicenter.utils.UserUtils;
 
 public class NewGoodsAdapter extends RecyclerView.Adapter{
     private static final int TYPE_FOOTER =0;
     private static final int TYPE_ITEM = 1;
+    private static final String TAG = NewGoodsAdapter.class.getSimpleName();
     Context mContext;
     ArrayList<NewGoodBean> mList;
     private boolean more;
     private String footerText;
     ViewGroup parent;
+    private int sortBy=1;
 
     public NewGoodsAdapter(Context context, ArrayList<NewGoodBean> list) {
         mContext = context;
         mList = list;
-        sortByAddtime();
+        sortByTimePrice();
     }
 
-    private void sortByAddtime() {
+    private void sortByTimePrice() {
+
         Collections.sort(mList, new Comparator<NewGoodBean>() {
             @Override
             public int compare(NewGoodBean lhs, NewGoodBean rhs) {
-                return (int) (rhs.getAddTime()-lhs.getAddTime());
+                int result = 1;
+                switch (getSortBy()){
+                    case 1:
+                        result = (int) (rhs.getAddTime() - lhs.getAddTime());
+                        break;
+                    case 2:
+                        result = (int) (lhs.getAddTime() - rhs.getAddTime());
+                        break;
+                    case 3:
+                        result = getCurrentPrice(rhs.getCurrencyPrice())-getCurrentPrice(lhs.getCurrencyPrice());
+                        break;
+                    case 4:
+                        result = getCurrentPrice(lhs.getCurrencyPrice())-getCurrentPrice(rhs.getCurrencyPrice());
+                        break;
+                }
+                return result;
             }
         });
+        notifyDataSetChanged();
+    }
+
+    private int getCurrentPrice(String currencyPriceStr) {
+        return Integer.parseInt(currencyPriceStr.substring(1));
     }
 
     @Override
@@ -120,15 +142,23 @@ public class NewGoodsAdapter extends RecyclerView.Adapter{
     public void initNewGoods(ArrayList<NewGoodBean> newGoodBeanList) {
         mList.clear();
         mList.addAll(newGoodBeanList);
-        sortByAddtime();
-        notifyDataSetChanged();
+        sortByTimePrice();
     }
 
     public void addNewGoods(ArrayList<NewGoodBean> newGoodBeanList) {
         mList.addAll(newGoodBeanList);
-        sortByAddtime();
-        notifyDataSetChanged();
+        sortByTimePrice();
     }
+
+    public int getSortBy() {
+        return sortBy;
+    }
+
+    public void setSortBy(int sortBy) {
+        this.sortBy = sortBy;
+        sortByTimePrice();
+    }
+
 
     class ItemNewGoodsViewHolder extends RecyclerView.ViewHolder{
         LinearLayout layout;
