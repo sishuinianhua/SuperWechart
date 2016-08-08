@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +23,19 @@ import java.util.List;
 import java.util.Map;
 
 import cn.ucai.fulicenter.DemoHXSDKHelper;
+import cn.ucai.fulicenter.FuliCenterApplication;
+import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.SettingsActivity;
+import cn.ucai.fulicenter.bean.Message;
+import cn.ucai.fulicenter.utils.OkHttpUtils2;
+import cn.ucai.fulicenter.utils.UserUtils;
 
 
 public class PersonnelCenterFragment extends Fragment {
 
+    private static final String TAG = PersonnelCenterFragment.class.getSimpleName();
+    private static String collectCount;
     ImageView ivmUserAvatar,ivmPersonalCenterMsg;
     RelativeLayout mrlCenterUseIinfo;
     TextView  mtvUseName,mtvCollecCount,mtvCenterSettings;
@@ -58,17 +66,45 @@ public class PersonnelCenterFragment extends Fragment {
 
     private void initData() {
         mContext = getContext();
+
     }
 
     private void initView(View layout) {
         ivmUserAvatar = (ImageView) layout.findViewById(R.id.iv_user_avatar);
+        UserUtils.setAppCurrentAvatar(mContext,ivmUserAvatar);
         ivmPersonalCenterMsg = (ImageView) layout.findViewById(R.id.iv_personal_center_msg);
         mtvUseName = (TextView) layout.findViewById(R.id.tv_user_name);
+        mtvUseName.setText(FuliCenterApplication.getInstance().getUa().getMuserNick());
         mrlCenterUseIinfo = (RelativeLayout) layout.findViewById(R.id.center_user_info);
         mtvCollecCount = (TextView) layout.findViewById(R.id.tv_collect_count);
+        getCollectCount();
+        mtvCollecCount.setText(collectCount);
         mllLayoytCenterCollect = (LinearLayout) layout.findViewById(R.id.layoyt_center_collect);
         mtvCenterSettings = (TextView) layout.findViewById(R.id.tv_center_settings);
         initOrderList(layout);
+
+    }
+
+    public static void getCollectCount() {
+        OkHttpUtils2<Message> utils = new OkHttpUtils2<>();
+        utils.setRequestUrl(I.REQUEST_FIND_COLLECT_COUNT)
+                .addParam(I.Collect.USER_NAME, FuliCenterApplication.getInstance().getUserName())
+                .targetClass(cn.ucai.fulicenter.bean.Message.class)
+                .execute(new OkHttpUtils2.OnCompleteListener<cn.ucai.fulicenter.bean.Message>() {
+                    @Override
+                    public void onSuccess(cn.ucai.fulicenter.bean.Message msg) {
+                        if (msg.getSuccess()){
+                            Log.e(TAG, "msg.getMsg()=" + msg.getMsg());
+                            collectCount=msg.getMsg();
+                            Log.e(TAG, "collectCount=" + collectCount);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
 
     }
 

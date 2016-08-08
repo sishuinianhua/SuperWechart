@@ -3,7 +3,7 @@ package cn.ucai.fulicenter.bean;
 /**
  * Contact entity. @author MyEclipse Persistence Tools
  */
-public class Contact extends User implements java.io.Serializable {
+public class Contact extends UserAvatar implements java.io.Serializable {
 	private static final long serialVersionUID = -2183229871248294573L;
 
 	/**

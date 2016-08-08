@@ -1,39 +1,41 @@
 package cn.ucai.fulicenter.bean;
 
-public class Message {
+import java.io.Serializable;
 
-	boolean result;
-	int msg;
-	
-	public Message() {
-		super();
+public class Message implements Serializable{
+
+	private boolean success;
+
+		private String msg;
+
+	public Message(){
+
 	}
-	
-	public Message(boolean result, int msg) {
-		super();
-		this.result = result;
+	public Message(String msg, boolean success) {
 		this.msg = msg;
+		this.success = success;
 	}
-	
-	public boolean isResult() {
-		return result;
-	}
-	
-	public void setResult(boolean result) {
-		this.result = result;
-	}
-	
-	public int getMsg() {
-		return msg;
-	}
-	
-	public void setMsg(int msg) {
-		this.msg = msg;
-	}
-	
+
+		public void setSuccess(boolean success){
+			this.success = success;
+		}
+		public boolean getSuccess(){
+			return this.success;
+		}
+		public void setMsg(String msg){
+			this.msg = msg;
+		}
+		public String getMsg(){
+			return this.msg;
+		}
+
 	@Override
 	public String toString() {
-		return "Message [result=" + result + ", msg=" + msg + "]";
+		return "Message{" +
+				"msg='" + msg + '\'' +
+				", success=" + success +
+				'}';
 	}
-	
 }
+	
+

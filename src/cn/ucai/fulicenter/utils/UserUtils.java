@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.utils;
 
 import android.content.Context;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
@@ -102,7 +103,7 @@ public class UserUtils {
 
     public static void setContactAvatar(Context context, String username, ImageView avatar) {
         String path = "";
-        if (path!=null&&username!=null){
+        if (username!=null){
             path = getContactAvatarPath(username);
             Log.e(TAG, "path=" + path);
             Picasso.with(context).load(path).placeholder(R.drawable.default_avatar).into(avatar);
@@ -118,14 +119,15 @@ public class UserUtils {
         .append(I.EQU)
         .append(I.REQUEST_DOWNLOAD_AVATAR)
         .append(I.AND)
-        .append(I.NAME_OR_HXID)
+        /*.append(I.NAME_OR_HXID)
         .append(I.EQU)
         .append(username)
-        .append(I.AND)
+        .append(I.AND)*/
         .append(I.AVATAR_TYPE)
         .append(I.EQU)
-        .append(I.AVATAR_TYPE_USER_PATH);
+        .append(username);
         return path.toString();
+      //  http://192.168.7.7:8080/FuLiCenterServer/Server?request=download_avatar&avatarType=aa
     }
     /*设置群组头像*/
     public static void setGroupAvatar(Context context, String hxId, ImageView avatar) {
@@ -159,8 +161,8 @@ public class UserUtils {
     public static void setContactNick(String username, TextView nameTextview) {
         Contact contact = getContactInfo(username);
         if (contact!=null){
-            if (contact.getMUserNick()!=null){
-                nameTextview.setText(contact.getMUserNick());
+            if (contact.getMuserNick()!=null){
+                nameTextview.setText(contact.getMuserNick());
             }else {
                 nameTextview.setText(username);
             }
@@ -211,4 +213,6 @@ public class UserUtils {
         Log.e(TAG, "url=" + url + ",avatar=" + avatar);
         Picasso.with(context).load(url).placeholder(R.drawable.nopic).into(avatar);
     }
+
+
 }

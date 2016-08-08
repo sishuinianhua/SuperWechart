@@ -43,7 +43,7 @@ public class DownloadContactListTask {
                             context.sendStickyBroadcast(new Intent("update_contact_list"));
                             Map<String,Contact> uaMap= FuliCenterApplication.getInstance().getContactMap();
                             for (Contact contact:contactList){
-                                uaMap.put(contact.getMUserName(), contact);
+                                uaMap.put(contact.getMuserName(), contact);
                         }
                      }
                     }
