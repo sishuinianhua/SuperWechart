@@ -62,6 +62,7 @@ import cn.ucai.fulicenter.Constant;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.ContactAdapter;
+import cn.ucai.fulicenter.bean.Contact;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.db.InviteMessgeDao;
@@ -372,8 +373,8 @@ public class ContactlistFragment extends Fragment {
 						@Override
 						public void onSuccess(Result result) {
 							if (result.isRetMsg()){
-								UserAvatar ua = FuliCenterApplication.getInstance().getContactMap().get(tobeDeleteUser.getUsername());
-								FuliCenterApplication.getInstance().getUserContactList().remove(ua);
+								Contact contact = FuliCenterApplication.getInstance().getContactMap().get(tobeDeleteUser.getUsername());
+								FuliCenterApplication.getInstance().getUserContactList().remove(contact);
 								FuliCenterApplication.getInstance().getContactMap().remove(tobeDeleteUser.getUsername());
 								getActivity().sendStickyBroadcast(new Intent("update_contact_list"));
 								Log.e(TAG, "delUsername=" + tobeDeleteUser.getUsername());
