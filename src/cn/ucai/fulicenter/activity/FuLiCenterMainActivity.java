@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -11,11 +12,13 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.fragments.BoutiqueFragment;
 import cn.ucai.fulicenter.fragments.CartFragment;
 import cn.ucai.fulicenter.fragments.CategoryFragment;
-import cn.ucai.fulicenter.fragments.ContactFragment;
+import cn.ucai.fulicenter.fragments.PersonnelCenterFragment;
 import cn.ucai.fulicenter.fragments.NewgoodsFragment;
 
 public class FuLiCenterMainActivity extends BaseActivity implements View.OnClickListener{
@@ -39,7 +42,7 @@ public class FuLiCenterMainActivity extends BaseActivity implements View.OnClick
 
     private void initFragment() {
         mFragmentArr = new Fragment[]{new NewgoodsFragment(),new BoutiqueFragment(),new CategoryFragment(),
-                new CartFragment(),new ContactFragment()};
+                new CartFragment(),new PersonnelCenterFragment()};
     }
 
     private void initView() {
@@ -108,7 +111,13 @@ public class FuLiCenterMainActivity extends BaseActivity implements View.OnClick
                 position = 3;
                 break;
             case R.id.tvAppLableContact:
-                position = 4;
+                if (DemoHXSDKHelper.getInstance().isLogined()){
+                    position = 4;
+                }else {
+                    startActivity(new Intent(this,LoginActivity.class));
+                }
+
+
                 break;
         }
         for (int i=0;i<mtvArr.length;i++){

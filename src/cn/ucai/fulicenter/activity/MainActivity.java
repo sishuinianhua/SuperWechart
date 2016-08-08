@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -62,7 +61,6 @@ import cn.ucai.fulicenter.db.InviteMessgeDao;
 import cn.ucai.fulicenter.db.UserDao;
 import cn.ucai.fulicenter.domain.InviteMessage;
 import cn.ucai.fulicenter.domain.User;
-import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
 
 import com.easemob.util.EMLog;
@@ -83,7 +81,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 	private ContactlistFragment contactListFragment;
 	// private ChatHistoryFragment chatHistoryFragment;
 	private ChatAllHistoryFragment chatHistoryFragment;
-	private SettingsFragment settingFragment;
+	private SettingsActivity settingFragment;
 	private Fragment[] fragments;
 	private int index;
 	// 当前fragment的index
@@ -140,8 +138,8 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 		// 显示所有人消息记录的fragment
 		chatHistoryFragment = new ChatAllHistoryFragment();
 		contactListFragment = new ContactlistFragment();
-		settingFragment = new SettingsFragment();
-		fragments = new Fragment[] { chatHistoryFragment, contactListFragment, settingFragment };
+		settingFragment = new SettingsActivity();
+		fragments = new Fragment[] { chatHistoryFragment, contactListFragment };
 		// 添加显示第一个fragment
 		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, chatHistoryFragment)
 				.add(R.id.fragment_container, contactListFragment).hide(contactListFragment).show(chatHistoryFragment)
