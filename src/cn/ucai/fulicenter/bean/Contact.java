@@ -19,8 +19,10 @@ public class Contact extends User implements java.io.Serializable {
 
 	// Constructors
 
-	/** default constructor */
-	public Contact() {
+	/** default constructor
+	 * @param username*/
+	public Contact(String username) {
+		mcontactUserName = username;
 	}
 
 	/** full constructor */

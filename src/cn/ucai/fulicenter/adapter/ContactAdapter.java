@@ -111,7 +111,7 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 		}else{
 		    holder.nameTextview.setText(user.getNick());
 		    //设置用户头像
-			UserUtils.setContactNick(username,holder.nameTextview);
+			//UserUtils.setContactNick(username,holder.nameTextview);
 			UserUtils.setContactAvatar(getContext(), username, holder.avatar);
 			if(holder.unreadMsgView != null)
 			    holder.unreadMsgView.setVisibility(View.INVISIBLE);

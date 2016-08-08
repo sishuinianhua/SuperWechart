@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.ucai.fulicenter.bean.Contact;
 import cn.ucai.fulicenter.bean.UserAvatar;
 
 public class FuliCenterApplication extends Application {
@@ -125,24 +126,24 @@ public class FuliCenterApplication extends Application {
 		this.ua = ua;
 	}
 
-	private ArrayList<UserAvatar> userContactList=new ArrayList<>();
+	private ArrayList<Contact> userContactList=new ArrayList<>();
 
-	public void setUserContactList(ArrayList<UserAvatar> userContactList) {
+	public void setUserContactList(ArrayList<Contact> userContactList) {
 		this.userContactList = userContactList;
 	}
 
-	public ArrayList<UserAvatar> getUserContactList() {
+	public ArrayList<Contact> getUserContactList() {
 		return userContactList;
 	}
 
 
-	Map<String, UserAvatar> contactMap = new HashMap<>();
+	Map<String, Contact> contactMap = new HashMap<>();
 
-	public Map<String, UserAvatar> getContactMap() {
+	public Map<String, Contact> getContactMap() {
 		return contactMap;
 	}
 
-	public void setContactMap(Map<String, UserAvatar> contactMap) {
+	public void setContactMap(Map<String, Contact> contactMap) {
 		this.contactMap = contactMap;
 	}
 }

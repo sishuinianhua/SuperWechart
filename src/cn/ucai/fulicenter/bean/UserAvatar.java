@@ -3,131 +3,156 @@ package cn.ucai.fulicenter.bean;
 import java.io.Serializable;
 
 public class UserAvatar  implements Serializable {
-	private String muserName;
-//	private String muserPassword;
-	private String muserNick;
-//	private Integer muserUnreadMsgCount;
-	private Integer mavatarId;
-//	private String mavatarUserName;
-	private String mavatarPath;
-	private Integer mavatarType;
-	private String mavatarLastUpdateTime;
-	
-	public UserAvatar() {
-		super();
-	}
 
-	public UserAvatar(String muserName/*, String muserPassword*/, String muserNick/*, Integer muserUnreadMsgCount*/,
-			Integer mavatarId/*, String mavatarUserName*/, String mavatarPath, Integer mavatarType,
-			String mavatarLastUpdateTime) {
-		super();
-		this.muserName = muserName;
-//		this.muserPassword = muserPassword;
-		this.muserNick = muserNick;
-//		this.muserUnreadMsgCount = muserUnreadMsgCount;
-		this.mavatarId = mavatarId;
-//		this.mavatarUserName = mavatarUserName;
-		this.mavatarPath = mavatarPath;
-		this.mavatarType = mavatarType;
-		this.mavatarLastUpdateTime = mavatarLastUpdateTime;
-	}
 
-	public UserAvatar(String username) {
-		muserName = username;
-	}
+private boolean result;
 
-	public String getMUserName() {
-		return muserName;
-	}
+private int msg;
 
-	public void setMUserName(String muserName) {
-		this.muserName = muserName;
-	}
-/*
-	public String getMUserPassword() {
-		return muserPassword;
-	}
+private int mavatarId;
 
-	public void setMUserPassword(String muserPassword) {
-		this.muserPassword = muserPassword;
-	}
-*/
-	public String getMUserNick() {
-		return muserNick;
-	}
+private int mavatarUserId;
 
-	public void setMUserNick(String muserNick) {
-		this.muserNick = muserNick;
-	}
-/*
-	public Integer getMUserUnreadMsgCount() {
-		return muserUnreadMsgCount;
-	}
+private String mavatarUserName;
 
-	public void setMUserUnreadMsgCount(Integer muserUnreadMsgCount) {
-		this.muserUnreadMsgCount = muserUnreadMsgCount;
-	}
-*/
-	public Integer getMAvatarId() {
-		return mavatarId;
-	}
+private String mavatarPath;
 
-	public void setMAvatarId(Integer mavatarId) {
-		this.mavatarId = mavatarId;
-	}
-/*
-	public String getMAvatarUserName() {
-		return mavatarUserName;
-	}
+private int mavatarType;
 
-	public void setMAvatarUserName(String mavatarUserName) {
-		this.mavatarUserName = mavatarUserName;
-	}
-*/
-	public String getMAvatarPath() {
-		return mavatarPath;
-	}
+private int muserId;
 
-	public void setMAvatarPath(String mavatarPath) {
-		this.mavatarPath = mavatarPath;
-	}
+private String muserName;
 
-	public Integer getMAvatarType() {
-		return mavatarType;
-	}
+private String muserPassword;
 
-	public void setMAvatarType(Integer mavatarType) {
-		this.mavatarType = mavatarType;
-	}
+private String muserNick;
 
-	public String getMAvatarLastUpdateTime() {
-		return mavatarLastUpdateTime;
-	}
+private int muserUnreadMsgCount;
 
-	public void setMAvatarLastUpdateTime(String mavatarLastUpdateTime) {
-		this.mavatarLastUpdateTime = mavatarLastUpdateTime;
-	}
+    public UserAvatar(){
 
-	@Override
-	public String toString() {
-		return "UserAvatar [muserName=" + muserName + ", muserNick=" + muserNick + ", mavatarId=" + mavatarId
-				+ ", mavatarPath=" + mavatarPath + ", mavatarType=" + mavatarType + ", mavatarLastUpdateTime="
-				+ mavatarLastUpdateTime + "]";
-	}
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
 
-		UserAvatar that = (UserAvatar) o;
+    public UserAvatar(int mavatarId, String mavatarPath, int mavatarType, int mavatarUserId, String mavatarUserName, int msg, int muserId, String muserName, String muserNick, String muserPassword, int muserUnreadMsgCount, boolean result) {
+        this.mavatarId = mavatarId;
+        this.mavatarPath = mavatarPath;
+        this.mavatarType = mavatarType;
+        this.mavatarUserId = mavatarUserId;
+        this.mavatarUserName = mavatarUserName;
+        this.msg = msg;
+        this.muserId = muserId;
+        this.muserName = muserName;
+        this.muserNick = muserNick;
+        this.muserPassword = muserPassword;
+        this.muserUnreadMsgCount = muserUnreadMsgCount;
+        this.result = result;
+    }
 
-		return muserName.equals(that.muserName);
+    public void setResult(boolean result){
+this.result = result;
+}
+public boolean getResult(){
+return this.result;
+}
+public void setMsg(int msg){
+this.msg = msg;
+}
+public int getMsg(){
+return this.msg;
+}
+public void setMavatarId(int mavatarId){
+this.mavatarId = mavatarId;
+}
+public int getMavatarId(){
+return this.mavatarId;
+}
+public void setMavatarUserId(int mavatarUserId){
+this.mavatarUserId = mavatarUserId;
+}
+public int getMavatarUserId(){
+return this.mavatarUserId;
+}
+public void setMavatarUserName(String mavatarUserName){
+this.mavatarUserName = mavatarUserName;
+}
+public String getMavatarUserName(){
+return this.mavatarUserName;
+}
+public void setMavatarPath(String mavatarPath){
+this.mavatarPath = mavatarPath;
+}
+public String getMavatarPath(){
+return this.mavatarPath;
+}
+public void setMavatarType(int mavatarType){
+this.mavatarType = mavatarType;
+}
+public int getMavatarType(){
+return this.mavatarType;
+}
+public void setMuserId(int muserId){
+this.muserId = muserId;
+}
+public int getMuserId(){
+return this.muserId;
+}
+public void setMuserName(String muserName){
+this.muserName = muserName;
+}
+public String getMuserName(){
+return this.muserName;
+}
+public void setMuserPassword(String muserPassword){
+this.muserPassword = muserPassword;
+}
+public String getMuserPassword(){
+return this.muserPassword;
+}
+public void setMuserNick(String muserNick){
+this.muserNick = muserNick;
+}
+public String getMuserNick(){
+return this.muserNick;
+}
+public void setMuserUnreadMsgCount(int muserUnreadMsgCount){
+this.muserUnreadMsgCount = muserUnreadMsgCount;
+}
+public int getMuserUnreadMsgCount(){
+return this.muserUnreadMsgCount;
+}
 
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserAvatar)) return false;
 
-	@Override
-	public int hashCode() {
-		return muserName.hashCode();
-	}
+        UserAvatar that = (UserAvatar) o;
+
+        return getMuserId() == that.getMuserId();
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getMuserId();
+    }
+
+    @Override
+    public String toString() {
+        return "UserAvatar{" +
+                "mavatarId=" + mavatarId +
+                ", result=" + result +
+                ", msg=" + msg +
+                ", mavatarUserId=" + mavatarUserId +
+                ", mavatarUserName='" + mavatarUserName + '\'' +
+                ", mavatarPath='" + mavatarPath + '\'' +
+                ", mavatarType=" + mavatarType +
+                ", muserId=" + muserId +
+                ", muserName='" + muserName + '\'' +
+                ", muserPassword='" + muserPassword + '\'' +
+                ", muserNick='" + muserNick + '\'' +
+                ", muserUnreadMsgCount=" + muserUnreadMsgCount +
+                '}';
+    }
 }

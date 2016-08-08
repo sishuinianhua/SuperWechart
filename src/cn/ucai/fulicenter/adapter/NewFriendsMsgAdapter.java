@@ -145,10 +145,10 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 								Gson gson = new Gson();
 								UserAvatar ua=gson.fromJson(retjson, UserAvatar.class);
 								if (ua!=null){
-									if (ua.getMUserNick()!=null){
-										holder.name.setText(ua.getMUserNick());
+									if (ua.getMuserNick()!=null){
+										holder.name.setText(ua.getMuserNick());
 									}else {
-										holder.name.setText(ua.getMUserName());
+										holder.name.setText(ua.getMuserName());
 									}
 								}else {
 									holder.name.setText(msg.getFrom());

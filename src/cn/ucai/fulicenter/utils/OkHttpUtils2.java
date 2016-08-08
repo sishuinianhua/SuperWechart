@@ -45,6 +45,7 @@ import cn.ucai.fulicenter.FuliCenterApplication;
  * 3.在execute方法中增加对url中request的检查。
  */
 public class OkHttpUtils2<T> {
+    private static final String TAG = OkHttpUtils2.class.getSimpleName();
     private static String UTF_8 = "utf-8";
     /** 解析成功的消息 */
     private static final int RESULT_SUCCESS = 0;
@@ -188,6 +189,7 @@ public class OkHttpUtils2<T> {
                     mHandler.sendMessage(msg);
                 }else{
                     Gson gson = new Gson();
+                    Log.e(TAG, "text=" + text);
                     T obj = gson.fromJson(text, mClazz);
                     Message msg = Message.obtain();
                     msg.what = RESULT_SUCCESS;

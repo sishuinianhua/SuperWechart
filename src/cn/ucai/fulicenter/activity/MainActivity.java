@@ -55,6 +55,7 @@ import com.easemob.chat.EMMessage;
 import cn.ucai.fulicenter.Constant;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.bean.Contact;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.db.InviteMessgeDao;
@@ -477,7 +478,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 			// 保存增加的联系人
 			Map<String, User> localUsers = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList();
 			Map<String, User> toAddUsers = new HashMap<String, User>();
-			Map<String, UserAvatar> uaMap = FuliCenterApplication.getInstance().getContactMap();
+			Map<String, Contact> uaMap = FuliCenterApplication.getInstance().getContactMap();
 			List<String> toAddUserNameList = new ArrayList<>();
 			for (String username : usernameList) {
 				User user = setUserHead(username);
@@ -494,20 +495,17 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 			localUsers.putAll(toAddUsers);
 
 			for (final String toAdduserName:toAddUserNameList){
-				OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
+				OkHttpUtils2<Contact> utils = new OkHttpUtils2<>();
 				utils.setRequestUrl(I.REQUEST_ADD_CONTACT)
 						.addParam(I.Contact.USER_NAME, FuliCenterApplication.getInstance().getUserName())
 						.addParam(I.Contact.CU_NAME,toAdduserName)
-						.targetClass(Result.class)
-						.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+						.targetClass(Contact.class)
+						.execute(new OkHttpUtils2.OnCompleteListener<Contact>() {
 							@Override
-							public void onSuccess(Result result) {
-								if (result.isRetMsg()){
-									String retJson = result.getRetData().toString();
-									Gson gson = new Gson();
-									UserAvatar ua=gson.fromJson(retJson, UserAvatar.class);
-									FuliCenterApplication.getInstance().getContactMap().put(toAdduserName, ua);
-									FuliCenterApplication.getInstance().getUserContactList().add(ua);
+							public void onSuccess(Contact contact) {
+								if (contact!=null){
+									FuliCenterApplication.getInstance().getContactMap().put(toAdduserName, contact);
+									FuliCenterApplication.getInstance().getUserContactList().add(contact);
 									sendStickyBroadcast(new Intent("update_contact_list"));
 								}
 							}

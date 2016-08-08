@@ -36,6 +36,7 @@ import com.google.gson.Gson;
 
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.bean.Contact;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
@@ -93,8 +94,8 @@ public class AddContactActivity extends BaseActivity{
 				startActivity(new Intent(this, AlertDialog.class).putExtra("msg", str));
 				return;
 			}
-			UserAvatar ua = FuliCenterApplication.getInstance().getContactMap().get(toAddUsername);
-			if (ua!=null){
+			Contact contact = FuliCenterApplication.getInstance().getContactMap().get(toAddUsername);
+			if (contact!=null){
 				startActivity(new Intent(AddContactActivity.this,UserProfileActivity.class).putExtra("username",toAddUsername));
 				return;
 			}
@@ -113,7 +114,7 @@ public class AddContactActivity extends BaseActivity{
 								if (ua!=null){
 									searchedUserLayout.setVisibility(View.VISIBLE);
 									UserUtils.setContactAvatar(AddContactActivity.this,toAddUsername,avatar);
-									nameText.setText(ua.getMUserNick());
+									nameText.setText(ua.getMuserNick());
 									mtvNothing.setVisibility(View.GONE);
 								}else {
 									searchedUserLayout.setVisibility(View.GONE);

@@ -13,6 +13,7 @@
  */
 package cn.ucai.fulicenter.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -49,7 +50,7 @@ import cn.ucai.fulicenter.R;
  * @author Administrator
  * 
  */
-public class SettingsActivity extends BaseActivity implements OnClickListener {
+public class SettingsActivity extends Activity implements OnClickListener {
 
 	/**
 	 * 设置新消息通知布局
@@ -135,11 +136,10 @@ public class SettingsActivity extends BaseActivity implements OnClickListener {
 	Context mContext;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-		super.onCreate(savedInstanceState, persistentState);
-		mContext = this;		if(savedInstanceState != null && savedInstanceState.getBoolean("isConflict", false))
-            return;
-
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.fragment_conversation_settings);
+		mContext = this;
 		rl_switch_notification = (RelativeLayout)findViewById(R.id.rl_switch_notification);
 		rl_switch_sound = (RelativeLayout)findViewById(R.id.rl_switch_sound);
 		rl_switch_vibrate = (RelativeLayout)findViewById(R.id.rl_switch_vibrate);
@@ -364,7 +364,7 @@ public class SettingsActivity extends BaseActivity implements OnClickListener {
 						FuliCenterApplication.getInstance().getContactMap().clear();
 						pd.dismiss();
 						// 重新显示登陆页面
-						((MainActivity) mContext).finish();
+						finish();
 						startActivity(new Intent(mContext, LoginActivity.class));
 						
 					}

@@ -191,33 +191,25 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void loginAppServer() {
-		OkHttpUtils2<UserBean> utils = new OkHttpUtils2<>();
+		OkHttpUtils2<UserAvatar> utils = new OkHttpUtils2<>();
 		utils.setRequestUrl(I.REQUEST_LOGIN)
 				.addParam(I.User.USER_NAME,currentUsername)
 				.addParam(I.User.PASSWORD,currentPassword)
-				.targetClass(UserBean.class)
-				.execute(new OkHttpUtils2.OnCompleteListener<UserBean>() {
+				.targetClass(UserAvatar.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<UserAvatar>() {
 					@Override
-					public void onSuccess(UserBean result) {
-						Log.e(TAG, "result="+result);
-						if (result!=null/*&&result.getResult()*/){
-						/*	String uaJson = result.getNick();
-							Gson gson = new Gson();
-							UserAvatar ua=gson.fromJson(uaJson, UserAvatar.class);
-							Log.e(TAG, "ua="+ua);
-							if (ua!=null){
-								downloadUserAvatar();
-								saveUserToDB(ua);
-								loginSuccess(ua);
-							}*/
-							Log.e(TAG, "result01="+result);
-						}else {
+					public void onSuccess(UserAvatar ua) {
+						Log.e(TAG, "ua=" + ua);
+						if (ua != null && ua.getResult()) {
+							downloadUserAvatar();
+							saveUserToDB(ua);
+							loginSuccess(ua);
+						}else{
 							Log.e(TAG, "用户名或者密码不正确");
 							pd.dismiss();
 							Toast.makeText(getApplicationContext(), R.string.Login_failed, Toast.LENGTH_LONG).show();
 						}
 					}
-
 					@Override
 					public void onError(String error) {
 						Log.e(TAG, "error=" + error);
@@ -269,7 +261,7 @@ public class LoginActivity extends BaseActivity {
 		FuliCenterApplication.getInstance().setUserName(currentUsername);
 		FuliCenterApplication.getInstance().setPassword(currentPassword);
 		FuliCenterApplication.getInstance().setUa(ua);
-		FuliCenterApplication.currentUserNick = ua.getMUserNick();
+		FuliCenterApplication.currentUserNick = ua.getMuserNick();
 
 		new DownloadContactListTask(LoginActivity.this,currentUsername).execute();
 
@@ -303,7 +295,7 @@ public class LoginActivity extends BaseActivity {
 		}
 		// 进入主页面
 		Intent intent = new Intent(LoginActivity.this,
-				MainActivity.class);
+				FuLiCenterMainActivity.class);
 		startActivity(intent);
 
 		finish();

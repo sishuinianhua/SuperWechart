@@ -81,7 +81,7 @@ public class SplashActivity extends BaseActivity {
 											if (ua!=null){
 												Log.e(TAG, "ua1=" + ua);
 												FuliCenterApplication.getInstance().setUa(ua);
-												FuliCenterApplication.currentUserNick = ua.getMUserNick();
+												FuliCenterApplication.currentUserNick = ua.getMuserNick();
 											}
 										}
 									}
@@ -92,7 +92,7 @@ public class SplashActivity extends BaseActivity {
 								});
 					}else {
 						FuliCenterApplication.getInstance().setUa(ua);
-						FuliCenterApplication.currentUserNick = ua.getMUserNick();
+						FuliCenterApplication.currentUserNick = ua.getMuserNick();
 					}
 
 					new DownloadContactListTask(SplashActivity.this,userName).execute();

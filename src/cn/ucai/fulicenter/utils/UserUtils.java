@@ -12,7 +12,7 @@ import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.bean.MemberUserAvatar;
+import cn.ucai.fulicenter.bean.Contact;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.domain.User;
 import com.squareup.picasso.Picasso;
@@ -157,10 +157,10 @@ public class UserUtils {
     }
 
     public static void setContactNick(String username, TextView nameTextview) {
-        UserAvatar ua = getContactInfo(username);
-        if (ua!=null){
-            if (ua.getMUserNick()!=null){
-                nameTextview.setText(ua.getMUserNick());
+        Contact contact = getContactInfo(username);
+        if (contact!=null){
+            if (contact.getMUserNick()!=null){
+                nameTextview.setText(contact.getMUserNick());
             }else {
                 nameTextview.setText(username);
             }
@@ -169,12 +169,11 @@ public class UserUtils {
     }
     }
 
-    private static UserAvatar getContactInfo(String username) {
-        UserAvatar ua = FuliCenterApplication.getInstance().getContactMap().get(username);
-        if (ua==null){
-            ua = new UserAvatar(username);
-        }
-        return ua;
+    private static Contact getContactInfo(String username) {
+      Contact contact = FuliCenterApplication.getInstance().getContactMap().get(username);
+        if (contact==null){
+            contact = new Contact(username);
+        }return contact;
     }
 
     /**
@@ -183,10 +182,10 @@ public class UserUtils {
     public static void setAppCurrentUserNick(TextView textView) {
         UserAvatar ua = FuliCenterApplication.getInstance().getUa();
         if (ua!=null&&textView!=null){
-            if (ua.getMUserNick()!=null){
-                textView.setText(ua.getMUserNick());
+            if (ua.getMuserNick()!=null){
+                textView.setText(ua.getMuserNick());
             }else {
-                textView.setText(ua.getMUserName());
+                textView.setText(ua.getMuserName());
             }
         }
     }

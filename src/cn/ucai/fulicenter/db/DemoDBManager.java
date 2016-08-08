@@ -349,12 +349,11 @@ public class DemoDBManager {
     public void saveUserAvatar(UserAvatar ua) {
        SQLiteDatabase db= dbHelper.getWritableDatabase();
         ContentValues values=new ContentValues();
-        values.put(UserDao.USER_COLUMN_NAME_ID,ua.getMUserName());
-        values.put(UserDao.USER_COLUMN_NAME_NICK,ua.getMUserNick());
-        values.put(UserDao.USER_COLUMN_NAME_AVATAR,ua.getMAvatarId());
-        values.put(UserDao.USER_COLUMN_AVATAR_PATH,ua.getMAvatarPath());
-        values.put(UserDao.USER_COLUMN_AVATAR_TYPE,ua.getMAvatarType());
-        values.put(UserDao.USER_COLUMN_AVATAR_LAST_UPDATE_TIME,ua.getMAvatarLastUpdateTime());
+        values.put(UserDao.USER_COLUMN_NAME_ID,ua.getMuserName());
+        values.put(UserDao.USER_COLUMN_NAME_NICK,ua.getMuserNick());
+        values.put(UserDao.USER_COLUMN_NAME_AVATAR,ua.getMavatarId());
+        values.put(UserDao.USER_COLUMN_AVATAR_PATH,ua.getMavatarPath());
+        values.put(UserDao.USER_COLUMN_AVATAR_TYPE,ua.getMavatarType());
        if (db.isOpen()){
            db.replace(UserDao.USER_TABLE_NAME, null, values);
        }
@@ -368,12 +367,11 @@ public class DemoDBManager {
         UserAvatar ua = null;
         if (cursor.moveToNext()){
             ua = new UserAvatar();
-            ua.setMUserName(userName);
-            ua.setMUserNick(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_NAME_NICK)));
-            ua.setMAvatarId(cursor.getInt(cursor.getColumnIndex(UserDao.USER_COLUMN_NAME_AVATAR)));
-            ua.setMAvatarType(cursor.getInt(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_TYPE)));
-            ua.setMAvatarPath(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_PATH)));
-            ua.setMAvatarLastUpdateTime(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_LAST_UPDATE_TIME)));
+            ua.setMuserName(userName);
+            ua.setMuserNick(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_NAME_NICK)));
+            ua.setMavatarId(cursor.getInt(cursor.getColumnIndex(UserDao.USER_COLUMN_NAME_AVATAR)));
+            ua.setMavatarType(cursor.getInt(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_TYPE)));
+            ua.setMavatarPath(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_PATH)));
         }
         return ua;
     }
@@ -381,9 +379,9 @@ public class DemoDBManager {
     synchronized public void updateUserNick(UserAvatar ua) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         ContentValues values=new ContentValues();
-        values.put(UserDao.USER_COLUMN_NAME_NICK,ua.getMUserNick());
+        values.put(UserDao.USER_COLUMN_NAME_NICK,ua.getMuserNick());
         if (db.isOpen()){
-            db.update(UserDao.USER_TABLE_NAME, values, UserDao.USER_COLUMN_NAME_ID+" = ? ", new String[]{ua.getMUserName()});
+            db.update(UserDao.USER_TABLE_NAME, values, UserDao.USER_COLUMN_NAME_ID+" = ? ", new String[]{ua.getMuserName()});
         }
 
     }

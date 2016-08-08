@@ -117,8 +117,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 				break;
 			case R.id.rl_nickname:
 				final EditText editText = new EditText(this);
-				if (FuliCenterApplication.getInstance().getUa().getMUserNick()!=null){
-					editText.setText(FuliCenterApplication.getInstance().getUa().getMUserNick());
+				if (FuliCenterApplication.getInstance().getUa().getMuserNick()!=null){
+					editText.setText(FuliCenterApplication.getInstance().getUa().getMuserNick());
 				}
 				new AlertDialog.Builder(this).setTitle(R.string.setting_nickname).setIcon(android.R.drawable.ic_dialog_info).setView(editText)
 						.setPositiveButton(R.string.dl_ok, new DialogInterface.OnClickListener() {
@@ -145,7 +145,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 													UserAvatar ua = gson.fromJson(retData, UserAvatar.class);
 													if (ua != null) {
 														FuliCenterApplication.getInstance().setUa(ua);
-														FuliCenterApplication.currentUserNick = ua.getMUserNick();
+														FuliCenterApplication.currentUserNick = ua.getMuserNick();
 														UserDao userDao = new UserDao(UserProfileActivity.this);
 														userDao.updateUserNick(ua);
 														updateRemoteNick(nickString);
@@ -292,7 +292,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		File file = new File(OnSetAvatarListener.getAvatarPath(UserProfileActivity.this,I.AVATAR_TYPE_USER_PATH), avatarName + I.AVATAR_SUFFIX_JPG);
 		OkHttpUtils2<Result> utils = new OkHttpUtils2<>();
 		utils.setRequestUrl(I.REQUEST_UPLOAD_AVATAR)
-				.addParam(I.NAME_OR_HXID, FuliCenterApplication.getInstance().getUa().getMUserName())
+				.addParam(I.NAME_OR_HXID, FuliCenterApplication.getInstance().getUa().getMuserName())
 				.addParam(I.AVATAR_TYPE,I.AVATAR_TYPE_USER_PATH)
 				.addFile(file)
 				.targetClass(Result.class)
