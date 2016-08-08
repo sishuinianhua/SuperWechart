@@ -272,14 +272,14 @@
             android:theme="@style/horizontal_slide" />
         <activity
             android:name=".fragments.BoutiqueChildActivity"
-            android:theme="@style/horizontal_slide">
-        </activity>
-        <activity android:name=".fragments.CategoryActivity"
-            android:theme="@style/horizontal_slide">
-        </activity>
-        <activity android:name=".activity.SettingsActivity"
-            android:theme="@style/horizontal_slide">
-        </activity>
+            android:theme="@style/horizontal_slide"></activity>
+        <activity
+            android:name=".fragments.CategoryActivity"
+            android:theme="@style/horizontal_slide"></activity>
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:theme="@style/horizontal_slide"></activity>
+        <activity android:name=".fragments.CollectGoodsActivity"></activity>
     </application>
 
 </manifest>

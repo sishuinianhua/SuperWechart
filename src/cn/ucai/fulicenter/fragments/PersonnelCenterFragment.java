@@ -62,6 +62,7 @@ public class PersonnelCenterFragment extends Fragment {
         MyClickListener listener=new MyClickListener();
         mtvCenterSettings.setOnClickListener(listener);
         mrlCenterUseIinfo.setOnClickListener(listener);
+        mllLayoytCenterCollect.setOnClickListener(listener);
     }
 
     private void initData() {
@@ -80,6 +81,7 @@ public class PersonnelCenterFragment extends Fragment {
         getCollectCount();
         mtvCollecCount.setText(collectCount);
         mllLayoytCenterCollect = (LinearLayout) layout.findViewById(R.id.layoyt_center_collect);
+
         mtvCenterSettings = (TextView) layout.findViewById(R.id.tv_center_settings);
         initOrderList(layout);
 
@@ -141,6 +143,9 @@ public class PersonnelCenterFragment extends Fragment {
                     case R.id.tv_center_settings:
                     case R.id.center_user_info:
                         startActivity(new Intent(mContext, SettingsActivity.class));
+                        break;
+                    case R.id.layoyt_center_collect:
+                        startActivity(new Intent(mContext,CollectGoodsActivity.class));
                         break;
                 }
             }
