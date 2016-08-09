@@ -146,4 +146,14 @@ public class FuliCenterApplication extends Application {
 	public void setContactMap(Map<String, Contact> contactMap) {
 		this.contactMap = contactMap;
 	}
+
+	int collectGoodsCount;
+
+	public int getCollectGoodsCount() {
+		return collectGoodsCount;
+	}
+
+	public void setCollectGoodsCount(int collectGoodsCount) {
+		this.collectGoodsCount = collectGoodsCount;
+	}
 }

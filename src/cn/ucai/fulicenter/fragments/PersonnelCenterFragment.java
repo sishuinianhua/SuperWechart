@@ -1,8 +1,10 @@
 package cn.ucai.fulicenter.fragments;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -26,22 +28,24 @@ import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.FuLiCenterMainActivity;
 import cn.ucai.fulicenter.activity.SettingsActivity;
 import cn.ucai.fulicenter.bean.Message;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
 import cn.ucai.fulicenter.utils.UserUtils;
+import cn.ucai.fulicenter.view.DisplyUtils;
 
 
 public class PersonnelCenterFragment extends Fragment {
 
     private static final String TAG = PersonnelCenterFragment.class.getSimpleName();
-    private static String collectCount;
     ImageView ivmUserAvatar,ivmPersonalCenterMsg;
     RelativeLayout mrlCenterUseIinfo;
     TextView  mtvUseName,mtvCollecCount,mtvCenterSettings;
     LinearLayout mllLayoytCenterCollect;
     GridView mgvCenterUserOrderLlist;
     Context mContext;
+    CollectCountReceiver mReceiver;
 
     public PersonnelCenterFragment() {
         // Required empty public constructor
@@ -63,11 +67,23 @@ public class PersonnelCenterFragment extends Fragment {
         mtvCenterSettings.setOnClickListener(listener);
         mrlCenterUseIinfo.setOnClickListener(listener);
         mllLayoytCenterCollect.setOnClickListener(listener);
+        registerBroadCaster();
+    }
+
+    private void registerBroadCaster() {
+        mReceiver=new CollectCountReceiver();
+        IntentFilter filter=new IntentFilter("update_collect_count");
+        mContext.registerReceiver(mReceiver, filter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mContext.unregisterReceiver(mReceiver);
     }
 
     private void initData() {
         mContext = getContext();
-
     }
 
     private void initView(View layout) {
@@ -78,37 +94,13 @@ public class PersonnelCenterFragment extends Fragment {
         mtvUseName.setText(FuliCenterApplication.getInstance().getUa().getMuserNick());
         mrlCenterUseIinfo = (RelativeLayout) layout.findViewById(R.id.center_user_info);
         mtvCollecCount = (TextView) layout.findViewById(R.id.tv_collect_count);
-        getCollectCount();
-        mtvCollecCount.setText(collectCount);
         mllLayoytCenterCollect = (LinearLayout) layout.findViewById(R.id.layoyt_center_collect);
-
         mtvCenterSettings = (TextView) layout.findViewById(R.id.tv_center_settings);
         initOrderList(layout);
 
     }
 
-    public static void getCollectCount() {
-        OkHttpUtils2<Message> utils = new OkHttpUtils2<>();
-        utils.setRequestUrl(I.REQUEST_FIND_COLLECT_COUNT)
-                .addParam(I.Collect.USER_NAME, FuliCenterApplication.getInstance().getUserName())
-                .targetClass(cn.ucai.fulicenter.bean.Message.class)
-                .execute(new OkHttpUtils2.OnCompleteListener<cn.ucai.fulicenter.bean.Message>() {
-                    @Override
-                    public void onSuccess(cn.ucai.fulicenter.bean.Message msg) {
-                        if (msg.getSuccess()){
-                            Log.e(TAG, "msg.getMsg()=" + msg.getMsg());
-                            collectCount=msg.getMsg();
-                            Log.e(TAG, "collectCount=" + collectCount);
-                        }
-                    }
 
-                    @Override
-                    public void onError(String error) {
-
-                    }
-                });
-
-    }
 
     private void initOrderList(View layout) {
         mgvCenterUserOrderLlist = (GridView) layout.findViewById(R.id.center_user_order_list);
@@ -149,6 +141,16 @@ public class PersonnelCenterFragment extends Fragment {
                         break;
                 }
             }
+        }
+    }
+
+    private class CollectCountReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int collectGoodsCount=FuliCenterApplication.getInstance().getCollectGoodsCount();
+            Log.e(TAG, "collectGoodsCount=" + collectGoodsCount);
+            mtvCollecCount.setText(String.valueOf(collectGoodsCount));
         }
     }
 }

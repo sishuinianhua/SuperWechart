@@ -92,7 +92,7 @@ public class CollectGoodsActivity extends Activity {
     }
 
     private void initView() {
-        DisplyUtils.initTitle(mContext,mTitle);
+        DisplyUtils.initTitle(mContext,"收藏商品列表");
         mrv = (RecyclerView) findViewById(R.id.rvCollect);
         mList=new ArrayList<>();
         mAdapter=new CollectGoodsAdapter(mContext,mList);

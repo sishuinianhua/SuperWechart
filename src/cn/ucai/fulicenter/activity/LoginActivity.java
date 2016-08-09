@@ -53,6 +53,7 @@ import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.bean.UserBean;
 import cn.ucai.fulicenter.db.UserDao;
 import cn.ucai.fulicenter.domain.User;
+import cn.ucai.fulicenter.task.DownloadCollectGoodsCountTask;
 import cn.ucai.fulicenter.task.DownloadContactListTask;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
@@ -264,6 +265,7 @@ public class LoginActivity extends BaseActivity {
 		FuliCenterApplication.currentUserNick = ua.getMuserNick();
 
 		new DownloadContactListTask(LoginActivity.this,currentUsername).execute();
+		new DownloadCollectGoodsCountTask(LoginActivity.this,currentUsername).execute();
 
 		try {
 			// ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
