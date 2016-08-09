@@ -21,6 +21,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.db.UserDao;
+import cn.ucai.fulicenter.task.DownloadCartListTask;
 import cn.ucai.fulicenter.task.DownloadCollectGoodsCountTask;
 import cn.ucai.fulicenter.task.DownloadContactListTask;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
@@ -98,6 +99,7 @@ public class SplashActivity extends BaseActivity {
 
 					new DownloadContactListTask(SplashActivity.this,userName).execute();
 					new DownloadCollectGoodsCountTask(SplashActivity.this,userName).execute();
+					new DownloadCartListTask(SplashActivity.this,userName).execute();
 
 					long costTime = System.currentTimeMillis() - start;
 					//等待sleeptime时长

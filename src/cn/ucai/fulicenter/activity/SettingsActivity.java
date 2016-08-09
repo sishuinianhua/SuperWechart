@@ -362,11 +362,14 @@ public class SettingsActivity extends Activity implements OnClickListener {
 						FuliCenterApplication.getInstance().setUa(null);
 						FuliCenterApplication.getInstance().getUserContactList().clear();
 						FuliCenterApplication.getInstance().getContactMap().clear();
+						FuliCenterApplication.getInstance().getCartBeanList().clear();
+						FuliCenterApplication.getInstance().setCollectGoodsCount(0);
+						sendStickyBroadcast(new Intent("update_cart_list"));
 						pd.dismiss();
 						// 重新显示登陆页面
 						finish();
 						startActivity(new Intent(mContext, LoginActivity.class));
-						
+
 					}
 				});
 			}

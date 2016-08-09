@@ -1,6 +1,9 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,6 +23,7 @@ import cn.ucai.fulicenter.fragments.CartFragment;
 import cn.ucai.fulicenter.fragments.CategoryFragment;
 import cn.ucai.fulicenter.fragments.PersonnelCenterFragment;
 import cn.ucai.fulicenter.fragments.NewgoodsFragment;
+import cn.ucai.fulicenter.utils.UserUtils;
 
 public class FuLiCenterMainActivity extends BaseActivity implements View.OnClickListener{
     TextView mtvNewGoods,mtvBoutique,mtvCategory,mtvCart, mtvContact;
@@ -30,6 +34,7 @@ public class FuLiCenterMainActivity extends BaseActivity implements View.OnClick
     TextView[] mtvArr;
     int[] mSelectedArr;
     int[] mNormalArr;
+    CartcountReceiver mReceiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +97,14 @@ public class FuLiCenterMainActivity extends BaseActivity implements View.OnClick
 
             }
         });
+
+        registerCartcountReceiver();
+    }
+
+    private void registerCartcountReceiver() {
+        mReceiver=new CartcountReceiver();
+        IntentFilter filter=new IntentFilter("update_cart_list");
+        registerReceiver(mReceiver, filter);
     }
 
     @Override
@@ -156,9 +169,11 @@ public class FuLiCenterMainActivity extends BaseActivity implements View.OnClick
     }
 
 
+    private class CartcountReceiver extends BroadcastReceiver{
 
-
-
-
-
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            UserUtils.setCartCount(mtvCartHint);
+        }
+    }
 }

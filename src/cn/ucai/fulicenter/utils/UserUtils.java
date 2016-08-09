@@ -1,9 +1,11 @@
 package cn.ucai.fulicenter.utils;
 
 import android.content.Context;
+import android.nfc.Tag;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,11 +15,13 @@ import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.bean.Contact;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.domain.User;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class UserUtils {
@@ -212,6 +216,27 @@ public class UserUtils {
         String url = I.DOWNLOAD_DOWNLOAD_CATEGORY_CHILD_IMAGE_URL+avatarPath;
         Log.e(TAG, "url=" + url + ",avatar=" + avatar);
         Picasso.with(context).load(url).placeholder(R.drawable.nopic).into(avatar);
+    }
+
+    public static void setCartCount(TextView view) {
+
+        if (DemoHXSDKHelper.getInstance().isLogined()){
+            ArrayList<CartBean> cartBeenList = FuliCenterApplication.getInstance().getCartBeanList();
+            int count = 0;
+            for (CartBean cartBean:cartBeenList){
+                count += cartBean.getCount();
+            }
+            if (count>0){
+                view.setText(String.valueOf(count));
+                view.setVisibility(View.VISIBLE);
+            }else {
+                view.setText(String.valueOf(0));
+                view.setVisibility(View.GONE);
+            }
+        }else {
+            view.setText(String.valueOf(0));
+            view.setVisibility(View.GONE);
+        }
     }
 
 

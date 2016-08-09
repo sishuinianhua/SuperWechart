@@ -1,7 +1,10 @@
 package cn.ucai.fulicenter.fragments;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +28,7 @@ import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.bean.NewGoodBean;
 import cn.ucai.fulicenter.task.DownloadCollectGoodsCountTask;
 import cn.ucai.fulicenter.utils.OkHttpUtils2;
+import cn.ucai.fulicenter.utils.UserUtils;
 import cn.ucai.fulicenter.view.DisplyUtils;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
@@ -40,6 +44,7 @@ public class NewGoodsDetailsActivity extends Activity {
     NewGoodsDetailsActivity mContext;
     GoodDetailsBean mGoodDetailsBean;
     boolean isCollect;
+    CartCountReceiver mReceiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,13 @@ public class NewGoodsDetailsActivity extends Activity {
         CollectListener listener=new CollectListener();
         mivCollect.setOnClickListener(listener);
         mivShare.setOnClickListener(listener);
+        registerCartCountReceiver();
+    }
+
+    private void registerCartCountReceiver() {
+         mReceiver=new CartCountReceiver();
+        IntentFilter filter=new IntentFilter("update_cart_list");
+        registerReceiver(mReceiver, filter);
     }
 
     private void initData() {
@@ -92,6 +104,7 @@ public class NewGoodsDetailsActivity extends Activity {
          mtvPriceCurrent.setText(mGoodDetailsBean.getCurrencyPrice());
         mSlideAutoLoopView.startPlayLoop(mFlowIndicator,getAlbumImageUrl(),getAlbumImageSize());
         mwvGoodBrief.loadDataWithBaseURL(null,mGoodDetailsBean.getGoodsBrief(),D.TEXT_HTML,D.UTF_8,null);
+
     }
 
     private String[] getAlbumImageUrl() {
@@ -249,5 +262,20 @@ public class NewGoodsDetailsActivity extends Activity {
 
 // 启动分享GUI
         oks.show(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mReceiver);
+    }
+
+    private class CartCountReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.e(TAG, " UserUtils.setCartCount(mtvCartCount);" );
+            UserUtils.setCartCount(mtvCartCount);
+        }
     }
 }

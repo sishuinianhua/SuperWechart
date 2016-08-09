@@ -26,6 +26,8 @@ import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
 import com.easemob.EMValueCallBack;
+
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.applib.model.DefaultHXSDKModel;
 import cn.ucai.fulicenter.applib.model.HXNotifier;
 import cn.ucai.fulicenter.applib.model.HXNotifier.HXNotificationInfoProvider;

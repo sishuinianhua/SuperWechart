@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.bean.Contact;
 import cn.ucai.fulicenter.bean.UserAvatar;
 
@@ -37,6 +38,7 @@ public class FuliCenterApplication extends Application {
 	 */
 	public static String currentUserNick = "";
 	public static DemoHXSDKHelper hxSDKHelper = new DemoHXSDKHelper();
+
 
 
 	@Override
@@ -155,5 +157,15 @@ public class FuliCenterApplication extends Application {
 
 	public void setCollectGoodsCount(int collectGoodsCount) {
 		this.collectGoodsCount = collectGoodsCount;
+	}
+
+	private ArrayList<CartBean> cartBeanList=new ArrayList<>();
+
+	public ArrayList<CartBean> getCartBeanList() {
+		return cartBeanList;
+	}
+
+	public void setCartBeanList(ArrayList<CartBean> cartBeanList) {
+		this.cartBeanList = cartBeanList;
 	}
 }
