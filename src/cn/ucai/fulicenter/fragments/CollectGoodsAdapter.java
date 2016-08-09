@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -113,12 +114,12 @@ public class CollectGoodsAdapter extends RecyclerView.Adapter{
         notifyDataSetChanged();
     }
     class itemCollectHolder extends RecyclerView.ViewHolder{
-        RelativeLayout rlLayout;
+        FrameLayout rlLayout;
         ImageView ivAvatar,ivDel;
         TextView tvName;
         public itemCollectHolder(View itemView) {
             super(itemView);
-            rlLayout = (RelativeLayout) itemView.findViewById(R.id.rlItemCollect);
+            rlLayout = (FrameLayout) itemView.findViewById(R.id.rlItemCollect);
             ivDel = (ImageView) itemView.findViewById(R.id.ivCollectDel);
             ivAvatar = (ImageView) itemView.findViewById(R.id.ivCollectAvatar);
             tvName = (TextView) itemView.findViewById(R.id.tvCollectName);

@@ -11,6 +11,16 @@ apply plugin: 'com.android.application'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:recyclerview-v7:23.3.0'
+    compile files('libs/MobCommons-2016.0707.1708.jar')
+    compile files('libs/MobTools-2016.0707.1708.jar')
+    compile files('libs/ShareSDK-Core-2.7.4.jar')
+    compile files('libs/ShareSDK-QQ-2.7.4.jar')
+    compile files('libs/ShareSDK-ShortMessage-2.7.4.jar')
+    compile files('libs/ShareSDK-SinaWeibo-2.7.4.jar')
+    compile files('libs/ShareSDK-Wechat-2.7.4.jar')
+    compile files('libs/ShareSDK-Wechat-Core-2.7.4.jar')
+    compile files('libs/ShareSDK-Wechat-Favorite-2.7.4.jar')
+    compile files('libs/ShareSDK-Wechat-Moments-2.7.4.jar')
 }
 
 android {
