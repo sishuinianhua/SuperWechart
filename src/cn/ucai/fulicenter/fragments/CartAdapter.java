@@ -27,12 +27,11 @@ import cn.ucai.fulicenter.utils.UserUtils;
 
 public class CartAdapter extends RecyclerView.Adapter{
     Context mContext;
-    ArrayList<CartBean> mList;
+    ArrayList<CartBean> mList=new ArrayList<>();
     private boolean more;
 
-    public CartAdapter(Context context, ArrayList<CartBean> list) {
+    public CartAdapter(Context context) {
         mContext = context;
-        mList = list;
     }
 
     @Override
@@ -65,7 +64,9 @@ public class CartAdapter extends RecyclerView.Adapter{
     }
 
     public void initCartBeenList(ArrayList<CartBean> list) {
-        mList.clear();
+        if (mList!=null){
+            mList.clear();
+        }
         mList.addAll(list);
         notifyDataSetChanged();
     }

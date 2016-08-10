@@ -50,6 +50,8 @@ public class DownloadCartListTask {
                                                 @Override
                                                 public void onSuccess(GoodDetailsBean goodDetailsBean) {
                                                     cartBean.setGoods(goodDetailsBean);
+                                                    context.sendStickyBroadcast(new Intent("update_cart_list"));
+                                                    Log.e(TAG, "INcontext.sendStickyBroadcast(new Intent(\"update_cart_list\"));" );
                                                 }
 
                                                 @Override

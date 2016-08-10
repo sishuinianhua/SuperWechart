@@ -38,7 +38,7 @@ public class CartFragment extends Fragment {
     private static final String TAG = CartFragment.class.getSimpleName();
     RecyclerView mrv;
     SwipeRefreshLayout mSRL;
-    TextView mtvsrlHint;
+    TextView mtvsrlHint,tvSumPrice,tvSavePrice,tvBuy;
     CartAdapter mAdapter;
     ArrayList<CartBean> mList;
     LinearLayoutManager mLayoutManager;
@@ -88,14 +88,33 @@ public class CartFragment extends Fragment {
 
     private void initView(View layout) {
         mrv = (RecyclerView) layout.findViewById(R.id.rvCart);
-        mList=new ArrayList<>();
-        mAdapter=new CartAdapter(getContext(),mList);
+        mAdapter=new CartAdapter(getContext());
         mrv.setAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(getContext());
         mrv.setLayoutManager(mLayoutManager);
 
         mSRL = (SwipeRefreshLayout) layout.findViewById(R.id.srlCart);
         mtvsrlHint = (TextView) layout.findViewById(R.id.tvCartSrlHint);
+        tvSumPrice = (TextView) layout.findViewById(R.id.tv_cart_sum_price);
+        tvSavePrice = (TextView) layout.findViewById(R.id.tv_cart_save_price);
+        tvBuy = (TextView) layout.findViewById(R.id.tv_cart_buy);
+        setPrice();
+    }
+
+    private void setPrice() {
+        if (mList!=null&&mList.size()>0){
+        int currencyPrice=0, rankPrice=0;
+        ArrayList<CartBean> cartBeanList = FuliCenterApplication.getInstance().getCartBeanList();
+        for (CartBean cartBean:cartBeanList){
+             currencyPrice+=Integer.parseInt( cartBean.getGoods().getCurrencyPrice().substring(1))*cartBean.getCount();
+             rankPrice+=Integer.parseInt(cartBean.getGoods().getRankPrice().substring(1))*cartBean.getCount();
+        }
+        tvSumPrice.setText("合计:￥"+String.valueOf(currencyPrice));
+        tvSavePrice.setText("节省:"+String.valueOf(currencyPrice-rankPrice));
+    }else {
+            tvSumPrice.setText(String.valueOf("合计:￥00.00"));
+            tvSavePrice.setText(String.valueOf("节省:￥00.00"));
+        }
     }
 
     private void setListener() {
