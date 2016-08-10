@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,6 +23,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.bean.NewGoodBean;
+import cn.ucai.fulicenter.task.UpdateCartTask;
 import cn.ucai.fulicenter.utils.ImageLoader;
 import cn.ucai.fulicenter.utils.UserUtils;
 
@@ -41,13 +43,19 @@ public class CartAdapter extends RecyclerView.Adapter{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                CartViewHolder holder1 = (CartViewHolder) holder;
+                final CartViewHolder holder1 = (CartViewHolder) holder;
                 final CartBean cartBean = mList.get(position);
                 holder1.tvGoodName.setText(cartBean.getGoods().getGoodsName());
                 holder1.tvCount.setText("("+cartBean.getCount()+")");
                 holder1.tvPrice.setText(cartBean.getGoods().getCurrencyPrice());
                 UserUtils.setAvatar(mContext,cartBean.getGoods().getGoodsThumb(),holder1.ivThumb);
                 holder1.cbSelected.setChecked(cartBean.isChecked());
+        holder1.cbSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                new UpdateCartTask(mContext,cartBean).execute();
+            }
+        });
     }
 
     @Override

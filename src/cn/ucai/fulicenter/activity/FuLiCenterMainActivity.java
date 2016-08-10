@@ -80,6 +80,7 @@ public class FuLiCenterMainActivity extends BaseActivity implements View.OnClick
     }
 
     private void setListener() {
+        registerCartcountReceiver();
         mtvNewGoods.setOnClickListener(this);
         mtvBoutique.setOnClickListener(this);
         mtvCategory.setOnClickListener(this);
@@ -114,8 +115,8 @@ public class FuLiCenterMainActivity extends BaseActivity implements View.OnClick
             }
         });
 
-        registerCartcountReceiver();
-    }
+
+}
 
     private void registerCartcountReceiver() {
         mReceiver=new CartcountReceiver();

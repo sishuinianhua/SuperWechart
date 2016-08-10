@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="65dp"
     android:background="@color/white"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
     >
     <CheckBox
         android:id="@+id/cb_cart_selected"
@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
+        android:paddingRight="10dp"
         android:text="77.77"
         android:textSize="18sp"
         android:textColor="#f90"

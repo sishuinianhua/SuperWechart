@@ -32,9 +32,6 @@ import cn.ucai.fulicenter.utils.OkHttpUtils2;
  * A simple {@link Fragment} subclass.
  */
 public class CartFragment extends Fragment {
-    private static final int ACTION_DOWNLOAD = 0;
-    private static final int ACTION_PULLUP = 1;
-    private static final int ACTION_PULLDOWN = 2;
     private static final String TAG = CartFragment.class.getSimpleName();
     RecyclerView mrv;
     SwipeRefreshLayout mSRL;
@@ -42,20 +39,18 @@ public class CartFragment extends Fragment {
     CartAdapter mAdapter;
     ArrayList<CartBean> mList;
     LinearLayoutManager mLayoutManager;
-    int mPageId=0;
-    int mAction;
     Context mContext;
     CartBeanListReceiver mReceiver;
 
     public CartFragment() {
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_cart, container, false);
          mContext = getContext();
+        registerCartBeanListReceiver();
         initView(layout);
         setListener();
         return layout;
@@ -65,25 +60,6 @@ public class CartFragment extends Fragment {
         mReceiver=new CartBeanListReceiver();
         IntentFilter filter=new IntentFilter("update_contact_list");
         mContext.registerReceiver(mReceiver, filter);
-    }
-
-    private void initData() {
-        mPageId = 0;
-        mAction = ACTION_DOWNLOAD;
-        downloadCartBeanList();
-    }
-
-    private void downloadCartBeanList() {
-
-                        switch (mAction){
-                            case ACTION_DOWNLOAD:
-                            case ACTION_PULLDOWN:
-                                mAdapter.initCartBeenList(mList);
-                                break;
-                            case ACTION_PULLUP:
-                                mAdapter.addCartBeenList(mList);
-                                break;
-                        }
     }
 
     private void initView(View layout) {
@@ -102,7 +78,7 @@ public class CartFragment extends Fragment {
     }
 
     private void setPrice() {
-        if (mList!=null&&mList.size()>0){
+        if (mList!=null){
         int currencyPrice=0, rankPrice=0;
         ArrayList<CartBean> cartBeanList = FuliCenterApplication.getInstance().getCartBeanList();
         for (CartBean cartBean:cartBeanList){
@@ -111,14 +87,15 @@ public class CartFragment extends Fragment {
         }
         tvSumPrice.setText("合计:￥"+String.valueOf(currencyPrice));
         tvSavePrice.setText("节省:"+String.valueOf(currencyPrice-rankPrice));
-    }else {
+            Log.e(TAG, "(\"合计:￥\"+String.valueOf(currencyPrice)=" + ("合计:￥" + String.valueOf(currencyPrice)));
+        }else {
             tvSumPrice.setText(String.valueOf("合计:￥00.00"));
             tvSavePrice.setText(String.valueOf("节省:￥00.00"));
+            Log.e(TAG, "(\"合计:￥\"+String.valueOf(currencyPrice)=" + ("合计:￥00.00"));
         }
     }
 
     private void setListener() {
-        registerCartBeanListReceiver();
         setPullUpListener();
         setPullDownListener();
     }
@@ -130,9 +107,7 @@ public class CartFragment extends Fragment {
                 mSRL.setEnabled(true);
                 mSRL.setRefreshing(true);
                 mtvsrlHint.setVisibility(View.VISIBLE);
-                mPageId = 0;
-                mAction = ACTION_PULLDOWN;
-                downloadCartBeanList();
+                mAdapter.initCartBeenList(mList);
                 mSRL.setRefreshing(false);
                 mtvsrlHint.setVisibility(View.GONE);
 
@@ -153,9 +128,7 @@ public class CartFragment extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState==RecyclerView.SCROLL_STATE_IDLE&&lastPosition>=mAdapter.getItemCount()-1&&mAdapter.isMore()){
-                    mPageId+=I.PAGE_SIZE_DEFAULT;
-                    mAction = ACTION_PULLUP;
-                    downloadCartBeanList();
+                    mAdapter.addCartBeenList(mList);
                 }
             }
         });
@@ -171,9 +144,13 @@ public class CartFragment extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            if (mList!=null){
+                mList.clear();
+            }
             mList = FuliCenterApplication.getInstance().getCartBeanList();
-            initData();
+            mAdapter.initCartBeenList(mList);
             mAdapter.notifyDataSetChanged();
+            Log.e(TAG, "CartBeanListReceiver");
         }
     }
 }
