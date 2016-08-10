@@ -67,6 +67,12 @@ public class CollectGoodsAdapter extends RecyclerView.Adapter{
 
                     }
                 });
+                collectHolder.ivDel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
                 break;
         }
 

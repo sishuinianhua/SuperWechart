@@ -12,9 +12,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
@@ -26,6 +29,7 @@ import cn.ucai.fulicenter.fragments.NewgoodsFragment;
 import cn.ucai.fulicenter.utils.UserUtils;
 
 public class FuLiCenterMainActivity extends BaseActivity implements View.OnClickListener{
+    private static final String TAG = FuLiCenterMainActivity.class.getSimpleName();
     TextView mtvNewGoods,mtvBoutique,mtvCategory,mtvCart, mtvContact;
     FrameLayout mflCart;
     TextView mtvCartHint;
@@ -35,6 +39,10 @@ public class FuLiCenterMainActivity extends BaseActivity implements View.OnClick
     int[] mSelectedArr;
     int[] mNormalArr;
     CartcountReceiver mReceiver;
+    int position=0;
+    ArrayList<Integer> positionList;
+    int lastPosition;
+    boolean isLoging;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +85,15 @@ public class FuLiCenterMainActivity extends BaseActivity implements View.OnClick
         mtvCategory.setOnClickListener(this);
         mflCart.setOnClickListener(this);
         mtvContact.setOnClickListener(this);
-        changeItemState(mtvArr[0],mSelectedArr[0],Color.rgb(0xff, 0x66, 0xff));
+         positionList = new ArrayList<>();
+        positionList.add(position);
+
+        if(!DemoHXSDKHelper.getInstance().isLogined()){
+            changeItemState(mtvArr[lastPosition],mSelectedArr[lastPosition],Color.rgb(0xff, 0x66, 0xff));
+            mvp.setCurrentItem(lastPosition);
+        }
+        changeItemState(mtvArr[position],mSelectedArr[position],Color.rgb(0xff, 0x66, 0xff));
+        mvp.setCurrentItem(position);
         mvp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -109,7 +125,7 @@ public class FuLiCenterMainActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        int position=0;
+
         switch (v.getId()){
             case R.id.tvAppLableNewgoods:
                 position = 0;
@@ -128,11 +144,18 @@ public class FuLiCenterMainActivity extends BaseActivity implements View.OnClick
                     position = 4;
                 }else {
                     startActivity(new Intent(this,LoginActivity.class));
+                    lastPosition = positionList.get(positionList.size()-1);
+                    Log.e(TAG, "lastPosition=" + lastPosition);
+                    // isLoging = true;
                 }
-
-
                 break;
         }
+       /* if (isLoging){
+            return;
+        }*/
+        positionList.add(position);
+        Log.e(TAG, "position=" + position);
+
         for (int i=0;i<mtvArr.length;i++){
             changeItemState(mtvArr[i],mNormalArr[i],Color.BLACK);
         }

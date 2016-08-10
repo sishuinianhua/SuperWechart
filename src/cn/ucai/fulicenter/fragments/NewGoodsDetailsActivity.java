@@ -95,6 +95,9 @@ public class NewGoodsDetailsActivity extends Activity {
             finish();
             Toast.makeText(mContext,"获取商品详情失败",Toast.LENGTH_LONG).show();
         }
+
+
+
     }
 
     private void showGoodDetails() {
