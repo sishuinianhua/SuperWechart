@@ -57,6 +57,24 @@ public class CartAdapter extends RecyclerView.Adapter{
                 new UpdateCartTask(mContext,cartBean).execute();
             }
         });
+
+        holder1.ivAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cartBean.setCount( cartBean.getCount()+1);
+                new UpdateCartTask(mContext,cartBean).execute();
+            }
+        });
+        holder1.ivDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ( cartBean.getCount()==1){
+
+                }
+                cartBean.setCount( cartBean.getCount()-1);
+                new UpdateCartTask(mContext,cartBean).execute();
+            }
+        });
     }
 
     @Override
