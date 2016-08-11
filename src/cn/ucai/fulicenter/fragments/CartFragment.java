@@ -74,14 +74,15 @@ public class CartFragment extends Fragment {
         tvSumPrice = (TextView) layout.findViewById(R.id.tv_cart_sum_price);
         tvSavePrice = (TextView) layout.findViewById(R.id.tv_cart_save_price);
         tvBuy = (TextView) layout.findViewById(R.id.tv_cart_buy);
-        setPrice();
+
     }
 
     private void setPrice() {
         if (mList!=null){
         int currencyPrice=0, rankPrice=0;
-        ArrayList<CartBean> cartBeanList = FuliCenterApplication.getInstance().getCartBeanList();
-        for (CartBean cartBean:cartBeanList){
+        for (CartBean cartBean:mList){
+            Log.e(TAG, "getCurrencyPrice" + cartBean.getGoods().getCurrencyPrice());
+            Log.e(TAG, "getCount" + cartBean.getCount());
              currencyPrice+=Integer.parseInt( cartBean.getGoods().getCurrencyPrice().substring(1))*cartBean.getCount();
              rankPrice+=Integer.parseInt(cartBean.getGoods().getRankPrice().substring(1))*cartBean.getCount();
         }
@@ -144,13 +145,11 @@ public class CartFragment extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (mList!=null){
-                mList.clear();
-            }
             mList = FuliCenterApplication.getInstance().getCartBeanList();
             mAdapter.initCartBeenList(mList);
             mAdapter.notifyDataSetChanged();
-            Log.e(TAG, "CartBeanListReceiver");
+            setPrice();
+            Log.e(TAG, "CartBeanListReceiver"+mList.toString());
         }
     }
 }

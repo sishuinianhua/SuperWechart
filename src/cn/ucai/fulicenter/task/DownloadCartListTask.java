@@ -36,12 +36,16 @@ public class DownloadCartListTask {
                 .execute(new OkHttpUtils2.OnCompleteListener<CartBean[]>() {
                     @Override
                     public void onSuccess(CartBean[] cartBeenArr) {
-                        Log.e(TAG, "cartBeenArr=" + Arrays.toString(cartBeenArr));
+                        Log.e(TAG, "cartBeenArr=" + cartBeenArr.length);
                         if (cartBeenArr!=null&&cartBeenArr.length>0){
                             ArrayList<CartBean> cartBeenList0=utils.array2List(cartBeenArr);
                             ArrayList<CartBean> cartBeenList1 = FuliCenterApplication.getInstance().getCartBeanList();
+                           ArrayList<Integer>goodsidList=new ArrayList<>();
+                            for (CartBean cartBean:cartBeenList1){
+                                goodsidList.add(cartBean.getGoodsId());
+                            }
                             for (final CartBean cartBean:cartBeenList0){
-                                if (!cartBeenList1.contains(cartBean)){
+                                if (!goodsidList.contains(cartBean.getGoodsId())){
                                     OkHttpUtils2<GoodDetailsBean> utils = new OkHttpUtils2<>();
                                     utils.setRequestUrl(I.REQUEST_FIND_GOOD_DETAILS)
                                             .addParam(D.GoodDetails.KEY_GOODS_ID,String.valueOf(cartBean.getGoodsId()))
@@ -51,7 +55,7 @@ public class DownloadCartListTask {
                                                 public void onSuccess(GoodDetailsBean goodDetailsBean) {
                                                     cartBean.setGoods(goodDetailsBean);
                                                     context.sendStickyBroadcast(new Intent("update_cart_list"));
-                                                    Log.e(TAG, "INcontext.sendStickyBroadcast(new Intent(\"update_cart_list\"));" );
+                                                    Log.e(TAG, "sendStickyBroadcast（onSuccess）"+ goodDetailsBean.toString());
                                                 }
 
                                                 @Override
@@ -59,16 +63,15 @@ public class DownloadCartListTask {
                                                     Log.e(TAG, "error=" + error);
                                                 }
                                             });
-
                                     cartBeenList1.add(cartBean);
                                 }else {
-                                    cartBeenList1.get(cartBeenList1.indexOf(cartBean)).setChecked(cartBean.isChecked());
-                                    cartBeenList1.get(cartBeenList1.indexOf(cartBean)).setCount(cartBean.getCount());
-
+                                    int index=goodsidList.indexOf(cartBean.getGoodsId());
+                                    cartBeenList1.set(index, cartBean);
                                 }
+
                             }
                             context.sendStickyBroadcast(new Intent("update_cart_list"));
-                            Log.e(TAG, " context.sendStickyBroadcast(new Intent(\"update_cart_list\"));" );
+                            Log.e(TAG, "sendStickyBroadcast（end）"+cartBeenList1.size() );
                         }
                     }
 

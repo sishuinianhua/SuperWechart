@@ -189,7 +189,7 @@ public class OkHttpUtils2<T> {
                     mHandler.sendMessage(msg);
                 }else{
                     Gson gson = new Gson();
-                    Log.e(TAG, "text=" + text);
+                   // Log.e(TAG, "text=" + text);
                     T obj = gson.fromJson(text, mClazz);
                     Message msg = Message.obtain();
                     msg.what = RESULT_SUCCESS;

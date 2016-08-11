@@ -145,6 +145,22 @@ public class GoodDetailsBean implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GoodDetailsBean)) return false;
+
+        GoodDetailsBean that = (GoodDetailsBean) o;
+
+        return getGoodsId() == that.getGoodsId();
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getGoodsId();
+    }
+
+    @Override
     public String toString() {
         return "GoodDetailsBean{" +
                 "addTime=" + addTime +

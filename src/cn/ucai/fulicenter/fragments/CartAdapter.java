@@ -53,6 +53,7 @@ public class CartAdapter extends RecyclerView.Adapter{
         holder1.cbSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                cartBean.setChecked(isChecked);
                 new UpdateCartTask(mContext,cartBean).execute();
             }
         });
